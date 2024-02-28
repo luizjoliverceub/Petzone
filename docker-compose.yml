@@ -1,0 +1,15 @@
+version: '3.9'
+
+services:
+
+  dbpet:
+    image: postgres
+    environment:
+      POSTGRES_USER: ${DB_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${DB_POSTGRES_PASSWORD}
+      POSTGRES_DB: petzone
+    ports:
+      - 5432:5432
+
+  
+
