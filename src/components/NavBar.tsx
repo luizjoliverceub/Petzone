@@ -1,47 +1,24 @@
-"use client"
 
-import { signOut, useSession } from "next-auth/react";
 import Link from "next/link"
 import { redirect } from "next/navigation";
-import {  ReactElement, useEffect, useState } from "react"
-import { IconType } from "react-icons";
-import { BiMessageAltDetail } from "react-icons/bi";
-import { PiNewspaperClipping } from "react-icons/pi";
-import { RxDashboard } from "react-icons/rx";
-import { TbMap } from "react-icons/tb";
-
-type NavListsType = {
-    text:string
-    id:number 
-    icon?:ReactElement<IconType>
-   
-}
-
-const NavLists: NavListsType[] = [
-    {id:1,text:"Dashboard",icon:<RxDashboard className="text-xl"/>},
-    {id:2,text:"Message",icon:<BiMessageAltDetail className="text-xl"/>},
-    {id:3,text:"NewsLetter",icon:<PiNewspaperClipping className="text-xl"/>},
-    {id:4,text:"Maps",icon:<TbMap className="text-xl"/>}
-]
+import NavBarLinks from "./NavBarLinks";
+import { auth } from "@/app/api/auth/[...nextauth]/route";
+import SignOutBtn from "./SignOutBtn";
+import Image from "next/image";
 
 
-export default function NavBar() {
 
-    const [activeLink,setActiveLink] = useState<number | null>()
 
-    const {data:session} = useSession()
+export default async function NavBar() {
 
     
-    function handleSetActiveLink(id?:number | null){
-            setActiveLink(id)
-        
-    }
 
-    useEffect(() =>{
-        if(!session||!session?.user ){
-            redirect("/login")
-        }
-    })
+   const session = await auth()
+
+   if(!session || !session?.user.name){
+    redirect("/login")
+  
+  }
   
 
   return (
@@ -51,33 +28,21 @@ export default function NavBar() {
             {/* Petzone and image container*/}
                 <div className="my-10">
                     <div className="flex flex-col gap-4">
-                        <Link href={"/"} className="font-bold text-2xl" onClick={() =>handleSetActiveLink(null)}>PetZone</Link>
+                        <Link href={"/"} className="font-bold text-2xl">PetZone</Link>
                         <span className="p-2 bg-brand-third w-48 flex gap-2">
-                             <img src={session?.user?.image} width={20} height={20} alt="" /> 
-                             { session?.user?.name || "Desconectado"}
+                             <Image src={`${session?.user?.image}`} width={20} height={20} alt="user image" /> 
+                             { session?.user?.name.slice(0,12) || "Desconectado"}
                          </span>
                     </div>
                 </div>
                  {/* Navigation Container*/}
                 <div>
                     <ul className="flex gap-2 flex-col justify-center">
-
-                        {NavLists.map((item) => (
-                        <Link  
-                            className={`w-48 ${activeLink === item.id ? "bg-brand-secondary":""} p-2`} onClick={() => handleSetActiveLink(item.id)} 
-                            key={item.id} 
-                            href={`/`}>
-                                <button className="flex gap-2 items-center">
-                                    {item.icon}{item.text}
-                                </button>
-                        </Link>
-                        ))}
+                        <NavBarLinks/>
                     </ul>
                 </div>
                 <div className=" flex flex-col my-10">
-                    <button className="p-2 bg-brand-third rounded-full" onClick={() => signOut()}>
-                                Sign Out
-                    </button>
+                    <SignOutBtn/>
                 </div>
             </div>
         </nav>

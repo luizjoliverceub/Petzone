@@ -1,3 +1,4 @@
+
 import { auth } from '../api/auth/[...nextauth]/route'
 import { redirect } from 'next/navigation';
 import NoAuthHeader from '@/components/NoAuthHeader';
@@ -17,8 +18,8 @@ export default  async function LoginPage() {
 
   return (
     <>
-    <NoAuthHeader authTitle='register'/>
-    <NoAuthContent formTitle='Login'/>
+    <NoAuthHeader authTitle='login'/>
+    <NoAuthContent formTitle='Register'/>
     </>
   )
 }

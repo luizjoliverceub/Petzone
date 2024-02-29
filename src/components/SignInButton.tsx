@@ -1,12 +1,12 @@
 "use client"
 
 import { signIn, signOut, useSession } from "next-auth/react"
-
+import { FcGoogle } from "react-icons/fc";
 
 export default function SignInButton() {
 
     const {data:session} = useSession()
-
+//remover
     if(session && session.user) {
          return (
             <div className="flex gap-4 ml-auto">
@@ -19,8 +19,10 @@ export default function SignInButton() {
          )
     }
   return (
-    <button onClick={() => signIn()} className="text-green-600 ml-auto">
-        Sign In
+    <button onClick={() => signIn()} className="w-full text-black bg-white ring-1 ring-slate-300 px-5 py-1">
+        <div className="flex items-center justify-center gap-2"> 
+        <FcGoogle className="text-sm"/> <p>Google</p> 
+        </div>
     </button>
   )
 }
