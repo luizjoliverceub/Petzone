@@ -1,8 +1,7 @@
 "use client"
-
-import { useSession } from "next-auth/react";
+;
 import Link from "next/link";
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { IconType } from "react-icons";
 import { BiMessageAltDetail } from "react-icons/bi";
 import { PiNewspaperClipping } from "react-icons/pi";
@@ -34,7 +33,6 @@ export default function NavBarLinks() {
             setActiveLink(id)
         
     }
-
   return (
     <>
     {NavLists.map((item) => (

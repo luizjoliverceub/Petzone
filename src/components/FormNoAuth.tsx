@@ -4,7 +4,7 @@ import SignInButton from './SignInButton'
 
 export default function FormNoAuth({formTitle} :{formTitle:'Login' |'Register'}) {
 
-    const opositeTitle = formTitle === "Login" ? "Register" :"Login"
+    const opositeTitle = formTitle === "Login" ? "register" :"login"
 
   return (
     <div className='h-[70%] w-[60%]'>
