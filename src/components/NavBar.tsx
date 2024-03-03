@@ -28,7 +28,7 @@ export default async function NavBar() {
             {/* Petzone and image container*/}
                 <div className="my-10">
                     <div className="flex flex-col gap-4">
-                        <Link href={"/"} className="font-bold text-2xl">PetZone</Link>
+                        <Link href={"/dashboard"} className="font-bold text-2xl">PetZone</Link>
                         <span className="p-2 bg-brand-third w-48 flex gap-2">
                              <Image src={`${session?.user?.image}`} width={20} height={20} alt="user image" /> 
                              { session?.user?.name.slice(0,12) || "Desconectado"}

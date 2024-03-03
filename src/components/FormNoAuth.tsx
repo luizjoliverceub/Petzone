@@ -2,9 +2,11 @@ import Link from 'next/link'
 import React from 'react'
 import SignInButton from './SignInButton'
 
+
 export default function FormNoAuth({formTitle} :{formTitle:'Login' |'Register'}) {
 
     const opositeTitle = formTitle === "Login" ? "register" :"login"
+    const question = formTitle === "Login" ? "Forgot password ?" :"Already have an account ?"
 
   return (
     <div className='h-[70%] w-[60%]'>
@@ -16,13 +18,17 @@ export default function FormNoAuth({formTitle} :{formTitle:'Login' |'Register'})
             </div>
             <p className='text-center'>----Or----</p>
             <form className='flex flex-col gap-3 mt-4'>
+
                 <label htmlFor="email" className='text-brand-primary font-medium'>Email adress</label>
-                <input type="email" name='email' placeholder='Example@email.com' className='ring-1 ring-slate-300 py-1'/>
-                <label htmlFor="email" className='text-brand-primary font-medium'>Password</label>
-                <input type="password"  name='password' placeholder='Example@email.com' className=' w-full ring-1 ring-slate-300 py-1'/>
+                <input type="email" name='email' placeholder={`✉️ Example@gmail.com`} className='ring-1 ring-slate-300 py-1 px-3 text-brand-third '/>
+
+                <label htmlFor="password" className='text-brand-primary font-medium'>Password</label>
+                <input type="password"  name='password' placeholder={`🔑 your password`} className=' w-full ring-1 ring-slate-300 py-1 px-3 text-brand-third '/>
+                
             </form>
-            <div className='flex justify-center items-center'>
+            <div className='flex justify-center items-center flex-col'>
                 <button className='bg-brand-secondary text-white py-1 w-full mt-4'>{formTitle}</button>
+                <Link href={""} className='hover:text-brand-secondary'>{question}</Link>
             </div>
         </div>
     </div>

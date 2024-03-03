@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function NoAuthHeader({authTitle}:{authTitle:string}) {
   return (
-    <header className="bg-brand-primary lg:h-28 flex items-center justify-center">
+    <header className="bg-brand-primary  h-16 lg:h-28 flex items-center justify-center">
         <div className="w-[97%] flex items-center justify-between">
             <div>
               <ul className="flex gap-10 items-center">

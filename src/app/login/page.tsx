@@ -11,7 +11,7 @@ export default  async function LoginPage() {
   const session = await auth()
  
   if(session || session?.user.name){
-    redirect("/")
+    redirect("/dashboard")
   
   }
 
