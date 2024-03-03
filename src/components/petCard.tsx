@@ -11,14 +11,14 @@ export default function PetCard({petData}:{petData:Pet[]}) {
         await fetch(`http://localhost:3000/api/pets/${petId}`,{
           method:"DELETE"
         })
-        //fetch delete by id
+        //fetch delete by id and revalidate page
        }
 
   return (
-    <div className="h-[70%] w-[70%] flex gap-10 items-center justify-center">
+    <div className="h-[70%] w-[70%] flex gap-10 items-center justify-center ">
         {
         petData.map((pet:Pet) =>(
-          <div className="flex-1 relative" key={pet.id}>
+          <div className="flex-1 flex-wrap relative p-4 bg-brand-third text-white" key={pet.id}>
             <button className="absolute top-0 right-0 hover:bg-slate-200 p-2 hover:text-red-500"
             onClick={() => handleRemovePet(pet.id)}>X</button>
               <p>Pet Name: {pet.name}</p>

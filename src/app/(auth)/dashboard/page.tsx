@@ -58,9 +58,12 @@ export default async function DashboardPage() {
             <div className=" w-1/3 h-[90%]">
               <div className="bg-slate-400  w-full h-1/2 flex items-center justify-center">
                  {filteredData?.map((pet:Pet) =>(
-                  <div key={pet.id} className=" w-full h-full flex items-center justify-between">
-                    <p>PetName:{pet.name}</p>
-                    <p>PetAge:{pet.age}</p>
+                  <div key={pet.id} className="w-full h-full flex flex-col" >
+                    <span className="my-4 mx-auto">Your Pet</span>
+                    <div className="w-full h-full flex items-center justify-between px-4">
+                      <p>Name:{pet.name}</p>
+                      <p>Age:{pet.age}</p>
+                    </div>
                   </div>
                 )) || <p>teste</p>} 
               </div>

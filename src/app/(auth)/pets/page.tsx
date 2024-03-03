@@ -17,7 +17,7 @@ export default async function NewsLetterPage() {
 
     
   return (
-    <main className="h-screen w-full flex justify-center items-center">
+    <main className="h-screen w-full flex justify-center items-center ">
         <PetCard petData={data}/>
     </main>
     );
