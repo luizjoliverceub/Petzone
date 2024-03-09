@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import SessionProvider from "../components/providers/NextAuthProvider"
 import "./globals.css";
+import ReactQueryProvider from "@/components/providers/ReactQueryProvider";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -18,11 +19,13 @@ export default async function RootLayout({
 }>) {
 
   return (
-    <html lang="en">
+    <html lang="pt-br">
       <body className={inter.className}>
-      <SessionProvider>
-        {children}
-      </SessionProvider>
+        <ReactQueryProvider>
+          <SessionProvider>
+            {children}
+          </SessionProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   );

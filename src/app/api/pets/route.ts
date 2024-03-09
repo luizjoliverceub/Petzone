@@ -3,10 +3,11 @@ import { NextResponse,NextRequest } from "next/server"
 
 
 
+
 export async function GET(request:Request) {
   const session = request.headers.get("session")
   const newSessionValue = JSON.parse(session)
-
+  
    
   
   if(session && newSessionValue){

@@ -19,8 +19,8 @@ type NavListsType = {
 }
 
 const NavLists: NavListsType[] = [
-    {id:1,text:"Dashboard",icon:<RxDashboard className="text-xl"/>,link:"dashboard"},
-    {id:2,text:"My Pets",icon:<MdOutlinePets className="text-xl"/>,link:"pets"},
+    {id:1,text:"My pets",icon:<RxDashboard className="text-xl"/>,link:"pets"},
+    {id:2,text:"Dashboard",icon:<MdOutlinePets className="text-xl"/>,link:"dashboard"},
     {id:3,text:"Message",icon:<BiMessageAltDetail className="text-xl"/>,link:"message"},
     {id:4,text:"NewsLetter",icon:<PiNewspaperClipping className="text-xl"/>,link:"newsletter"},
     {id:5,text:"Maps",icon:<TbMap className="text-xl"/>,link:"maps"}

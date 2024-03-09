@@ -6,6 +6,11 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import {  useMutation, useQueryClient } from "@tanstack/react-query";
+import { addPet } from "@/utils/actions/AddPet";
+
+
+
 
 
 const createPetSchema = z.object({
@@ -21,32 +26,53 @@ export default function FormAuthCreatePet() {
     resolver: zodResolver(createPetSchema)
   })
  
+  const queryClient = useQueryClient()
   const {data:session} = useSession() 
   const router = useRouter()
   
 
+  const {mutateAsync:createPet} = useMutation({
+    mutationFn: addPet,
+    onSuccess (data,variables,context) {
+      const cached = queryClient.getQueryData(["pets"])
 
-    async function onSubmit(data:CreatePetSchema){
-      
-    const dataForm =  {...data,userEmail:session?.user?.email}
+      queryClient.setQueryData(["pets"], data =>{
+        return [
+          ...data,{
+            age: variables.age,
+            name: variables.name,
+            userEmail: variables.userEmail
+          }
 
-     const res = await fetch("http://localhost:3000/api/pets/create",{
-       method:"POST",
-      headers:{
-         "Content-Type":"application/json"
-      },
-      body: JSON.stringify(dataForm)
-     })
+        ]
+      })
+    }
 
-     router.push("/dashboard")
-      
+  })
+
+    async function OnSubmit(data:CreatePetSchema){
+
+    
+      try {
+        await createPet({
+          age: data.age,
+          name: data.name,
+          userEmail:session?.user?.email as string
+        })
+        router.push("/dashboard")
+      } catch (error) {
+        console.log(error);
+        
+      }
+
+     
     }
     
   return (
     <div className='h-[90%] w-[90%] '>
 
         <form action="" className='flex flex-col justify-center items-center h-full gap-6'
-        onSubmit={handleSubmit(onSubmit)}>
+        onSubmit={handleSubmit(OnSubmit)}>
 
             <label htmlFor="name">Pet Name</label>
             <input className='py-1 bg-slate-200'

@@ -10,7 +10,6 @@ export async function DELETE(req: NextApiRequest,{params}:{params:{id:string}}) 
 
     const petId = params.id
   
-        console.log(session);
         
     if(session){
 

@@ -1,7 +1,10 @@
 import FormAuthCreatePet from "@/components/FormAuthCreatePet";
 
 
-export default function CreatePetPage() {
+export default async function CreatePetPage() {
+
+ 
+
   return (
     <main className="flex w-full h-full">
 
