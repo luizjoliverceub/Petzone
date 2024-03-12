@@ -3,7 +3,7 @@
 
 Para saber mais sobre o projeto Petzone e como ele funciona, acesse:
 
-- [Documentação Petzone]([https://nextjs.org/docs](https://drive.google.com/file/d/1mI4aS3CTFxnIRPW1VqJinX0Rlqtu1kRa/view))
+- [Documentação Petzone]([https://nextjs.org/docs](https://drive.google.com/file/d/1mI4aS3CTFxnIRPW1VqJinX0Rlqtu1kRa/view)
 
 Projeto Petzone utilizando o framework  [Next.js](https://nextjs.org/) projeto iniciado com o  [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) next js @latest 
 utilizando app folder.
