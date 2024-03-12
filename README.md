@@ -18,7 +18,7 @@ bun dev
 Abra [http://localhost:3000/login](http://localhost:3000/logim) Para visualizar a página inicial de login , que contém também o link para a página de register.
 
 
-Esse Projeto utiliza [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) para automaticamente otimizar e carregar de forma melhor as fontes que do google fonts.
+Esse Projeto utiliza [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) para automaticamente otimizar e carregar de forma melhor as fontes  do google fonts.
 
 ## Saiba mais 
 
