@@ -1,4 +1,4 @@
-## Sobre o projeto
+## Sobre o projeto Petzone 🦴
 
 
 Para saber mais sobre o projeto Petzone e como ele funciona, acesse:
@@ -9,7 +9,7 @@ Projeto Petzone utilizando o framework  [Next.js](https://nextjs.org/) projeto i
 utilizando app folder.
 
 
-## Iniciando o projeto
+## Iniciando o projeto 🚀
 
 Primeiramente, para rodar o servidor de desenvolvimento:
 
@@ -28,7 +28,7 @@ Abra [http://localhost:3000/login](http://localhost:3000/logim) Para visualizar 
 
 Esse Projeto utiliza [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) para automaticamente otimizar e carregar de forma melhor as fontes que do google fonts.
 
-## Saiba mais 
+## Saiba mais ⚙️
 
 
 Para saber mais sobre o framework next js e como ele funciona , acesse:
