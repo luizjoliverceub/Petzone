@@ -60,9 +60,20 @@ model VerificationToken {
 }
 
 model Pet {
-  id        String  @id @default(cuid())
-  name      String
-  age       Int
-  user      User?   @relation(fields: [userEmail], references: [email])
-  userEmail String?
+  id          String   @id @default(cuid())
+  name        String
+  age         Int
+  user        User?    @relation(fields: [userEmail], references: [email])
+  birthDate   DateTime
+  notes       String
+  vaccination String
+  sex         Sex
+  city        String
+  race        String
+  userEmail   String?
+}
+
+enum Sex {
+  M
+  H
 }

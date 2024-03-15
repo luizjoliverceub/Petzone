@@ -1,9 +1,15 @@
 import * as z from "zod";
 
 const createPetSchema = z.object({
-    name: z.string(),
-    age: z.coerce.number(),
-    userEmail:z.string().email()
+  name: z.string(),
+  age: z.coerce.number(),
+  city:z.string(),
+  birthDate:z.date(),
+  userEmail:z.string().email(),
+  sex:z.enum(["M","H"]),
+  notes:z.string(),
+  race:z.string(),
+  vaccination:z.string()
   });
   
 type CreatePetSchema = z.infer<typeof createPetSchema>;

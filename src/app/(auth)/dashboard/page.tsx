@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { auth } from "../../api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
+import SinglePetComponent from "@/components/SinglePetComponent";
+import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
+import { getAllPets } from "@/utils/actions/GetAllPets";
 
 
 export type Pet = {
@@ -13,6 +16,13 @@ export type Pet = {
 
 export default async function DashboardPage() {
 
+  const queryClient = new QueryClient()
+  await queryClient.prefetchQuery({
+    queryKey:['pets'],
+    queryFn: getAllPets
+  })
+ 
+
  const session = await auth()
 
  if(!session){
@@ -20,20 +30,7 @@ export default async function DashboardPage() {
  }
 
  
- const resp = await fetch("http://localhost:3000/api/pets",{
-  cache:"no-store",
-  headers:{
-       'session': JSON.stringify(session)
-  }
- })
-  const data = await resp.json()
-  
 
-  const filteredData = data.filter((pet:Pet,i:number) =>{
-    return i === 0
-  })
-
-  
 
   
 
@@ -54,17 +51,13 @@ export default async function DashboardPage() {
             <div className="bg-slate-400 w-1/2 h-[90%] flex items-center justify-center">
                 <p>News Container</p>
             </div>
-            <div className=" w-1/3 h-[90%]">
-              <div className="bg-slate-400  w-full h-1/2 flex items-center justify-center">
-                 {filteredData?.map((pet:Pet) =>(
-                  <div key={pet.id} className="w-full h-full flex flex-col" >
-                    <span className="my-4 mx-auto">Your Pet</span>
-                    <div className="w-full h-full flex items-center justify-between px-4">
-                      <p>Name:{pet.name}</p>
-                      <p>Age:{pet.age}</p>
-                    </div>
-                  </div>
-                )) || <p>teste</p>} 
+            <div className=" w-1/3 h-[90%] flex flex-col gap-8">
+              <div className="w-full h-1/2 bg-red-600">
+
+                  <HydrationBoundary state={dehydrate(queryClient)}>
+                    <SinglePetComponent/>
+                 </HydrationBoundary>    
+
               </div>
               <div className="bg-slate-200  w-full h-1/2 flex items-center justify-center">
                   <p>Message container</p>
