@@ -1,15 +1,16 @@
 import { prisma } from "@/utils/db/prisma"
-import { NextResponse,NextRequest } from "next/server"
-import { auth } from "../../auth/[...nextauth]/route"
+import { NextResponse} from "next/server"
+
 
 
 export async function POST(request:Request) {
 
-  const session = await auth()
+ const session = request.headers.get("session")
+ const newSessionValue = JSON.parse(session)
 
   
   
-    if(session){
+    if(session && newSessionValue ){
 
    try {
       

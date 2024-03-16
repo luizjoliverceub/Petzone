@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import SessionProvider from "../components/providers/NextAuthProvider"
 import "./globals.css";
-import ReactQueryProvider from "@/components/providers/ReactQueryProvider";
+import { auth } from "./api/auth/[...nextauth]/route";
+
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -17,15 +18,17 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  
+  const session = await auth()
 
   return (
     <html lang="pt-br">
       <body className={inter.className}>
-        <ReactQueryProvider>
-          <SessionProvider>
+        
+          <SessionProvider session={session}>
             {children}
           </SessionProvider>
-        </ReactQueryProvider>
+
       </body>
     </html>
   );

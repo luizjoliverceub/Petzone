@@ -1,9 +1,11 @@
 "use server"
 
+import { Pet } from "@/app/(auth)/dashboard/page"
 import { auth } from "@/app/api/auth/[...nextauth]/route"
 
 
-export async function getAllPets (){
+
+export async function getFirstPet (){
     const session = await auth()
 
     const res = await fetch("http://localhost:3000/api/pets",{
@@ -19,7 +21,13 @@ export async function getAllPets (){
       throw new Error('Failed to fetch pets data')
     }
 
-    const data = await res.json()
+    const data = await res.json() as Pet[]
+
+    const firstPet = data.filter((pet,i) => {
+        return i === 0
+    })
     
-    return data
+   
+    
+    return firstPet
   }

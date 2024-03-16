@@ -1,3 +1,4 @@
+import AuthHeader from "@/components/AuthHeader";
 
 
 
@@ -6,9 +7,7 @@ export default async function NewsLetterPage() {
   
   return (
     <main className="h-screen w-full">
-      <div>
-          <p>NewsLetter Page</p>
-      </div>
+      <AuthHeader titleText="NewsLetter"/>
     </main>
     );
 }

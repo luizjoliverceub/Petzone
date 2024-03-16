@@ -1,3 +1,7 @@
+"use server"
+
+import { auth } from "@/app/api/auth/[...nextauth]/route";
+import { revalidateTag } from "next/cache";
 import * as z from "zod";
 
 const createPetSchema = z.object({
@@ -5,7 +9,9 @@ const createPetSchema = z.object({
   age: z.coerce.number(),
   city:z.string(),
   birthDate:z.date(),
-  userEmail:z.string().email(),
+  userEmail:z.string().email({
+    message:"Invalid email addres"
+  }),
   sex:z.enum(["M","H"]),
   notes:z.string(),
   race:z.string(),
@@ -16,14 +22,22 @@ type CreatePetSchema = z.infer<typeof createPetSchema>;
 
 export async function addPet(dataForm:CreatePetSchema){
       
-    
-    await fetch("http://localhost:3000/api/pets/create",{
-      method:"POST",
-     headers:{
-        "Content-Type":"application/json"
-     },
-     body: JSON.stringify(dataForm)
-    })
+
+const session = await auth()
+
   
+    const resp = await fetch("http://localhost:3000/api/pets/create",{
+      method:"POST",
+      headers:{
+         "Content-Type":"application/json",
+         "session": JSON.stringify(session)
+     },
+       body: JSON.stringify(dataForm)
+     })
+  
+     revalidateTag('pets')
+   
+    
+    
   
   }

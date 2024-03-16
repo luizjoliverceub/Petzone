@@ -1,25 +1,19 @@
 
-import PetCard from "@/components/petCard";
+import AuthHeader from "@/components/AuthHeader";
+import PetCard from "@/components/PetCards";
 import { getAllPets } from "@/utils/actions/GetAllPets";
-import { dehydrate,HydrationBoundary,QueryClient } from "@tanstack/react-query";
-
-
+import { getFirstPet } from "@/utils/actions/GetFirstPet";
 
 
 export default async function PetsPage() {
 
-    const queryClient = new QueryClient()
-    await queryClient.prefetchQuery({
-      queryKey:['pets'],
-      queryFn: getAllPets
-    })
-   
+  const firstPet = await getFirstPet()
+
     
   return (
-    <main className="h-screen w-full flex justify-center items-center ">
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        <PetCard/>
-      </HydrationBoundary>
+    <main className="h-[calc(100vh-5rem)] w-full ">
+        <AuthHeader titleText="My Pets" link="/dashboard/create" linkText="+ Add Pet"/>
+        <PetCard petData={firstPet}/>
     </main>
     );
 }

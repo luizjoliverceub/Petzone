@@ -4,13 +4,9 @@ import { ImSpinner9 } from "react-icons/im";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import { addPet } from "@/utils/actions/AddPet";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { addPet } from "@/utils/actions/AddPet";
-
-
-
 
 
 const createPetSchema = z.object({
@@ -20,80 +16,49 @@ const createPetSchema = z.object({
   birthDate:z.date(),
   sex:z.enum(["M","H"]),
   notes:z.string(),
-  vaccination:z.string(),
-  race:z.string()
+  race:z.string(),
+  vaccination:z.string()
+  });
 
-});
-
-type CreatePetSchema = z.infer<typeof createPetSchema>;
+ type typecreatePetSchema = z.infer<typeof createPetSchema>
 
 export default function FormAuthCreatePet() {
 
-  const { handleSubmit, register, formState: { isSubmitting } } = useForm<CreatePetSchema>({
+  const session = useSession()
+  
+  const router = useRouter()
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors,isSubmitting }
+  } = useForm<typecreatePetSchema>({
     resolver: zodResolver(createPetSchema)
   })
 
-  const queryClient = useQueryClient()
-  const { data: session } = useSession()
-  const router = useRouter()
+  async function OnSubmit(data:typecreatePetSchema) {
 
+ 
+  const userEmail = session.data?.user?.email
 
-  const { mutateAsync: createPet } = useMutation({
-    mutationFn: addPet,
-    onSuccess(data, variables, context) {
-      const cached = queryClient.getQueryData(["pets"])
+  const formatedData ={
+    userEmail,
+    ...data
+  }
 
-      queryClient.setQueryData(["pets"], data => {
-        return [
-          ...data, {
-            age: variables.age,
-            name: variables.name,
-            city:variables.city,
-            sex: variables.sex,
-            birthDate:variables.birthDate,
-            race:variables.race,
-            notes:variables.notes,
-            vaccination: variables.vaccination,
-            userEmail: variables.userEmail
-          }
+ const resp = await addPet(formatedData)
 
-        ]
-      })
-    }
-
-  })
-
-  async function OnSubmit(data: CreatePetSchema) {
-
-    console.log(data);
-    
-
-    try {
-      await createPet({
-        age: data.age,
-        name: data.name,
-        city:data.city,
-        sex: data.sex,
-        birthDate:data.birthDate,
-        notes:data.notes,
-        race:data.race,
-        vaccination: data.vaccination,
-        userEmail: session?.user?.email as string
-      })
-      router.push("/pets")
-    } catch (error) {
-      console.log(error);
-
-    }
-
-
+ router.push("/pets")
+   
   }
 
   return (
     <div className='h-full w-[65%] py-8'>
 
-      <form action="" className='flex flex-col justify-center items-center h-full gap-4'
-      noValidate
+      <form className='flex flex-col justify-center items-center h-full gap-4'
+        noValidate
         onSubmit={handleSubmit(OnSubmit)}>
 
         <div className="w-full h-full flex gap-4 ">
