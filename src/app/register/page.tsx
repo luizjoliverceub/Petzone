@@ -18,7 +18,7 @@ export default  async function LoginPage() {
 
   return (
     <>
-    <NoAuthHeader authTitle='login'/>
+    <NoAuthHeader authTitle='login' homePage={false}/>
     <NoAuthContent formTitle='Register'/>
     </>
   )

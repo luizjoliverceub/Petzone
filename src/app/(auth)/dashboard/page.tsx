@@ -4,6 +4,7 @@ import { getFirstPet } from "@/utils/actions/GetFirstPet";
 
 import PetCard from "@/components/PetCards";
 import AuthHeader from "@/components/AuthHeader";
+import Link from "next/link";
 
 
 
@@ -51,8 +52,10 @@ export default async function DashboardPage() {
             
             <div className=" w-1/3 h-[90%] flex flex-col gap-8">
               <div className="w-full h-1/2 bg-slate-300">
-                 <div className="w-full h-full">
-                   <PetCard petData={firstPet}/>
+                 <div className="w-full h-full ">
+                   <Link href={"/pets"} className="hover:brightness-90 w-full h-full" >
+                     <PetCard petData={firstPet} remove={false}/>
+                   </Link>
                  </div>
               </div>
               <div className="bg-slate-200  w-full h-1/2 flex items-center justify-center">
