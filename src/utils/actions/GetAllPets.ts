@@ -15,9 +15,6 @@ export async function getAllPets (){
       }
     })
 
-     if (!res.ok) {
-      throw new Error('Failed to fetch pets data')
-    }
 
     const data = await res.json()
     

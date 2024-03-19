@@ -1,9 +1,17 @@
 import NoAuthHeader from "@/components/NoAuthHeader";
 import Link from "next/link";
+import { auth } from "./api/auth/[...nextauth]/route";
+import { redirect } from "next/navigation";
 
 export default async function Home() {
 
+  const session = await auth()
+
+  if(session || session?.user.name){
+    redirect("/pets")
   
+  }
+
   return (
     <main>
        <NoAuthHeader authTitle="register" homePage/>
@@ -60,7 +68,7 @@ export default async function Home() {
 
        </section>
 
-       <section className="h-screen bg-yellow-600" id="project">
+       <section className="h-screen " id="project">
 
       </section>
     </main>
