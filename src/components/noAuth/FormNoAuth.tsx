@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
-import SignInButton from './SignInButton'
+import SignInButton from '../SignInButton'
 
 
 export default function FormNoAuth({formTitle} :{formTitle:'Login' |'Register'}) {
@@ -39,7 +39,7 @@ export default function FormNoAuth({formTitle} :{formTitle:'Login' |'Register'})
         </div>
     </div>) : (
         <div className='h-[90%] w-[60%]'>
-            <h2 className='text-3xl font-semibold text-brand-primary text-center mb-8'>{formTitle}</h2>
+            <h2 className='text-3xl font-semibold text-brand-primary text-center mb-4'>{formTitle}</h2>
               <p className='text-center'>have an account?   <Link href={"/login"} className='text-brand-secondary'>{question}</Link></p> 
              <form className='flex flex-col gap-3 mt-4'>
 

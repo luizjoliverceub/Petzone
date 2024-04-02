@@ -6,7 +6,7 @@ import { getFirstPet } from "@/utils/actions/GetFirstPet";
 
 export default async function PetsPage() {
   const firstPet = await getFirstPet()
-
+  
   
  
   

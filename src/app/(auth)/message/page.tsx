@@ -1,4 +1,5 @@
-import AuthHeader from "@/components/AuthHeader";
+import AuthHeader from "@/components/Auth/AuthHeader";
+import MainNewsLetterCarousel from "@/components/mainNewsLetterCarousel";
 
 
 export default async function MessagePage() {

@@ -3,7 +3,7 @@
 import { Pet } from '@/app/(auth)/dashboard/page'
 import { removePetById } from '@/utils/actions/RemovePetById';
 import { useRouter } from 'next/navigation';
-
+import { toast } from 'sonner';
 
 
 export default function PetCard({ petData , remove }: { petData: Pet[], remove:boolean }) {
@@ -18,6 +18,7 @@ export default function PetCard({ petData , remove }: { petData: Pet[], remove:b
 
     try {
       await removePetById(petId)
+      toast.error('Pet Removido com sucesso!')
       router.push("/pets")
     } catch (error) {
       console.log(error);

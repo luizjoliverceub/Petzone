@@ -17,13 +17,12 @@ export async function getFirstPet (){
       }
     })
 
+    
     const data = await res.json() as Pet[]
 
-    const firstPet = data?.filter((pet,i) => {
-        return i === 0
-    })
-    
-   
-    
+    const firstPet = data.filter((pet,i) => {
+      return i === 0
+  })
+  
     return firstPet
   }
