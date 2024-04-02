@@ -1,4 +1,4 @@
-import AuthHeader from "@/components/AuthHeader";
+import AuthHeader from "@/components/Auth/AuthHeader";
 
 
 

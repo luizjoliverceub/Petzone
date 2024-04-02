@@ -7,17 +7,19 @@ import * as z from "zod";
 import { addPet } from "@/utils/actions/AddPet";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-
+import { toast } from 'sonner';
 
 const createPetSchema = z.object({
-  name: z.string(),
-  age: z.coerce.number(),
-  city:z.string(),
+  name: z.string().min(1,"Campo obrigatório"),
+  age: z.coerce.number().min(1,"Idade mínima é de 1").max(100,"Idade máxima é de 100 anos"),
+  city:z.string().min(1,"Campo obrigatório"),
   birthDate:z.date(),
-  sex:z.enum(["M","H"]),
-  notes:z.string(),
-  race:z.string(),
-  vaccination:z.string()
+  sex:z.enum(["M","H"],{
+    errorMap :(issue,ctx) => ({message:"Sexo inválido "})
+  }),
+  notes:z.string().min(1,"Campo obrigatório"),
+  race:z.string().min(1,"Campo obrigatório"),
+  vaccination:z.string().min(1,"Este campo deve ser preenchido")
   });
 
  type typecreatePetSchema = z.infer<typeof createPetSchema>
@@ -49,7 +51,7 @@ export default function FormAuthCreatePet() {
   }
 
  const resp = await addPet(formatedData)
-
+ toast.success('Pet Criado com sucesso!')
  router.push("/pets")
    
   }
@@ -57,32 +59,34 @@ export default function FormAuthCreatePet() {
   return (
     <div className='h-full w-[65%] py-8'>
 
-      <form className='flex flex-col justify-center items-center h-full gap-4'
+      <form className='flex flex-col justify-center items-center h-full gap-6'
         noValidate
         onSubmit={handleSubmit(OnSubmit)}>
 
         <div className="w-full h-full flex gap-4 ">
 
-            <div className="h-full w-1/4 0 flex items-center justify-center">
+            <div className="h-full w-1/4  flex items-center justify-center">
 
               <div className="h-full w-full flex flex-col items-center justify-center">
                 <label htmlFor="age"  className="self-start pl-5">Photo</label>
-                <input type="text" className="w-[75%] h-[75%]
+                <input type="text" className="w-[75%] h-[95%]
                 border border-slate-300"
                 id='age'
                 {...register("age",{required:true})}
                 />
+                {errors.age && <p className="h-1 text-red-600">{errors.age.message}</p>}
               </div>
               
             </div>
 
-        <div className="h-full w-3/4  flex flex-col items-center justify-center">
+        <div className="h-full w-3/4  flex flex-col items-center justify-center gap-6">
           <div className="w-[100%]">
             <label htmlFor="name">Pet Name</label>
               <input className='py-1 border border-slate-300 w-full h-8 rounded-md'
                id='name'
-              {...register("name",{required:true})}
+              {...register("name",{required :true})}
               />
+              {errors.name && <p className="h-1 text-red-600 text-sm">{errors.name?.message}</p>}
           </div>
 
           <div className="w-[100%] flex gap-4">
@@ -103,13 +107,15 @@ export default function FormAuthCreatePet() {
                  id='sex'
                 {...register("sex",{required:true})}
                 />
+                {errors.sex && <p className="h-1 text-red-600 text-sm">{errors.sex.message}</p>}
             </div>
             <div className="w-1/2">
               <label htmlFor="sex">Race</label>
                 <input className='py-1 border border-slate-300 w-full h-8 rounded-md'
                  id='race'
-                {...register("race",{required:true})}
+                {...register("race",{required :true})}
                 />
+                {errors.race && <p className="h-1 text-red-600 text-sm">{errors.race.message}</p>}
             </div>
           </div>
 
@@ -117,8 +123,9 @@ export default function FormAuthCreatePet() {
             <label htmlFor="name">City</label>
               <input className='py-1 border border-slate-300 w-full h-8 rounded-md'
                id='city'
-              {...register("city",{required:true})}
+              {...register("city",{required :true})}
               />
+              {errors.city && <p className="h-1 text-red-600 text-sm">{errors.city.message}</p>}
           </div>
 
         </div>
@@ -126,21 +133,23 @@ export default function FormAuthCreatePet() {
         </div>
 
         <div className="w-full h-full  ">
-            <div className="w-full h-[90%]  flex flex-col justify-center items-center gap-10 ">
+            <div className="w-full h-[90%]  flex flex-col justify-center items-center gap-14 ">
 
               <div className="w-full h-1/2 ">
                   <label htmlFor="vaccination">vaccination</label>
                   <input className='py-1 border border-slate-300 w-full h-full rounded-md'
                   id='vaccination'
-                  {...register("vaccination",{required:true})}
+                  {...register("vaccination",{required :true})}
                   />
+                  {errors.vaccination && <p className="text-red-600 text-sm">{errors.vaccination.message}</p>}
               </div>
               <div className="w-full h-1/2 ">
                 <label htmlFor="notes">Notes</label>
                 <input className='py-1 border border-slate-300 w-full h-full rounded-md'
                 id='notes'
-                {...register("notes",{required:true})}
+                {...register("notes",{required :true})}
                 />
+                {errors.notes && <p className="h-1 text-red-600">{errors.notes.message}</p>}
               </div>
 
             </div>

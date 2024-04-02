@@ -3,12 +3,12 @@
 import { auth } from "@/app/api/auth/[...nextauth]/route"
 
 
-export async function getAllPets (){
+export async function getAllNews (){
     const session = await auth()
 
-    const res = await fetch("http://localhost:3000/api/pets",{
+    const res = await fetch("http://localhost:3000/api/news",{
       next:{
-        tags:["pets"]
+        tags:["news"]
       },
       headers:{
            'session': JSON.stringify(session)

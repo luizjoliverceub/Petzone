@@ -3,8 +3,11 @@ import { redirect } from "next/navigation";
 import { getFirstPet } from "@/utils/actions/GetFirstPet";
 
 import PetCard from "@/components/PetCards";
-import AuthHeader from "@/components/AuthHeader";
+import AuthHeader from "@/components/Auth/AuthHeader";
 import Link from "next/link";
+import { getAllNews } from "@/utils/actions/GetAllNews";
+import MainNewsLetterCarousel from "@/components/MainNewsLetterCarousel";
+
 
 
 
@@ -26,7 +29,7 @@ export type Pet = {
 export default async function DashboardPage() {
 
    const firstPet = await getFirstPet()
-
+    const allNews = await getAllNews()
   
  const session = await auth()
 
@@ -46,8 +49,8 @@ export default async function DashboardPage() {
         {/* NavBar page */}
         <div className="h-[calc(100%-5rem)] w-full flex justify-center  items-center gap-8">
 
-            <div className="bg-slate-400 w-1/2 h-[90%] flex items-center justify-center">
-                <p>News Container</p>
+            <div className=" w-1/2 h-full py-2 flex items-center justify-center">
+                <MainNewsLetterCarousel newsData={allNews}/>
             </div>
             
             <div className=" w-1/3 h-[90%] flex flex-col gap-8">

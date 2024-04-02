@@ -1,8 +1,17 @@
-import NoAuthHeader from "@/components/NoAuthHeader";
+import NoAuthHeader from "@/components/noAuth/NoAuthHeader";
 import Link from "next/link";
+import { auth } from "./api/auth/[...nextauth]/route";
+import { redirect } from "next/navigation";
+import NoAuthSection from "@/components/noAuth/NoAuthSection";
 
 export default async function Home() {
 
+  const session = await auth()
+
+  if(session || session?.user.name){
+    redirect("/pets")
+  
+  }
   
   return (
     <main>
@@ -36,32 +45,62 @@ export default async function Home() {
 
        <section className="h-screen bg-brand-primary flex items-center justify-center" id="about">
 
-        <div className="w-[90%] h-[80%]  flex   items-center justify-center gap-10">
+        
 
-          <div className="w-1/2 h-full  flex items-center justify-end">
+          <NoAuthSection description="Nossa proposta de solução é um software completo para donos de pets que simplifica todas as dimensões do cuidado com seus adorados companheiros peludos. Com nosso software, você pode realizar um cadastro detalhado de seus pets, receber lembretes automáticos para vacinações essenciais, manter-se informado sobre campanhas de saúde, acessar suporte veterinário por meio de um chat online e até mesmo aproveitar uma plataforma que permite aos petshops locais competirem com as grandes redes. Em resumo, é a chave para tornar o cuidado com seus pets mais simples, eficaz e recompensador." title="Sobre o projeto" img="/retangle.png" 
+          side="left" colorPrimary/>
 
-          <img src="/retangle.png" alt="pet img" className="w-[65%] h-[65%]"/>
-
-          </div>
-
-          <div className="w-1/2 h-full  flex items-center justify-start">
-
-              <div className="w-[90%] h-[60%]">
-
-                  <h4 className="text-2xl mb-4 text-white">Sobre o projeto</h4>
-
-                  <p className="text-white font-thin">Nossa proposta de solução é um software completo para donos de pets que simplifica todas as dimensões do cuidado com seus adorados companheiros peludos. Com nosso software, você pode realizar um cadastro detalhado de seus pets, receber lembretes automáticos para vacinações essenciais, manter-se informado sobre campanhas de saúde, acessar suporte veterinário por meio de um chat online e até mesmo aproveitar uma plataforma que permite aos petshops locais competirem com as grandes redes. Em resumo, é a chave para tornar o cuidado com seus pets mais simples, eficaz e recompensador.</p>
-
-              </div>
-
-          </div>
-
-        </div>
+       
 
        </section>
 
-       <section className="h-screen bg-yellow-600" id="project">
+       <section className="h-screen flex items-center justify-center" id="project">
 
+        <div className="h-[80%] w-[85%] ">
+
+            <div className="w-full h-[20%] flex items-center justify-center ">
+                <h3 className="text-2xl text-brand-secondary font-bold">Funcionalidades</h3>
+            </div>
+
+            <div className=" h-[70%] w-full flex items-center justify-center gap-6">
+
+              <div className=" h-full w-full ring-brand-secondary flex flex-col gap-6 items-center justify-center ring-2 flex-1 basis-full">
+                      <h2 className="text-center text-brand-secondary font-semibold">PetCard Digital</h2>
+                      <p className="px-4">A carteirinha digital do pet é uma forma prática de armazenar informações importantes sobre seu animal de estimação, como vacinas, consultas veterinárias e tratamentos, tudo em um aplicativo ou plataforma online.</p>
+              </div>
+
+              <div className=" h-full w-full ring-brand-secondary flex flex-col gap-8 items-center justify-center ring-2 flex-1 basis-full">
+                      <h2 className="text-center text-brand-secondary font-semibold">Chat</h2>
+                      <p className="px-4">A função de chat no Petzone permite que você entre em contato rapidamente com outros donos de animais, veterinários e pet shops, facilitando a troca de informações e agendamento de consultas</p>
+              </div>
+
+              <div className=" h-full w-full ring-brand-secondary flex flex-col gap-8 items-center justify-center ring-2 flex-1 basis-full">
+                      <h2 className="text-center text-brand-secondary font-semibold">Consultas</h2>
+                      <p className="px-4">Dentro do Petzone você poderá realizar consultas onlines com os veterinários cadastrados dentro no sistema, sem sair de casa, para o seu conforto e de seu pet.</p>
+              </div>
+
+            </div>
+        </div>
+          
+      </section>
+
+      <section  className="h-screen  flex items-center justify-center" id="about">
+
+      <NoAuthSection description="Nossa proposta de solução é um software completo para donos de pets que simplifica todas as dimensões do cuidado com seus adorados companheiros peludos. Com nosso software, você pode realizar um cadastro detalhado de seus pets, receber lembretes automáticos para vacinações essenciais, manter-se informado sobre campanhas de saúde, acessar suporte veterinário por meio de um chat online e até mesmo aproveitar uma plataforma que permite aos petshops locais competirem com as grandes redes. Em resumo, é a chave para tornar o cuidado com seus pets mais simples, eficaz e recompensador." title="Descubra novas formas 
+      de cuidar do seu pet!" img="/retangle48.png" side="right" colorPrimary={false}/>
+
+      </section>
+
+      <section  className="h-screen bg-brand-primary flex items-center justify-center" id="veterinario">
+
+      <NoAuthSection description="Se você é um veterinário comprometido com o bem-estar dos animais, o Petzone é a plataforma ideal para você. Com nossa tecnologia inovadora, você pode oferecer consultas e agendamentos diretamente aos seus clientes através de nosso aplicativo, proporcionando conveniência e eficiência para todos. Não perca a oportunidade de expandir sua prática e se conectar com uma nova base de clientes. Junte-se a nós no Petzone e leve o cuidado animal para o próximo nível!" title="Veterinários" img="/retangle52.png" side="left" colorPrimary>
+
+        <Link href={"veterinario/login"} className="bg-brand-secondary  text-white px-2 py-1">
+        Subscribe now
+        </Link>
+
+      </NoAuthSection>
+      
       </section>
     </main>
     );

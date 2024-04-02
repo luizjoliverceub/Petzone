@@ -17,17 +17,12 @@ export async function getFirstPet (){
       }
     })
 
-     if (!res.ok) {
-      throw new Error('Failed to fetch pets data')
-    }
-
+    
     const data = await res.json() as Pet[]
 
     const firstPet = data.filter((pet,i) => {
-        return i === 0
-    })
-    
-   
-    
+      return i === 0
+  })
+  
     return firstPet
   }

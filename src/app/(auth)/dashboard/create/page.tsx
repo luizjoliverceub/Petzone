@@ -1,4 +1,4 @@
-import FormAuthCreatePet from "@/components/FormAuthCreatePet";
+import FormAuthCreatePet from "@/components/Auth/FormAuthCreatePet";
 
 
 export default async function CreatePetPage() {

@@ -1,4 +1,4 @@
-import AuthHeader from '@/components/AuthHeader'
+import AuthHeader from '@/components/Auth/AuthHeader'
 import PetCard from '@/components/PetCards'
 import { getPetById } from '@/utils/actions/GetPetById'
 import React from 'react'
