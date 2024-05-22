@@ -1,4 +1,4 @@
-import NavBarClient from "@/components/NavBarClient"
+import NavBarVeterinarian from "@/components/NavBarVeterinarian"
 
 
 export default function DashboardLayout({
@@ -8,7 +8,7 @@ export default function DashboardLayout({
   }) {
     return (
         <section className="flex">
-             <NavBarClient/>
+             <NavBarVeterinarian/>
             {children}
             </section>
     )

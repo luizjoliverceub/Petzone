@@ -7,9 +7,14 @@ import NoAuthSection from "@/components/noAuth/NoAuthSection";
 export default async function Home() {
 
   const session = await auth()
-
-  if(session || session?.user.name){
-    redirect("/pets")
+  
+  if(session ){
+    
+    if( session?.user.role === "normal"){
+      redirect("/pets")
+    }else if( session?.user.role === "veterinarian"){
+      redirect("/veterinario/allPets")
+    }
   
   }
   
@@ -95,7 +100,7 @@ export default async function Home() {
 
       <NoAuthSection description="Se você é um veterinário comprometido com o bem-estar dos animais, o Petzone é a plataforma ideal para você. Com nossa tecnologia inovadora, você pode oferecer consultas e agendamentos diretamente aos seus clientes através de nosso aplicativo, proporcionando conveniência e eficiência para todos. Não perca a oportunidade de expandir sua prática e se conectar com uma nova base de clientes. Junte-se a nós no Petzone e leve o cuidado animal para o próximo nível!" title="Veterinários" img="/retangle52.png" side="left" colorPrimary>
 
-        <Link href={"veterinario/login"} className="bg-brand-secondary  text-white px-2 py-1">
+        <Link href={"/loginVeterinarian"} className="bg-brand-secondary  text-white px-2 py-1">
         Subscribe now
         </Link>
 

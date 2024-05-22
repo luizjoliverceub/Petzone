@@ -19,7 +19,7 @@ export default function SignInButton() {
          )
     }
   return (
-    <button onClick={() => signIn()} className="w-full text-black bg-white ring-1 ring-slate-300 px-5 py-1">
+    <button onClick={() => signIn("google")} className="w-full text-black bg-white ring-1 ring-slate-300 px-5 py-1">
         <div className="flex items-center justify-center gap-2"> 
         <FcGoogle className="text-sm"/> <p>Google</p> 
         </div>
