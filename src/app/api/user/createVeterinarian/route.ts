@@ -18,15 +18,27 @@ export async function POST(request:Request) {
 
      console.log("lerBody" + lerBody);
     
+     const { email, password, name, role, crmv,cep,region} = body;
 
     const createdUser = await prisma.user.create({
         data:{
-         email:body.email,
-         password:body.password,
-         name:body.name,
-         role:body.role
+         email:email,
+         password:password,
+         name:name,
+         role:role
         }
     })
+
+    if (role === 'veterinarian') {
+      await prisma.veterinarianProfile.create({
+        data: {
+          crmv:crmv,
+          cep:cep,
+          userId: createdUser.id,
+          region: region
+        }
+      });
+    }
 
      return new NextResponse(JSON.stringify(createdUser),{status:201})
 

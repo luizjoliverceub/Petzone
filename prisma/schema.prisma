@@ -51,6 +51,25 @@ model User {
   accounts            Account[]
   sessions            Session[]
   Pets                Pet[]
+  VeterinarianProfile VeterinarianProfile?
+}
+
+model VeterinarianProfile {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id])
+  crmv      String   @unique
+  region    String   
+  cep       String
+  addressId String?  @unique
+  address   Address? @relation(fields: [addressId], references: [id])
+}
+
+model Address {
+  id                  String               @id @default(cuid())
+  postalCode          String
+  city                String
+  veterinarianProfile VeterinarianProfile?
 }
 
 model VerificationToken {

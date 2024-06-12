@@ -32,7 +32,7 @@ export default async function NavBarClient() {
                     <div className="flex flex-col gap-4">
                         <Link href={"/pets"} className="font-bold text-2xl">PetZone</Link>
                         <span className="p-2 bg-brand-third w-48 flex gap-2">
-                             { session?.user?.image? <Image src={`${session?.user?.image}`} width={20} height={20} alt="user image" /> : "Default img"}
+                             { session?.user?.image? <Image src={`${session?.user?.image}`} width={20} height={20} alt="user image" /> : ""}
                              { session?.user?.name.slice(0,12) || "Desconectado"}
                          </span>
                     </div>

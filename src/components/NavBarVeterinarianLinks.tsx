@@ -7,7 +7,7 @@ import { IconType } from "react-icons";
 import { BiMessageAltDetail } from "react-icons/bi";
 import { PiNewspaperClipping } from "react-icons/pi";
 import { RxDashboard } from "react-icons/rx";
-import { FaUserDoctor } from "react-icons/fa6";
+import { HiMiniWrenchScrewdriver } from "react-icons/hi2";
 import { MdOutlinePets } from "react-icons/md";
 
 type NavListsType = {
@@ -19,15 +19,15 @@ type NavListsType = {
 }
 
 const NavLists: NavListsType[] = [
-    {id:1,text:"My pets",icon:<RxDashboard className="text-xl"/>,link:"pets"},
-    {id:2,text:"Dashboard",icon:<MdOutlinePets className="text-xl"/>,link:"dashboard"},
-    {id:3,text:"Message",icon:<BiMessageAltDetail className="text-xl"/>,link:"message"},
-    {id:4,text:"NewsLetter",icon:<PiNewspaperClipping className="text-xl"/>,link:"newsletter"},
-    {id:5,text:"Vets",icon:<FaUserDoctor className="text-xl"/>,link:"maps"}
+    {id:1,text:"All pets",icon:<MdOutlinePets  className="text-xl"/>,link:"veterinario/allPets"},
+    {id:2,text:"Dashboard",icon:<RxDashboard className="text-xl"/>,link:"veterinario/dashboard"},
+    {id:3,text:"Message",icon:<BiMessageAltDetail className="text-xl"/>,link:"veterinario/message"},
+    {id:4,text:"NewsLetter",icon:<PiNewspaperClipping className="text-xl"/>,link:"veterinario/newsLetter"},
+    {id:5,text:"Config",icon:<HiMiniWrenchScrewdriver className="text-xl"/>,link:"veterinario/config"}
 ]
 
 
-export default function NavBarLinks() {
+export default function NavBarVeterinarianLinks() {
 
   const pathname = usePathname()
  

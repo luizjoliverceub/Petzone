@@ -43,6 +43,8 @@ export async function GET(request: Request,{params}:{params:{id:string}}) {
   const session = request.headers.get("session")
   const newSessionValue = JSON.parse(session) 
   
+ 
+  
    const petId = params.id
   
   if(session && newSessionValue){
@@ -58,8 +60,8 @@ export async function GET(request: Request,{params}:{params:{id:string}}) {
     return NextResponse.json({error:error},{status:500})
    }
    
-  }else{
-    return new NextResponse(JSON.stringify({message:"you are not authenticated"}),
+}else{
+    return new NextResponse(JSON.stringify({message:"you are not authenticated route get pet id"}),
     {status:401})
   }
   }
