@@ -43,7 +43,7 @@ export async function GET(request: Request,{params}:{params:{id:string}}) {
   const session = request.headers.get("session")
   const newSessionValue = JSON.parse(session) 
   
- 
+ //teste
   
    const petId = params.id
   

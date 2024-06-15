@@ -110,7 +110,6 @@ export default function FormNoAuth({formTitle} :{formTitle:'Login (Veterinário)
         </div>
     </div>) : (
         <div className='h-[90%] w-[60%]'>
-            <h2 className='text-3xl font-semibold text-brand-primary text-center mb-4'>{formTitle}</h2>
              
              <form className='flex flex-col gap-3 mt-4' onSubmit={handleSubmit(onRegister)}>
              <h2 className='text-2xl font-semibold text-brand-primary text-center mb-8'>Informações pessoais</h2>
@@ -123,7 +122,6 @@ export default function FormNoAuth({formTitle} :{formTitle:'Login (Veterinário)
                     <label htmlFor="password" className='text-brand-primary font-medium'>Password</label>
                     
                     <input type="password"  {...register("password",{required:true})} name='password' id='password' placeholder={`🔑 your password`} className=' w-full ring-1 ring-slate-300 py-1 px-3 text-brand-third '/>
-                    <label htmlFor="region" className='text-brand-primary font-medium'>Região</label>
                 </div>
 
                 <div className='flex flex-col gap-3 mt-5'>
@@ -157,7 +155,7 @@ export default function FormNoAuth({formTitle} :{formTitle:'Login (Veterinário)
             </form>
 
             <div className="flex items-center justify-center gap-4 mt-4">
-            <p className='text-center'>have an account?   <Link href={"/login"} className='text-brand-secondary'>{question}</Link></p> 
+            {/* <p className='text-center'>have an account?   <Link href={"/login"} className='text-brand-secondary'>{question}</Link></p>  */}
            </div>
 
 
