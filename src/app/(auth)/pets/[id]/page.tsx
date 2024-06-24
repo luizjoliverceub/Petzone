@@ -9,13 +9,14 @@ export default async function PetPage({params} :{params:{id:string}}) {
     const petById = await getPetById(petId) 
 
   
+    console.log(petById);
     
     
     
   return (
     <main className="h-screen w-full flex flex-col">
 
-          <AuthHeader titleText="Pet" link="/pets" linkText="back"/>
+          <AuthHeader titleText="Pet" link="/pets" linkText="voltar"/>
 
         <div className="w-full h-full  flex items-center justify-center">
           

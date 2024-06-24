@@ -5,86 +5,94 @@ import { removePetById } from '@/utils/actions/RemovePetById';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
-
 export default function PetCard({ petData , remove }: { petData: Pet[], remove:boolean }) {
-
   const petBirthDate =  petData.length > 0 ? new Date(petData[0]?.birthDate) : null
   const formatedDate = petBirthDate !== null ? new Intl.DateTimeFormat("pt-br").format(petBirthDate) : null
-
- const router = useRouter()
+  const router = useRouter()
   
-
   async function handleRemovePet(petId: string) {
-
     try {
       await removePetById(petId)
       toast.error('Pet Removido com sucesso!')
       router.push("/pets")
     } catch (error) {
       console.log(error);
-
     }
   }
 
+  function handleCopyPetId(petId: string) {
+    navigator.clipboard.writeText(petId)
+      .then(() => {
+        toast.success('ID do pet copiado para a área de transferência!')
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error('Falha ao copiar o ID do pet.')
+      });
+  }
+
   return (
-    <div className='h-full w-full  flex'>
+    <div className='h-full w-full flex'>
       {
         petData.length > 0 ? (petData.map((pet) => (
           <div key={pet.id} className='h-full w-full flex'>
-          
-              <div  className='h-full w-1/3 bg-blue-200 text-white p-4  flex  justify-center '>
-               
+              <div className='h-full w-1/3 bg-blue-200 text-white p-4 flex justify-center'>
                 <div className='bg-purple-300 w-20 h-20'>
                     <img src="/gato2.jpg" alt="gato" className='w-full h-full'/>
                 </div>
-
               </div>
-              
               <div className='h-full w-2/3 bg-brand-secondary gap-2 flex flex-col justify-center items-center relative py-2'>
-                  {remove ? (<button className="  absolute top-0 right-0  p-1 hover:text-red-500"
-                    onClick={() =>  handleRemovePet(pet.id)}>X
-                  </button>) : null}
-                <div className=' h-full w-full overflow-hidden max-h-96'>
+                  {remove ? (
+                    <button className="absolute top-0 right-0 p-1 hover:text-red-500"
+                      onClick={() => handleRemovePet(pet.id)}>X
+                    </button>
+                  ) : null}
+                  
+                <div className='h-full w-full overflow-hidden max-h-96'>
                   <div className='px-4'>
-                    <span className='text-sm'>Name</span>
-                    <p className=' pl-4 w-full rounded-md bg-blue-200'>{pet.name}</p>
+                    <span className='text-sm'>Nome</span>
+                    <p className='pl-4 w-full rounded-md bg-blue-200'>{pet.name}</p>
                   </div>
                   <div className='w-full px-4 flex gap-2'>
                     <div className='w-1/2'>
-                      <span className='text-sm'>Sex</span>
-                      <p className=' pl-4 w-full rounded-md bg-blue-200'>{pet.sex}</p>
+                      <span className='text-sm'>Sexo</span>
+                      <p className='pl-4 w-full rounded-md bg-blue-200'>{pet.sex}</p>
                     </div>
-                    <div  className='w-1/2'>
-                      <span className='text-sm'>age</span>
-                      <p className=' pl-4 w-full rounded-md bg-blue-200'>{pet.age}</p>
+                    <div className='w-1/2'>
+                      <span className='text-sm'>Idade</span>
+                      <p className='pl-4 w-full rounded-md bg-blue-200'>{pet.age}</p>
                     </div>
                   </div>
-
                   <div className='px-4 flex gap-2'>
                     <div className='w-1/2'>
-                      <span className='text-sm'>Race</span>
-                      <p className=' pl-4 l w-full rounded-md bg-blue-200'>{pet.race}</p>
+                      <span className='text-sm'>Raça</span>
+                      <p className='pl-4 w-full rounded-md bg-blue-200'>{pet.race}</p>
                     </div>
-
-                    <div  className='w-1/2'>
-                      <span className='text-sm'>Birth</span>
-                      <p className=' px-4 w-full rounded-md bg-blue-200'>{formatedDate}</p>
+                    <div className='w-1/2'>
+                      <span className='text-sm'>Data de nascimento</span>
+                      <p className='px-4 w-full rounded-md bg-blue-200'>{formatedDate}</p>
                     </div>
-                    
                   </div>
-
                   <div className='px-4'>
-                    <span className='text-sm'>Notes</span>
-                    <p className=' pl-4  w-full rounded-md bg-blue-200'>{pet.notes}</p>
+                    <span className='text-sm'>Anotações</span>
+                    <p className='pl-4 w-full rounded-md bg-blue-200'>{pet.notes}</p>
                   </div>
-
+                </div>
+                <div className='flex'>
+                  <p className='text-xl'>Id do pet : </p>
+                  <button className=" bg-brand-primary rounded-md text-white mx-4 px-1 hover:text-blue-200"
+                      onClick={() => handleCopyPetId(pet.id)}>
+                     {pet.id}
+                    </button>
                 </div>
               </div>
-
+            
           </div>
-        ))) : (<div className='flex items-center justify-center w-full h-full'>
-          <p>Nenhum pet cadastrado ...</p>
-        </div>)
+        ))) : (
+          <div className='flex items-center justify-center w-full h-full'>
+            <p>Nenhum pet cadastrado ...</p>
+          </div>
+        )
       }
     </div>
   )

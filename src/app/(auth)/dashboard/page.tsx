@@ -44,7 +44,7 @@ export default async function DashboardPage() {
  
       <div className="h-screen w-full">
         {/* NavBar page */}
-        <AuthHeader titleText="Dashboard" link="/dashboard/create" linkText="+ Add Pet"/>
+        <AuthHeader titleText="Dashboard" link="/dashboard/create" linkText="+ Adicionar Pet"/>
         
         {/* NavBar page */}
         <div className="h-[calc(100%-5rem)] w-full flex justify-center  items-center gap-8">
@@ -62,7 +62,7 @@ export default async function DashboardPage() {
                  </div>
               </div>
               <div className="bg-slate-200  w-full h-1/2 flex items-center justify-center">
-                  <p>Message container</p>
+                  
               </div>
             </div>
         </div>

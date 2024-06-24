@@ -3,24 +3,22 @@ import { auth } from "../auth/[...nextauth]/route"
 
 const data = [
   {
-    imgUrl:"/kissingdog.png",
-    webSite:"portal g1",
-    title:"Pet owners who spend money on 'people' food for their pets",
-    description:"The North American Pet Products Association estimates that Americans spent US$58.1 billion (about R$289 billion) on pet food and treats in 2022."
-
+    imgUrl: "/kissingdog.png",
+    webSite: "portal g1",
+    title: "Donos de animais que gastam dinheiro com comida 'de gente' para seus pets",
+    description: "A Associação Norte-Americana de Produtos para Animais estima que os americanos gastaram US$ 58,1 bilhões (cerca de R$ 289 bilhões) em alimentos e petiscos para animais de estimação em 2022."
   },
   {
-    imgUrl:"/catwalking.png",
-    webSite:"portal g1",
-    title:"Why Cats Have Gone Extinct More Species Than Any Other Predator",
-    description:"According to a study, 2,084 different species have already been devoured by felines domesticated by humans."
-
+    imgUrl: "/catwalking.png",
+    webSite: "portal g1",
+    title: "Por que os gatos levaram à extinção mais espécies do que qualquer outro predador",
+    description: "De acordo com um estudo, 2.084 diferentes espécies já foram devoradas por felinos domesticados por humanos."
   },
   {
-    imgUrl:"/dogsitting.png",
-    webSite:"portal g1",
-    title:"Almost half of Rio's rental properties have pets, says survey",
-    description:"A survey by QuintoAndar shows that this percentage grew during the pandemic."
+    imgUrl: "/dogsitting.png",
+    webSite: "portal g1",
+    title: "Quase metade dos imóveis para aluguel no Rio têm pets, diz pesquisa",
+    description: "Uma pesquisa do QuintoAndar mostra que esse percentual cresceu durante a pandemia."
   }
 ]
 

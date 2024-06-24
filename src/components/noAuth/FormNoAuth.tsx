@@ -83,7 +83,7 @@ export default function FormNoAuth({formTitle} :{formTitle:'Login' |'Register'})
   return (
     formTitle === "Login" ? ( <div className='h-[70%] w-[60%]'>
         <h2 className='text-3xl font-semibold text-brand-primary text-center mb-8'>{formTitle}</h2>
-        <p className='text-center'>Don`t have account? <Link className='text-brand-secondary' href={`/${opositeTitle}`}>{opositeTitle}</Link></p>
+        <p className='text-center'>Não possui uma conta? <Link className='text-brand-secondary' href={`/${opositeTitle}`}>{opositeTitle}</Link></p>
         <div>
            
 
@@ -91,10 +91,10 @@ export default function FormNoAuth({formTitle} :{formTitle:'Login' |'Register'})
 
             <form className='flex flex-col gap-3 mt-4' onSubmit={handleSubmit(onLogin)}>
 
-                <label htmlFor="email" className='text-brand-primary font-medium'>Email adress</label>
+                <label htmlFor="email" className='text-brand-primary font-medium'>Email</label>
                 <input type="email" {...register("email",{required:true})} placeholder={`✉️ Example@gmail.com`} className='ring-1 ring-slate-300 py-1 px-3 text-brand-third '/>
 
-                <label htmlFor="password" className='text-brand-primary font-medium'>Password</label>
+                <label htmlFor="password" className='text-brand-primary font-medium'>Senha</label>
                 <input type="password"  {...register("password",{required:true})} placeholder={`🔑 your password`} className=' w-full ring-1 ring-slate-300 py-1 px-3 text-brand-third '/>
 
                 <input type="hidden" id="role"  {...register("role",{required:true})} value="normal"/>
@@ -108,31 +108,26 @@ export default function FormNoAuth({formTitle} :{formTitle:'Login' |'Register'})
     </div>) : (
         <div className='h-[90%] w-[60%]'>
             <h2 className='text-3xl font-semibold text-brand-primary text-center mb-4'>{formTitle}</h2>
-              <p className='text-center'>have an account?   <Link href={"/login"} className='text-brand-secondary'>{question}</Link></p> 
+              <p className='text-center'>Possui uma conta ?   <Link href={"/login"} className='text-brand-secondary'>{question}</Link></p> 
              <form className='flex flex-col gap-3 mt-4' onSubmit={handleSubmit(onRegister)}>
 
-                <label htmlFor="username" className='text-brand-primary font-medium'>UserName</label>
+                <label htmlFor="username" className='text-brand-primary font-medium'>Nome de usuário</label>
 
                 <input type="text" {...register("name",{required:true})} id='username' placeholder={`Ex : Jhon984`} className='ring-1 ring-slate-300 py-1 px-3 text-brand-third '/>
 
-                <label htmlFor="email" className='text-brand-primary font-medium'>Email adress</label>
+                <label htmlFor="email" className='text-brand-primary font-medium'>Email</label>
 
                 <input type="email"  {...register("email",{required:true})} id='email' placeholder={`✉️ Example@gmail.com`} className='ring-1 ring-slate-300 py-1 px-3 text-brand-third '/>
 
                 <input type="hidden" id="role"  {...register("role",{required:true})} value="normal"/>
 
-                <label htmlFor="password" className='text-brand-primary font-medium'>Password</label>
+                <label htmlFor="password" className='text-brand-primary font-medium'>Senha</label>
 
                 <input type="password"  {...register("password",{required:true})} name='password' id='password' placeholder={`🔑 your password`} className=' w-full ring-1 ring-slate-300 py-1 px-3 text-brand-third '/>
 
                 <button className='bg-brand-secondary text-white py-1 w-full mt-2'>{formTitle}</button>
             </form>
 
-            <div className="flex items-center gap-4 mt-4">
-                <hr className="flex-grow border-slate-300" />
-                <p className="text-black">Or</p>
-                <hr className="flex-grow border-slate-300" />
-           </div>
 
             <div className='flex justify-center items-center flex-col hover:brightness-90'>
                 

@@ -21,7 +21,7 @@ export default async function PetsPagination() {
       </nav>
       
         <Link href={"/dashboard/create"} className='text-brand-secondary font-semibold  px-3 py-1 bg-blue-100 opacity-80'>
-          + Add Pet
+          + Adicionar Pet
         </Link>
     </header>
   )

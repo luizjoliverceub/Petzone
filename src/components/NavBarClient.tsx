@@ -16,10 +16,10 @@ export default async function NavBarClient() {
     console.log("user session" + session?.user?.role);
     
     if(!session){
-     throw new Error("You don't have acess to this page without logging in")
+     throw new Error("Você somente possui acesso a esta página quando estiver logado no sistema")
    
    }else if( session?.user?.role !== "normal"){
-     throw new Error("You just  have access to this page being a normal user")
+     throw new Error("Você somente tem acesso a esta página sendo um usuário 'cliente'")
    }
   
 

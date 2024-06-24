@@ -15,10 +15,10 @@ export default async function NavBarVeterinarian() {
    const session = await auth()
    
    if(!session){
-    throw new Error("You don't have acess to this page without logging in")
+    throw new Error("Você somente possui acesso a esta página quando estiver logado no sistema")
   
   }else if( session?.user?.role !== "veterinarian"){
-    throw new Error("You just have acces to this page being a veterinarian user")
+    throw new Error("Você somente tem acesso a esta página sendo um usuário 'veterinário'")
   }
   
 

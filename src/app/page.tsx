@@ -20,19 +20,19 @@ export default async function Home() {
   
   return (
     <main>
-       <NoAuthHeader authTitle="register" homePage/>
+       <NoAuthHeader authTitle="registro" homePage/>
 
        <section className="h-[calc(100vh-7rem)] flex items-center justify-center " id="overview">
           <div className="w-[90%] h-[90%]  flex">
               <div className="h-full w-1/2  flex items-center justify-center">
                 <div className=" w-[80%] h-[50%] ">
-                  <span className="text-3xl font-semibold">Welcome To</span>
+                  <span className="text-3xl font-semibold">Bem-vindo ao</span>
 
                   <h1 className="text-7xl font-semibold text-brand-secondary">PetZone</h1>
 
-                  <p className="py-4">Your friendly zone dedicated to all things pets and companionship! Explore, connect, and celebrate the joy of pet ownership with us.</p>
+                  <p className="py-4">Seu ambiente amigável dedicado a todos os animais de estimação e companheirismo! Explore, conecte-se e celebre a alegria de ter um animal de estimação conosco.</p>
 
-                  <Link href={""} className="px-4  text-white py-1 bg-brand-primary">Subscribe now</Link>
+                  <Link href={"/register"} className="px-4  text-white py-1 bg-brand-primary">Inscreva-se</Link>
                 </div>
 
               
@@ -101,7 +101,7 @@ export default async function Home() {
       <NoAuthSection description="Se você é um veterinário comprometido com o bem-estar dos animais, o Petzone é a plataforma ideal para você. Com nossa tecnologia inovadora, você pode oferecer consultas e agendamentos diretamente aos seus clientes através de nosso aplicativo, proporcionando conveniência e eficiência para todos. Não perca a oportunidade de expandir sua prática e se conectar com uma nova base de clientes. Junte-se a nós no Petzone e leve o cuidado animal para o próximo nível!" title="Veterinários" img="/retangle52.png" side="left" colorPrimary>
 
         <Link href={"/loginVeterinarian"} className="bg-brand-secondary  text-white px-2 py-1">
-        Subscribe now
+        Inscreva-se
         </Link>
 
       </NoAuthSection>

@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { toast } from 'sonner';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Pet } from "@/app/(auth)/dashboard/page";
 import { getPetByidByVet } from "@/utils/actions/GetPetByIdByVet";
 import PetsBoard from "@/components/Auth/vet/PetsBoard";
@@ -24,8 +24,17 @@ export default function VeterinarioAllpets() {
 
  
 
+
   const [pets,setPets] = useState<Pet[]>([])
   
+  useEffect(() => {
+    const savedPets = localStorage.getItem('pets');
+    
+    if (savedPets) {
+      setPets(JSON.parse(savedPets));
+    }
+  }, []);
+
   const {
     register,
     handleSubmit,
@@ -38,20 +47,20 @@ export default function VeterinarioAllpets() {
 
   async function OnSubmit(data: typeAddPetSchema) {
 
-
     const { id } = data
 
     const formatedData = {
       id
     }
-
+   
     const resp = await getPetByidByVet(formatedData)
   
-    console.log("resp here " + JSON.stringify(resp));
-    
-    console.log(pets)
 
-    setPets((prev) => [...prev,resp])
+    const allPets = [...pets, resp];
+
+    localStorage.setItem("pets", JSON.stringify(allPets));
+
+    setPets(allPets as Pet[]);
 
     
     toast.success('Pet Adicionado com sucesso!')
@@ -62,12 +71,13 @@ export default function VeterinarioAllpets() {
   async function remove(id: string) {
     const petsFiltered = pets.filter((pet) => pet.id !== id);
     setPets(petsFiltered);
+    localStorage.setItem("pets", JSON.stringify(petsFiltered));
     toast.success('Pet removido com sucesso!');
   }
 
   return (
     <div className="h-screen w-full">
-      <AuthHeader link="/veterinario/dashboard/create" linkText="+Add Pet" titleText="Vet allPets" />
+      <AuthHeader link="/veterinario/dashboard/create" linkText="+ Adicionar Pet" titleText="Vet Pets" />
 
       <div className="w-full h-[calc(30%-5rem)] flex items-center justify-center border-b-2 border-black">
         <div className='h-full w-[65%] py-8'>

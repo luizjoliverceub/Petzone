@@ -28,7 +28,7 @@ export default function FormNoAuth({formTitle} :{formTitle:'Login (Veterinário)
 
     const opositeTitle = formTitle === "Login (Veterinário)" ? "register" :"login"
 
-    const question = formTitle === "Login (Veterinário)" ? "Forgot password ?" :"login"
+    const question = formTitle === "Login (Veterinário)" ? "esqueceu a senha ?" :"login"
 
     const [loginError,setLoginError] = useState("")
 
@@ -58,7 +58,7 @@ export default function FormNoAuth({formTitle} :{formTitle:'Login (Veterinário)
        }else{
 
         toast.success("Login realizado com sucesso!")
-        router.push("/login")
+        router.push("/veterinario/allPets")
        }
 
        
@@ -86,7 +86,7 @@ export default function FormNoAuth({formTitle} :{formTitle:'Login (Veterinário)
   return (
     formTitle === "Login (Veterinário)" ? ( <div className='h-[70%] w-[60%]'>
         <h2 className='text-3xl font-semibold text-brand-primary text-center mb-8'>{formTitle}</h2>
-        <p className='text-center'>Don`t have account? <Link className='text-brand-secondary' href={`/${opositeTitle}`}>{opositeTitle}</Link></p>
+        <p className='text-center'>Não possui uma conta ? <Link className='text-brand-secondary' href={`/${opositeTitle}`}>{opositeTitle}</Link></p>
         <div>
            
 
@@ -94,10 +94,10 @@ export default function FormNoAuth({formTitle} :{formTitle:'Login (Veterinário)
 
             <form className='flex flex-col gap-3 mt-4' onSubmit={handleSubmit(onLogin)}>
 
-                <label htmlFor="email" className='text-brand-primary font-medium'>Email adress</label>
+                <label htmlFor="email" className='text-brand-primary font-medium'>Email</label>
                 <input type="email" {...register("email",{required:true})} placeholder={`✉️ Example@gmail.com`} className='ring-1 ring-slate-300 py-1 px-3 text-brand-third '/>
 
-                <label htmlFor="password" className='text-brand-primary font-medium'>Password</label>
+                <label htmlFor="password" className='text-brand-primary font-medium'>Senha</label>
                 <input type="password"  {...register("password",{required:true})} placeholder={`🔑 your password`} className=' w-full ring-1 ring-slate-300 py-1 px-3 text-brand-third '/>
 
                 <input type="hidden" id="role"  {...register("role",{required:true})} value="veterinarian"/>
@@ -110,20 +110,18 @@ export default function FormNoAuth({formTitle} :{formTitle:'Login (Veterinário)
         </div>
     </div>) : (
         <div className='h-[90%] w-[60%]'>
-            <h2 className='text-3xl font-semibold text-brand-primary text-center mb-4'>{formTitle}</h2>
              
              <form className='flex flex-col gap-3 mt-4' onSubmit={handleSubmit(onRegister)}>
              <h2 className='text-2xl font-semibold text-brand-primary text-center mb-8'>Informações pessoais</h2>
                 <div className='flex flex-col gap-3'>
-                    <label htmlFor="username" className='text-brand-primary font-medium'>UserName</label>
+                    <label htmlFor="username" className='text-brand-primary font-medium'>Nome de usuário</label>
                     <input type="text" {...register("name",{required:true})} id='username' placeholder={`Ex : Jhon984`} className='ring-1 ring-slate-300 py-1 px-3 text-brand-third '/>
-                    <label htmlFor="email" className='text-brand-primary font-medium'>Email adress</label>
+                    <label htmlFor="email" className='text-brand-primary font-medium'>Email</label>
                     <input type="email"  {...register("email",{required:true})} id='email' placeholder={`✉️ Example@gmail.com`} className='ring-1 ring-slate-300 py-1 px-3 text-brand-third '/>
                     <input type="hidden" id="role"  {...register("role",{required:true})} value="veterinarian"/>
-                    <label htmlFor="password" className='text-brand-primary font-medium'>Password</label>
+                    <label htmlFor="password" className='text-brand-primary font-medium'>Senha</label>
                     
                     <input type="password"  {...register("password",{required:true})} name='password' id='password' placeholder={`🔑 your password`} className=' w-full ring-1 ring-slate-300 py-1 px-3 text-brand-third '/>
-                    <label htmlFor="region" className='text-brand-primary font-medium'>Região</label>
                 </div>
 
                 <div className='flex flex-col gap-3 mt-5'>
@@ -157,7 +155,7 @@ export default function FormNoAuth({formTitle} :{formTitle:'Login (Veterinário)
             </form>
 
             <div className="flex items-center justify-center gap-4 mt-4">
-            <p className='text-center'>have an account?   <Link href={"/login"} className='text-brand-secondary'>{question}</Link></p> 
+            {/* <p className='text-center'>have an account?   <Link href={"/login"} className='text-brand-secondary'>{question}</Link></p>  */}
            </div>
 
 

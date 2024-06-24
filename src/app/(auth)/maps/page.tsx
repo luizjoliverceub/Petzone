@@ -4,16 +4,16 @@ import { getAllRegions } from "@/utils/actions/GetAllRegions";
 
 
 
-export default async function MapsPage() {
+export default async function AllVetsPage() {
  
 
   const allRegions = await getAllRegions()
  
-  console.log(allRegions);
+
   
   return (
     <main className="h-screen w-full ">
-      <AuthHeader titleText="Vets" linkText="+ Add Pet" link="/dashboard/create"/>
+      <AuthHeader titleText="Vets" linkText="+ Adicionar Pet" link="/dashboard/create"/>
       <AllRegionsDashboard regions={allRegions}/>
     </main>
     );

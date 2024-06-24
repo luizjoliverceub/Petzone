@@ -15,8 +15,8 @@ export default function NoAuthContentVet({formTitle}:{formTitle:'Login (Veterin�
         <div className= "hidden h-full relative flex-col items-center lg:w-1/2 lg:flex"> 
 
             <div className="z-20 absolute flex flex-col items-center justify-start w-[70%] h-full py-10 gap-5">
-              <h1 className="text-white text-5xl  font-semibold  text-center">Welcome to Petzone</h1>
-              <p className="text-sm font-thin text-white text-center ">Your friendly zone dedicated to all things pets and companionship! Explore, connect, and celebrate the joy of pet ownership with us.</p>
+              <h1 className="text-white text-5xl  font-semibold  text-center">Bem vindo ao petzone</h1>
+              <p className="text-sm font-thin text-white text-center ">Seu ambiente amigável dedicado a todos os animais de estimação e companheirismo! Explore, conecte-se e celebre a alegria de ter um animal de estimação conosco.</p>
             </div>
 
             <Image src="/vetpic.png" alt="vet" 

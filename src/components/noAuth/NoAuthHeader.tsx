@@ -8,9 +8,9 @@ export default function NoAuthHeader({authTitle, homePage}:{authTitle:string, ho
             <div>
               <ul className="flex gap-10 items-center">
                  <li><Link href="/"  className="font-bold text-2xl text-white ">PetZone</Link></li>
-                 <li><Link href="/" className="text-white text-sm">Overview</Link></li>
-                 <li><a href="#about" className="text-white text-sm">About us</a></li>
-                 <li><a href="#project"  className="text-white text-sm">Project</a></li>
+                 <li><Link href="/" className="text-white text-sm">Geral</Link></li>
+                 <li><a href="#about" className="text-white text-sm">Sobre</a></li>
+                 <li><a href="#project"  className="text-white text-sm">Projeto</a></li>
                  <li><a href="#veterinario"  className="text-white text-sm">Veterinário</a></li>
               </ul>
             </div>

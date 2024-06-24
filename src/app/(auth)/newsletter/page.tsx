@@ -10,7 +10,7 @@ export default async function NewsLetterPage() {
 
   return (
     <main className="h-screen w-full">
-      <AuthHeader titleText="NewsLetter" link="/dashboard/create" linkText="+Add Pet" />
+      <AuthHeader titleText="NewsLetter" link="/dashboard/create" linkText="+ Adicionar Pet" />
 
       <section className="w-full h-[calc(100vh-5rem)] flex justify-center items-start gap-8">
 
@@ -23,9 +23,10 @@ export default async function NewsLetterPage() {
             <img src="/catwalking.png" alt="cat" className="w-full h-full brightness-75" />
             <div className="slide-content">
               <div className="text-center mx-4">
-                <h2 className="text-md font-semibold text-white mb-2">Why Cats Have Gone Extinct More Species Than Any Other Predator
+                <h2 className="text-md font-semibold text-white mb-2">Por que os gatos levaram à extinção mais espécies do que qualquer outro predador
 </h2>
-                <p className="text-sm font-thin text-white">According to a study, 2,084 different species have already been devoured by felines domesticated by humans.
+                <p className="text-sm font-thin text-white">
+                De acordo com um estudo, 2.084 diferentes espécies já foram devoradas por felinos domesticados por humanos.
 
 </p>
               </div>
@@ -36,9 +37,11 @@ export default async function NewsLetterPage() {
             <img src="/dogsitting.png" alt="cat" className="w-full h-full brightness-75" />
             <div className="slide-content">
               <div className="text-center mx-4">
-                <h2 className="text-md font-semibold text-white mb-2">Almost half of Rio´s rental properties have pets, says survey
+                <h2 className="text-md font-semibold text-white mb-2">
+                Quase metade dos imóveis para aluguel no Rio têm pets, diz pesquisa
 </h2>
-                <p className="text-sm font-thin text-white">A survey by QuintoAndar shows that this percentage grew during the pandemic.
+                <p className="text-sm font-thin text-white">
+                Uma pesquisa do QuintoAndar mostra que esse percentual cresceu durante a pandemia.
 
 </p>
               </div>

@@ -28,7 +28,7 @@ export default function PetsBoard({pets,remove} :{pets:Pet[], remove:(id:string)
             </ul>
             <button 
               className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700 transition duration-300 absolute top-0 right-0 mr-4 mt-4" 
-             
+             onClick={() => remove(pet.id)}
             >
               X
             </button>
