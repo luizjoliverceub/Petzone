@@ -18,16 +18,16 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  
+
   const session = await auth()
 
   return (
     <html lang="pt-br">
       <body className={inter.className}>
-        
-          <SessionProvider session={session}>
-            {children}
-            <Toaster
+
+        <SessionProvider session={session}>
+          {children}
+          <Toaster
             toastOptions={{
               classNames: {
                 error: 'bg-red-400',
@@ -35,8 +35,8 @@ export default async function RootLayout({
                 warning: 'text-yellow-400',
                 info: 'bg-blue-400',
               },
-            }}/>
-          </SessionProvider>
+            }} />
+        </SessionProvider>
 
       </body>
     </html>

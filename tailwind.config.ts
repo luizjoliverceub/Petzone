@@ -13,14 +13,23 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
-      colors:{
-        brand:{
-          primary:"#0F1431",
-          secondary:"#4D98FF",
-          third:"#393E5A"
+      colors: {
+        brand: {
+          primary: "#0F1431",
+          secondary: "#4D98FF",
+          third: "#393E5A",
         }
       }
     },
+    animation: {
+      'fade-in': 'fadeIn 0.3s ease-out',
+    },
+    keyframes: {
+      fadeIn: {
+        '0%': { opacity: '0' },
+        '100%': { opacity: '1' }
+      }
+    }
   },
   plugins: [],
 };
