@@ -6,19 +6,19 @@ export function NavbarHeader() {
             <Link href={'/welcome'} className="text-2xl font-bold text-brand-secondary">Petzone</Link>
             <div className="hidden gap-12 xl:flex animate-fade-in">
                 <Link
-                    href={'#services'}
+                    href={'#servicesSection'}
                     className="py-1 px-2 font-semibold border-b-2 border-b-transparent hover:border-b-2 hover:border-b-brand-secondary duration-300"
                 >
                     Serviços
                 </Link>
                 <Link
-                    href={'/'}
+                    href={'#aboutSection'}
                     className="py-1 px-2 font-semibold border-b-2 border-b-transparent hover:border-b-2 hover:border-b-brand-secondary duration-300"
                 >
                     Sobre
                 </Link>
                 <Link
-                    href={''}
+                    href={'#veterinarianSection'}
                     className="py-1 px-2 font-semibold border-b-2 border-b-transparent hover:border-b-2 hover:border-b-brand-secondary duration-300"
                 >
                     Veterinários
