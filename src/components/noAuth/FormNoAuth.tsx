@@ -2,7 +2,6 @@
 
 import Link from 'next/link'
 import React, { useState } from 'react'
-import SignInButton from '../SignInButton'
 import {signIn} from "next-auth/react"
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'

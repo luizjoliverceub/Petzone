@@ -32,16 +32,18 @@ export function NavbarHeader() {
 
             </div>
             <div className="flex gap-2">
-                <button 
-                    className="border-2 border-transparent px-4 py-1 rounded-md text-brand-secondary font-semibold hover:border-brand-secondary duration-300"
+                <Link 
+                    href={'/user/login'}
+                    className="flex items-center justify-center border-2 border-transparent px-4 py-1 rounded-md text-brand-secondary font-semibold hover:border-brand-secondary duration-300"
                 >
                     Entrar
-                </button>
-                <button 
-                    className="border-2 border-transparent px-4 py-1 rounded-md bg-brand-secondary text-white font-semibold hover:bg-transparent hover:text-brand-secondary hover:border-brand-secondary duration-300"
+                </Link>
+                <Link 
+                    href={'/user/register'}
+                    className="flex items-center justify-center border-2 border-transparent px-4 py-1 rounded-md bg-brand-secondary text-white font-semibold hover:bg-transparent hover:text-brand-secondary hover:border-brand-secondary duration-300"
                 >
                     Cadastre-se
-                </button>
+                </Link>
             </div>
         </nav>
     )

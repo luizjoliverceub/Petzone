@@ -18,19 +18,25 @@ const config: Config = {
           primary: "#0F1431",
           secondary: "#4D98FF",
           third: "#393E5A",
-        }
-      }
+        },
+      },
+      animation: {
+        'fade-in': 'fadeIn 0.3s ease-out',
+        'spin-custom': 'spin 1s linear infinite',  // Animação personalizada adicionada
+      },
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        spin: {  // Keyframe personalizado adicionado
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
+        },
+      },
     },
-    animation: {
-      'fade-in': 'fadeIn 0.3s ease-out',
-    },
-    keyframes: {
-      fadeIn: {
-        '0%': { opacity: '0' },
-        '100%': { opacity: '1' }
-      }
-    }
   },
   plugins: [],
 };
+
 export default config;
