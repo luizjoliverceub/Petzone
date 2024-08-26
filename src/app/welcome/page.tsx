@@ -22,7 +22,7 @@ export default async function Home() {
     }
 
     return (
-        <main className="flex flex-col flex-1 px-4 justify-center items-center animate-fade-in">
+        <div className="flex flex-col flex-1 px-4 justify-center items-center animate-fade-in">
             <div className="h-[80vh] flex items-center justify-center">
                 <div className="p-4 max-w-3xl flex justify-center items-center">
                     <div className="text-start flex flex-col gap-8 justify-center items-start">
@@ -65,6 +65,6 @@ export default async function Home() {
                 </div>
                 <Image src={vetWithCat} alt="Veterinario" height={500} className="rounded-3xl"/>
             </div>
-        </main>
+        </div>
     );
 }
