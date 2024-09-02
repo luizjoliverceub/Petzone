@@ -29,7 +29,7 @@ export default function PetCard({ petData , remove }: { petData: Pet[], remove:b
   return (
     <div className='h-full w-full  flex'>
       {
-        petData.length > 0 ? (petData.map((pet) => (
+        petData.length ? (petData.map((pet) => (
           <div key={pet.id} className='h-full w-full flex'>
           
               <div  className='h-full w-1/3 bg-blue-200 text-white p-4  flex  justify-center '>

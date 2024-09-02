@@ -2,11 +2,11 @@
 
 import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from "next/image";
 import googleBrand from '../../../../public/google-brand.svg'
 import appleBrand from '../../../../public/apple-brand.svg'
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -15,15 +15,23 @@ import { useRouter } from 'next/navigation';
 
 
 const loginSchema = z.object({
-   email: z.string().email(),
-   password: z.string(),
+    email: z.string().email("Por favor, insira um email válido."),
+    password: z.string().min(6, "A senha deve ter pelo menos 6 caracteres."),
 });
+
 
 type LoginSchemaType = z.infer<typeof loginSchema>;
 
 export default function Home() {
     const [show, setShow] = useState('password');
     const router = useRouter();
+    const { data: session, status } = useSession();
+
+    useEffect(() => {
+        if (status === "authenticated") {
+            router.push('/user/home');
+        }
+    }, [status, router]);
 
     const {
         register,
@@ -49,7 +57,7 @@ export default function Home() {
             toast.error("Falha ao logar. Por favor, verifique seus campos.");
         } else {
             toast.success("Login realizado com sucesso!");
-            router.push("/pets");
+            router.push("/user/home");
         }
     }
 
@@ -92,10 +100,10 @@ export default function Home() {
 
                         <button className="absolute bottom-28 right-6 duration-300" type="button" onClick={handleShow}>
                             {show === 'password' ?
-                                <Eye strokeWidth={2.5} className="text-zinc-500 size-5 hover:text-zinc-700 duration-300" /> :
-                                <EyeOff strokeWidth={2.5} className="text-zinc-500 size-5 hover:text-zinc-700 duration-300" />}
+                                <EyeOff strokeWidth={2.5} className="text-zinc-500 size-5 hover:text-zinc-700 duration-300" /> :
+                                <Eye strokeWidth={2.5} className="text-zinc-500 size-5 hover:text-zinc-700 duration-300" />}
                         </button>
-                        
+
                         <button
                             className="bg-brand-secondary text-white font-semibold text-lg rounded-md py-1.5 px-4 border-2 border-transparent hover:bg-transparent hover:border-brand-secondary hover:text-brand-secondary duration-300 mt-4"
                             type="submit"

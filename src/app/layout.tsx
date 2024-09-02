@@ -4,6 +4,8 @@ import SessionProvider from "../components/providers/NextAuthProvider"
 import "./globals.css";
 import { auth } from "./api/auth/[...nextauth]/route";
 import { Toaster } from 'sonner';
+import { UserProvider } from "@/contexts/UserContext";
+import { Providers } from "@/components/providers/Providers";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -19,14 +21,11 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
 
-  const session = await auth()
 
   return (
     <html lang="pt-br">
       <body className={inter.className}>
-
-        <SessionProvider session={session}>
-          {children}
+        <Providers>
           <Toaster
             toastOptions={{
               classNames: {
@@ -36,8 +35,8 @@ export default async function RootLayout({
                 info: 'bg-blue-400',
               },
             }} />
-        </SessionProvider>
-
+            {children}
+        </Providers>
       </body>
     </html>
   );

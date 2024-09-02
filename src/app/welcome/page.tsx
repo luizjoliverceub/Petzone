@@ -1,24 +1,19 @@
 import Image from "next/image";
 import { auth } from "../api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
-import dogImg from '../../../public/HomePage.svg'
-import dogOwner from '../../../public/hugging.svg'
-import vetWithCat from '../../../public/vetWithCat.jpg'
+import dogImg from '../../../public/HomePage.svg';
+import dogOwner from '../../../public/hugging.svg';
+import vetWithCat from '../../../public/vetWithCat.jpg';
 import { ToggleButton } from "./components/ToggleButton";
 import Link from "next/link";
+import { Session } from "next-auth";
 
 export default async function Home() {
-
-    const session = await auth() as any
+    const session = await auth() as Session | null;
 
     if (session) {
-
-        if (session?.user.role === "normal") {
-            redirect("/pets")
-        } else if (session?.user.role === "veterinarian") {
-            redirect("/veterinario/allPets")
-        }
-
+        const redirectUrl = session.user?.role === "normal" ? "/user/home" : "/veterinario/allPets";
+        return redirect(redirectUrl);
     }
 
     return (
@@ -38,7 +33,7 @@ export default async function Home() {
                     </div>
                 </div>
                 <div>
-                    <Image src={dogImg} alt="dog" height={600} className="hidden xl:flex" />
+                    <Image src={dogImg} alt="dog" width={500} height={600} className="hidden xl:flex" />
                 </div>
             </div>
             <div className="flex flex-col h-screen gap-14 items-center justify-center" id="servicesSection">
@@ -49,7 +44,7 @@ export default async function Home() {
             </div>
             <div className="flex items-center justify-center gap-10 h-screen" id="aboutSection">
                 <div className="hidden xl:flex relative h-[500px] w-[500px]">
-                    <Image src={dogOwner} alt="dog" height={500} className="rounded-3xl absolute top-0 left-0 z-10" />
+                    <Image src={dogOwner} alt="dog" width={500} height={500} className="rounded-3xl absolute top-0 left-0 z-10" />
                     <div className="w-[500px] h-[500px] border-8 rounded-3xl border-brand-secondary absolute -top-10 -left-10" />
                 </div>
                 <div className="flex flex-col w-[65%] xl:w-1/3 p-4 gap-16">
@@ -63,7 +58,7 @@ export default async function Home() {
                     <p className="text-white text-xl">Se você é um veterinário comprometido com o bem-estar dos animais, o Petzone é a plataforma ideal para você. Com nossa tecnologia inovadora, você pode oferecer consultas e agendamentos diretamente aos seus clientes através de nosso aplicativo, proporcionando conveniência e eficiência para todos. Não perca a oportunidade de expandir sua prática e se conectar com uma nova base de clientes. Junte-se a nós no Petzone e leve o cuidado animal para o próximo nível!</p>
                     <Link href={'/registerVeterinarian'} className="bg-brand-secondary text-white font-semibold py-2 px-4 rounded-lg text-lg max-w-56 border-2 border-brand-secondary hover:bg-transparent hover:text-brand-secondary duration-300 text-center">Inscreva-se</Link>
                 </div>
-                <Image src={vetWithCat} alt="Veterinario" height={500} className="rounded-3xl"/>
+                <Image src={vetWithCat} alt="Veterinário" width={600} height={500} className="rounded-3xl" />
             </div>
         </div>
     );

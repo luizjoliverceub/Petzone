@@ -2,7 +2,7 @@
 
 import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -12,6 +12,7 @@ import Image from "next/image";
 import { registerUser } from '@/utils/actions/RegisterUser';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import { useSession } from "next-auth/react";
 
 const registerSchema = z.object({
     name: z.string().nullish(),
@@ -25,6 +26,14 @@ type RegisterSchemaType = z.infer<typeof registerSchema>;
 export default function Home() {
     const [show, setShow] = useState('password');
     const router = useRouter();
+    const { data: session, status } = useSession();
+
+    useEffect(() => {
+        if (status === "authenticated") {
+            router.push('/user/home');
+        }
+    }, [status, router]);
+    
     const {
         register,
         handleSubmit,
@@ -89,12 +98,12 @@ export default function Home() {
                         <input type="hidden" id="role"  {...register("role", { required: true })} value="normal" />
 
                         <div className="text-end flex gap-2 p-1">
-                            <input type="checkbox" id="check" />
+                            <input type="checkbox" id="check" required/>
                             <label htmlFor="check" className="text-sm font-medium">Eu aceito os <span className="text-brand-secondary hover:underline">Termos e Condições</span></label>
                         </div>
 
                         <button className="absolute bottom-[115px] right-6 duration-300" type="button" onClick={handleShow}>
-                            {show === 'password' ? <Eye strokeWidth={2.5} className="text-zinc-500 size-5 hover:text-zinc-700 duration-300" /> : <EyeOff strokeWidth={2.5} className="text-zinc-500 size-5 hover:text-zinc-700 duration-300" />}
+                            {show === 'password' ? <EyeOff strokeWidth={2.5} className="text-zinc-500 size-5 hover:text-zinc-700 duration-300" /> : <Eye strokeWidth={2.5} className="text-zinc-500 size-5 hover:text-zinc-700 duration-300" />}
                         </button>
 
                         <button className="bg-brand-secondary text-white font-semibold text-lg rounded-md py-1.5 px-4 border-2 border-transparent hover:bg-transparent hover:border-brand-secondary hover:text-brand-secondary duration-300 mt-4" type="submit" disabled={isSubmitting}>

@@ -96,5 +96,6 @@ model Pet {
 
 enum Sex {
   M
-  H
+  F
+  U
 }

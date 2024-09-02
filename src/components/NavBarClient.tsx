@@ -9,8 +9,6 @@ import { redirect } from "next/navigation";
 
 export default async function NavBarClient() {
 
-
-
     const session = await auth()
     console.log("user session" + session?.user?.role);
 

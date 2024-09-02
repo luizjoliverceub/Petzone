@@ -5,39 +5,38 @@ import { revalidateTag } from "next/cache";
 import * as z from "zod";
 
 const createPetSchema = z.object({
-  name: z.string(),
-  age: z.coerce.number(),
-  city:z.string(),
-  birthDate:z.date(),
-  userEmail:z.string().email({
-    message:"Invalid email addres"
+  id: z.string(),
+  name: z.string().min(2, 'Digite no minimo 2 caracteres'),
+  age: z.coerce.number().min(2, 'Digite no minimo 2 caracteres'),
+  city: z.string().min(2, 'Digite no minimo 2 caracteres'),
+  birthDate: z.date(),
+  userEmail: z.string().email({
+    message: "Invalid email addres"
   }),
-  sex:z.enum(["M","H"]),
-  notes:z.string(),
-  race:z.string(),
-  vaccination:z.string()
-  });
-  
-type CreatePetSchema = z.infer<typeof createPetSchema>;
+  sex: z.enum(["M", "F", "U"]),
+  notes: z.string(),
+  race: z.string().min(2, 'Raça inválida'),
+  vaccination: z.string(),
+  // urlImage: z.string()
+});
 
-export async function addPet(dataForm:CreatePetSchema){
-      
+export type CreatePetSchema = z.infer<typeof createPetSchema>;
 
-const session = await auth()
+export async function addPet(dataForm: CreatePetSchema) {
 
-  
-    const resp = await fetch("http://localhost:3000/api/pets/create",{
-      method:"POST",
-      headers:{
-         "Content-Type":"application/json",
-         "session": JSON.stringify(session)
-     },
-       body: JSON.stringify(dataForm)
-     })
-  
-     revalidateTag('pets')
-   
-    
-    
-  
-  }
+
+  const session = await auth()
+
+
+  const resp = await fetch("http://localhost:3000/api/pets/create", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "session": JSON.stringify(session)
+    },
+    body: JSON.stringify(dataForm)
+  })
+
+  revalidateTag('pets')
+
+}

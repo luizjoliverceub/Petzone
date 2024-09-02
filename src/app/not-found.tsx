@@ -3,10 +3,11 @@ import Link from "next/link";
 import gif from '../../public/404.gif'
 
 export default function NotFound() {
+ 
     return (
         <div className="flex flex-col xl:flex-row h-screen justify-center items-center px-4 gap-6 animate-fade-in">
-            <Image 
-                src={gif} 
+            <Image
+                src={gif}
                 alt="404 not found"
                 width={450}
             />
