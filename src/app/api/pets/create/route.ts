@@ -9,6 +9,7 @@ export async function POST(request:Request) {
  const newSessionValue = JSON.parse(session)
 
   
+  console.log(newSessionValue);
   
     if(session && newSessionValue ){
 
