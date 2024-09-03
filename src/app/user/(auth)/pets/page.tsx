@@ -1,12 +1,13 @@
 'use client';
 
 import { useUser } from "@/contexts/UserContext";
+import { CreateUserSchema } from "@/utils/actions/RegisterUser";
 import { Bird, Bone, Cat, Dog, Fish, Rabbit, Rat, Turtle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Home() {
-  const { pets } = useUser();
+  const { pets, session } = useUser();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
 

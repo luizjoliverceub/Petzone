@@ -1,12 +1,15 @@
-import { redirect } from "next/navigation";
-import { auth } from "../api/auth/[...nextauth]/route";
+import { useUser } from "@/contexts/UserContext"
+import { useRouter } from "next/navigation"
 
-export default async function Home() {
-    const session = await auth()
+export default function Home() {
+    const { session } = useUser()
+    const router = useRouter()
 
-    if (session) {
-        redirect('/user/home')
+    if (session?.user.role !== 'normal') {
+        router.push('/welcome')
     }
 
-    redirect("/user/login")
+    if (session?.user.role !== 'normal') {
+        router.push('/user/home')
+    }
 }

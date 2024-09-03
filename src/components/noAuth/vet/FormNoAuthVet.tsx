@@ -89,9 +89,6 @@ export default function FormNoAuth({ formTitle }: { formTitle: 'Login (Veteriná
             <p className='text-center'>Don`t have account? <Link className='text-brand-secondary' href={`/${opositeTitle}`}>{opositeTitle}</Link></p>
             <div>
 
-
-
-
                 <form className='flex flex-col gap-3 mt-4' onSubmit={handleSubmit(onLogin)}>
 
                     <label htmlFor="email" className='text-brand-primary font-medium'>Email adress</label>

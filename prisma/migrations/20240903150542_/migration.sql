@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "Sex" AS ENUM ('M', 'H');
+CREATE TYPE "Sex" AS ENUM ('M', 'F', 'U');
 
 -- CreateTable
 CREATE TABLE "Account" (
@@ -97,6 +97,7 @@ CREATE TABLE "Appointments" (
     "clientName" TEXT NOT NULL,
     "phone" TEXT NOT NULL,
     "service" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
 
     CONSTRAINT "Appointments_pkey" PRIMARY KEY ("id")
 );

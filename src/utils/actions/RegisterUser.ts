@@ -9,7 +9,7 @@ const createUser = z.object({
     role:z.string()
   });
   
-type CreateUserSchema = z.infer<typeof createUser>;
+export type CreateUserSchema = z.infer<typeof createUser>;
 
 export async function registerUser(dataForm:CreateUserSchema){
       

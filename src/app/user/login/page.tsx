@@ -13,7 +13,6 @@ import { z } from 'zod';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 
-
 const loginSchema = z.object({
     email: z.string().email("Por favor, insira um email válido."),
     password: z.string().min(6, "A senha deve ter pelo menos 6 caracteres."),
@@ -28,10 +27,14 @@ export default function Home() {
     const { data: session, status } = useSession();
 
     useEffect(() => {
-        if (status === "authenticated") {
-            router.push('/user/home');
+        if (status === 'authenticated') {
+            if (session?.user?.role === "normal") {
+                router.push('/user/home');
+            } else if (session?.user?.role === "veterinarian") {
+                router.push('/vet/home');
+            }
         }
-    }, [status, router]);
+    }, [session, status, router]);
 
     const {
         register,

@@ -6,7 +6,7 @@ import { useUser } from "@/contexts/UserContext";
 import { Activity, EllipsisVertical, House, MessageCircle, Newspaper, PawPrint } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 import { useState } from "react";
 
 export function NavBarApp() {
@@ -17,6 +17,10 @@ export function NavBarApp() {
 
     const capitalize = (text: string) => {
         return text.toLowerCase().replace(/\b./g, function (a) { return a.toUpperCase(); })
+    }
+
+    if (session?.user.role !== 'normal') {
+        redirect('/welcome')
     }
 
     return (

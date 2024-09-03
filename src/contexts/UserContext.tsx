@@ -27,11 +27,11 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const { data: session, status } = useSession();
   const router = useRouter();
 
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push("/user/login");
-    }
-  }, [status, router]);
+  // useEffect(() => {
+  //   if (status === "unauthenticated") {
+  //     router.push("/user/login");
+  //   }
+  // }, [status, router]); 
 
   const handleFetchPets = useCallback(async () => {
     if (status === "authenticated") {
@@ -50,7 +50,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   const handleLogout = useCallback(async () => {
     setIsLoggingOut(true);
-    await signOut({ callbackUrl: "/user/login" });
+    await signOut({ callbackUrl: '/welcome'});
   }, []);
 
   if (isLoggingOut) {

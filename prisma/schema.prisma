@@ -67,6 +67,11 @@ model VeterinarianProfile {
   Appointments Appointments[]
 }
 
+enum Role {
+  normal
+  veterinarian
+}
+
 model Address {
   id                  String               @id @default(cuid())
   postalCode          String

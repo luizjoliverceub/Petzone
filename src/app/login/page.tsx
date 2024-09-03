@@ -3,9 +3,6 @@ import { redirect } from 'next/navigation';
 import NoAuthHeader from '@/components/noAuth/NoAuthHeader';
 import NoAuthContent from '@/components/noAuth/NoAuthContent';
 
-
-
-
 export default  async function LoginPage() {
 
   const session = await auth()

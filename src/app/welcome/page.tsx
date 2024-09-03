@@ -11,9 +11,12 @@ import { Session } from "next-auth";
 export default async function Home() {
     const session = await auth() as Session | null;
 
-    if (session) {
-        const redirectUrl = session.user?.role === "normal" ? "/user/home" : "/veterinario/allPets";
-        return redirect(redirectUrl);
+    if (session?.user?.role === 'normal') {
+        redirect('/user/home')
+    }
+
+    if (session?.user?.role === 'veterinarian') {
+        redirect('/vet/home')
     }
 
     return (
@@ -52,11 +55,11 @@ export default async function Home() {
                     <p className="font-semibold text-xl text-wrap">Nossa proposta de solução é um software completo para donos de pets que simplifica todas as dimensões do cuidado com seus adorados companheiros peludos. Com nosso software, você pode realizar um cadastro detalhado de seus pets, receber lembretes automáticos para vacinações essenciais, manter-se informado sobre campanhas de saúde, acessar suporte veterinário por meio de um chat online e até mesmo aproveitar uma plataforma que permite aos petshops locais competirem com as grandes redes. Em resumo, é a chave para tornar o cuidado com seus pets mais simples, eficaz e recompensador.</p>
                 </div>
             </div>
-            <div className="bg-brand-primary rounded-tl-3xl rounded-tr-3xl w-full py-32 px-52 flex gap-24 items-center justify-center h-screen" id="veterinarianSection">
+            <div className="bg-vet-primary rounded-tl-3xl rounded-tr-3xl w-full py-32 px-52 flex gap-24 items-center justify-center h-screen" id="veterinarianSection">
                 <div className="flex flex-col gap-12 max-h-[500px] max-w-[600px]">
                     <h2 className="text-white text-4xl">Petzone para veterinários</h2>
                     <p className="text-white text-xl">Se você é um veterinário comprometido com o bem-estar dos animais, o Petzone é a plataforma ideal para você. Com nossa tecnologia inovadora, você pode oferecer consultas e agendamentos diretamente aos seus clientes através de nosso aplicativo, proporcionando conveniência e eficiência para todos. Não perca a oportunidade de expandir sua prática e se conectar com uma nova base de clientes. Junte-se a nós no Petzone e leve o cuidado animal para o próximo nível!</p>
-                    <Link href={'/registerVeterinarian'} className="bg-brand-secondary text-white font-semibold py-2 px-4 rounded-lg text-lg max-w-56 border-2 border-brand-secondary hover:bg-transparent hover:text-brand-secondary duration-300 text-center">Inscreva-se</Link>
+                    <Link href={'/vet/register'} className="bg-vet-third text-white font-semibold py-2 px-4 rounded-lg text-lg max-w-56 border-2 border-vet-third hover:bg-transparent duration-300 text-center">Inscreva-se</Link>
                 </div>
                 <Image src={vetWithCat} alt="Veterinário" width={600} height={500} className="rounded-3xl" />
             </div>

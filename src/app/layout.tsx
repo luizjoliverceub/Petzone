@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import SessionProvider from "../components/providers/NextAuthProvider"
 import "./globals.css";
-import { auth } from "./api/auth/[...nextauth]/route";
 import { Toaster } from 'sonner';
-import { UserProvider } from "@/contexts/UserContext";
 import { Providers } from "@/components/providers/Providers";
 
 
