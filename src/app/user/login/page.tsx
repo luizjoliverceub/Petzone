@@ -2,10 +2,10 @@
 
 import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import Image from "next/image";
-import googleBrand from '../../../../public/google-brand.svg'
-import appleBrand from '../../../../public/apple-brand.svg'
+import googleBrand from '../../../../public/google-brand.svg';
+import appleBrand from '../../../../public/apple-brand.svg';
 import { signIn, useSession } from "next-auth/react";
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -17,7 +17,6 @@ const loginSchema = z.object({
     email: z.string().email("Por favor, insira um email válido."),
     password: z.string().min(6, "A senha deve ter pelo menos 6 caracteres."),
 });
-
 
 type LoginSchemaType = z.infer<typeof loginSchema>;
 
@@ -39,10 +38,16 @@ export default function Home() {
     const {
         register,
         handleSubmit,
-        formState: { errors, isSubmitting }
+        formState: { errors, isSubmitting, isValid },
+        watch
     } = useForm<LoginSchemaType>({
-        resolver: zodResolver(loginSchema)
+        resolver: zodResolver(loginSchema),
+        mode: 'onChange'
     });
+
+    // Monitorar os valores dos campos
+    const watchEmail = watch("email");
+    const watchPassword = watch("password");
 
     const handleShow = () => {
         setShow((prev) => (prev === 'password' ? 'text' : 'password'));
@@ -84,18 +89,18 @@ export default function Home() {
                         <input
                             type="text"
                             placeholder="Email"
-                            className={`outline-none border-2 rounded-lg py-2 px-4 w-full font-medium ${errors.email ? 'border-red-500' : 'border-zinc-300'}`}
-                            {...register("email", { required: true })}
+                            className={`outline-none border-2 rounded-lg py-2 px-4 w-full font-medium ${errors.email && watchEmail.length > 0 ? 'border-red-500' : 'border-zinc-300'}`}
+                            {...register("email")}
                         />
-                        {errors.email && <p className="text-red-500 text-sm">Por favor, insira um email válido.</p>}
+                        {errors.email && watchEmail.length > 0 && <p className="text-red-500 text-sm">{errors.email.message}</p>}
 
                         <input
                             type={show}
                             placeholder="Senha"
-                            className={`outline-none border-2 rounded-lg py-2 px-4 w-full font-medium ${errors.password ? 'border-red-500' : 'border-zinc-300'}`}
-                            {...register("password", { required: true })}
+                            className={`outline-none border-2 rounded-lg py-2 px-4 w-full font-medium ${errors.password && watchPassword.length > 0 ? 'border-red-500' : 'border-zinc-300'}`}
+                            {...register("password")}
                         />
-                        {errors.password && <p className="text-red-500 text-sm">Por favor, insira sua senha.</p>}
+                        {errors.password && watchPassword.length > 0 && <p className="text-red-500 text-sm">{errors.password.message}</p>}
 
                         <div className="text-end">
                             <Link href={'#'} className="text-xs font-semibold text-brand-secondary hover:underline">Esqueceu sua senha?</Link>
@@ -108,9 +113,9 @@ export default function Home() {
                         </button>
 
                         <button
-                            className="bg-brand-secondary text-white font-semibold text-lg rounded-md py-1.5 px-4 border-2 border-transparent hover:bg-transparent hover:border-brand-secondary hover:text-brand-secondary duration-300 mt-4"
+                            className={`${isValid ? 'bg-brand-secondary hover:bg-transparent hover:border-brand-secondary hover:text-brand-secondary' : 'bg-zinc-600'} text-white font-semibold text-lg rounded-md py-1.5 px-4 border-2 border-transparent  duration-300 mt-4`}
                             type="submit"
-                            disabled={isSubmitting}
+                            disabled={isSubmitting || !isValid}
                         >
                             {isSubmitting ? 'Entrando...' : 'Entrar'}
                         </button>

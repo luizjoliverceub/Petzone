@@ -13,9 +13,9 @@ export function PetIdBlock({ pet, handleOpenRemove }: { pet: CreatePetSchema, ha
 
     const clipboardBtn = () => {
         setIsClicked(true);
+        navigator.clipboard.writeText(pet.id)
         setTimeout(() => {
             setIsClicked(false);
-            navigator.clipboard.writeText(pet.id)
         }, 3000);
     }
     

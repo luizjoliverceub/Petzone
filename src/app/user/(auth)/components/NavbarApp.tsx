@@ -19,8 +19,12 @@ export function NavBarApp() {
         return text.toLowerCase().replace(/\b./g, function (a) { return a.toUpperCase(); })
     }
 
-    if (session?.user.role !== 'normal') {
-        redirect('/welcome')
+    if (session?.user?.role !== 'normal' && session?.user?.role !== 'veterinarian') {
+        redirect('/welcome');
+    }
+
+    if (session?.user?.role === 'veterinarian') {
+        redirect('/vet/home')
     }
 
     return (

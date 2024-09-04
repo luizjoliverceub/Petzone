@@ -11,21 +11,16 @@ import { Pet } from "@/app/(auth)/dashboard/page";
 import { getPetByidByVet } from "@/utils/actions/GetPetByIdByVet";
 import PetsBoard from "@/components/Auth/vet/PetsBoard";
 
-
-
 const AddPetSchema = z.object({
   id: z.string()
 });
 
 type typeAddPetSchema = z.infer<typeof AddPetSchema>
 
-
 export default function VeterinarioAllpets() {
 
- 
+  const [pets, setPets] = useState<Pet[]>([])
 
-  const [pets,setPets] = useState<Pet[]>([])
-  
   const {
     register,
     handleSubmit,
@@ -38,7 +33,6 @@ export default function VeterinarioAllpets() {
 
   async function OnSubmit(data: typeAddPetSchema) {
 
-
     const { id } = data
 
     const formatedData = {
@@ -46,16 +40,15 @@ export default function VeterinarioAllpets() {
     }
 
     const resp = await getPetByidByVet(formatedData)
-  
+
     console.log("resp here " + JSON.stringify(resp));
-    
+
     console.log(pets)
 
-    setPets((prev) => [...prev,resp])
+    setPets((prev) => [...prev, resp])
 
-    
+
     toast.success('Pet Adicionado com sucesso!')
-   
 
   }
 
@@ -92,9 +85,9 @@ export default function VeterinarioAllpets() {
       </div>
 
       <div className="h-[calc(70%)]  w-full ">
-          
-             <PetsBoard pets={pets} remove={remove}/>
-          
+
+        <PetsBoard pets={pets} remove={remove} />
+
       </div>
 
     </div>

@@ -15,7 +15,7 @@ import { useRouter } from 'next/navigation';
 import { useSession } from "next-auth/react";
 
 const registerSchema = z.object({
-    name: z.string().nullish(),
+    name: z.string().nonempty('O nome é obrigatório'),
     email: z.string().email('Email inválido'),
     password: z.string().min(6, 'A senha deve ter pelo menos 6 caracteres'),
     role: z.string()
@@ -25,6 +25,8 @@ type RegisterSchemaType = z.infer<typeof registerSchema>;
 
 export default function Home() {
     const [show, setShow] = useState('password');
+    const [check, setCheck] = useState(false);
+    const [isFormValid, setIsFormValid] = useState(false);
     const router = useRouter();
     const { data: session, status } = useSession();
 
@@ -33,17 +35,31 @@ export default function Home() {
             router.push('/user/home');
         }
     }, [status, router]);
-    
+
     const {
         register,
         handleSubmit,
-        formState: { errors, isSubmitting }
+        formState: { errors, isSubmitting, isValid },
+        watch
     } = useForm<RegisterSchemaType>({
-        resolver: zodResolver(registerSchema)
+        resolver: zodResolver(registerSchema),
+        mode: 'onChange'
     });
+
+    const watchName = watch("name");
+    const watchEmail = watch("email");
+    const watchPassword = watch("password");
+
+    useEffect(() => {
+        setIsFormValid(isValid && check);
+    }, [isValid, check]);
 
     const handleShow = () => {
         setShow(show === 'password' ? 'text' : 'password');
+    };
+
+    const handleCheck = () => {
+        setCheck(!check);
     };
 
     const onSubmit = async (data: RegisterSchemaType) => {
@@ -75,30 +91,30 @@ export default function Home() {
                             type="text"
                             placeholder="Username"
                             {...register("name")}
-                            className={`outline-none border-2 rounded-lg py-2 px-4 w-full font-medium ${errors.name ? 'border-red-500' : ''}`}
+                            className={`outline-none border-2 rounded-lg py-2 px-4 w-full font-medium ${errors.name && watchName ? 'border-red-500' : ''}`}
                         />
-                        {errors.name && <span className="text-red-500 text-sm">{errors.name?.message}</span>}
+                        {errors.name && watchName && <span className="text-red-500 text-sm">{errors.name?.message}</span>}
 
                         <input
                             type="email"
                             placeholder="Email"
                             {...register("email")}
-                            className={`outline-none border-2 rounded-lg py-2 px-4 w-full font-medium ${errors.email ? 'border-red-500' : ''}`}
+                            className={`outline-none border-2 rounded-lg py-2 px-4 w-full font-medium ${errors.email && watchEmail ? 'border-red-500' : ''}`}
                         />
-                        {errors.email && <span className="text-red-500 text-sm">{errors.email?.message}</span>}
+                        {errors.email && watchEmail && <span className="text-red-500 text-sm">{errors.email?.message}</span>}
 
                         <input
                             type={show}
                             placeholder="Senha"
                             {...register("password")}
-                            className={`outline-none border-2 rounded-lg py-2 px-4 w-full font-medium ${errors.password ? 'border-red-500' : ''}`}
+                            className={`outline-none border-2 rounded-lg py-2 px-4 w-full font-medium ${errors.password && watchPassword ? 'border-red-500' : ''}`}
                         />
-                        {errors.password && <span className="text-red-500 text-sm">{errors.password?.message}</span>}
+                        {errors.password && watchPassword && <span className="text-red-500 text-sm">{errors.password?.message}</span>}
 
                         <input type="hidden" id="role"  {...register("role", { required: true })} value="normal" />
 
                         <div className="text-end flex gap-2 p-1">
-                            <input type="checkbox" id="check" required/>
+                            <input type="checkbox" id="check" required onChange={handleCheck} />
                             <label htmlFor="check" className="text-sm font-medium">Eu aceito os <span className="text-brand-secondary hover:underline">Termos e Condições</span></label>
                         </div>
 
@@ -106,7 +122,11 @@ export default function Home() {
                             {show === 'password' ? <EyeOff strokeWidth={2.5} className="text-zinc-500 size-5 hover:text-zinc-700 duration-300" /> : <Eye strokeWidth={2.5} className="text-zinc-500 size-5 hover:text-zinc-700 duration-300" />}
                         </button>
 
-                        <button className="bg-brand-secondary text-white font-semibold text-lg rounded-md py-1.5 px-4 border-2 border-transparent hover:bg-transparent hover:border-brand-secondary hover:text-brand-secondary duration-300 mt-4" type="submit" disabled={isSubmitting}>
+                        <button
+                            className={`${isFormValid ? 'bg-brand-secondary hover:bg-transparent hover:border-brand-secondary hover:text-brand-secondary' : 'bg-zinc-600'} text-white font-semibold text-lg rounded-md py-1.5 px-4 border-2 border-transparent  duration-300 mt-4`}
+                            type="submit"
+                            disabled={isSubmitting || !isFormValid}
+                        >
                             Registrar
                         </button>
                     </form>
