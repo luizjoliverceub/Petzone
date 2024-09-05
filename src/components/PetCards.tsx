@@ -19,6 +19,7 @@ export default function PetCard({ petData, remove }: { petData: Pet[], remove: b
     try {
       await removePetById(petId)
       toast.error('Pet Removido com sucesso!')
+      toast.error('Pet Removido com sucesso!')
       router.push("/pets")
     } catch (error) {
       console.log(error);

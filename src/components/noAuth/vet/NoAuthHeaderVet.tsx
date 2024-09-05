@@ -19,7 +19,11 @@ export default function NoAuthHeaderVet({authTitle, homePage}:{authTitle:string,
             <div>
               <ul>
                  {
+<<<<<<< HEAD
                   homePage === false ? (<Link href={`/${authTitle}Veterinarian`} className="bg-brand-secondary  text-white px-3 text-sm py-2 rounded-md">
+=======
+                  homePage === false ? (<Link href={`/veterinario/${authTitle}`} className="bg-brand-secondary  text-white px-3 text-sm py-2 rounded-md">
+>>>>>>> luiz
                    {authTitle}
                  </Link>)
                   : (<div className="flex  gap-4">
