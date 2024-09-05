@@ -13,8 +13,8 @@ export function ToggleButton() {
     return (
         <div className="flex flex-col gap-8 justify-center items-center">
             <div className="max-w-[436px] border-2 flex gap-2 items-center justify-center p-1 rounded-xl">
-                <button value='pet' className={`w-52 px-4 py-2 rounded-lg font-semibold ${select == 'pet' ? 'bg-brand-primary text-white' : 'hover:bg-brand-primary hover:text-white'} duration-200`} onClick={handleSelect}>Para você</button>
-                <button value='vet' className={`w-52 px-4 py-2 rounded-lg font-semibold ${select == 'vet' ? 'bg-brand-primary text-white' : 'hover:bg-brand-primary hover:text-white'} duration-300`} onClick={handleSelect}>Para o seu veterinário</button>
+                <button value='pet' className={`w-52 px-4 py-2 rounded-lg font-semibold ${select == 'pet' ? 'bg-brand-primary text-white' : 'hover:bg-brand-secondary hover:text-white'} duration-200`} onClick={handleSelect}>Para você</button>
+                <button value='vet' className={`w-52 px-4 py-2 rounded-lg font-semibold ${select == 'vet' ? 'bg-vet-primary text-white' : 'hover:bg-vet-secondary hover:text-white'} duration-300`} onClick={handleSelect}>Para o seu veterinário</button>
             </div>
             {
                 select == 'pet' ?

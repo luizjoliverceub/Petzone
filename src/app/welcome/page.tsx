@@ -20,7 +20,7 @@ export default async function Home() {
     }
 
     return (
-        <div className="flex flex-col flex-1 px-4 justify-center items-center animate-fade-in">
+        <div className="gap-96 xl:gap-0 flex flex-col flex-1 px-4 justify-center items-center animate-fade-in">
             <div className="h-[80vh] flex items-center justify-center">
                 <div className="p-4 max-w-3xl flex justify-center items-center">
                     <div className="text-start flex flex-col gap-8 justify-center items-start">
@@ -61,7 +61,7 @@ export default async function Home() {
                     <p className="text-white text-xl">Se você é um veterinário comprometido com o bem-estar dos animais, o Petzone é a plataforma ideal para você. Com nossa tecnologia inovadora, você pode oferecer consultas e agendamentos diretamente aos seus clientes através de nosso aplicativo, proporcionando conveniência e eficiência para todos. Não perca a oportunidade de expandir sua prática e se conectar com uma nova base de clientes. Junte-se a nós no Petzone e leve o cuidado animal para o próximo nível!</p>
                     <Link href={'/vet/register'} className="bg-vet-third text-white font-semibold py-2 px-4 rounded-lg text-lg max-w-56 border-2 border-vet-third hover:bg-transparent duration-300 text-center">Inscreva-se</Link>
                 </div>
-                <Image src={vetWithCat} alt="Veterinário" width={600} height={500} className="rounded-3xl" />
+                <Image src={vetWithCat} alt="Veterinário" width={600} height={500} className="rounded-3xl hidden xl:flex" />
             </div>
         </div>
     );
