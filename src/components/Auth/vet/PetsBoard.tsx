@@ -1,4 +1,5 @@
 import { Pet } from '@/app/(auth)/dashboard/page';
+import { ModalPetCard } from '@/app/user/(auth)/pets/components/ModalPetCard';
 import { CalendarBlock } from '@/app/vet/(auth)/petConsult/components/DashboardBlocks/CalendarBlock';
 import { ConsultBlock } from '@/app/vet/(auth)/petConsult/components/DashboardBlocks/ConsultBlock';
 import { NotesBlock } from '@/app/vet/(auth)/petConsult/components/DashboardBlocks/NotesBlock';
@@ -7,11 +8,17 @@ import { PetIdBlock } from '@/app/vet/(auth)/petConsult/components/DashboardBloc
 import { PetInfoBlock } from '@/app/vet/(auth)/petConsult/components/DashboardBlocks/PetInfoBlock';
 import { UserBlock } from '@/app/vet/(auth)/petConsult/components/DashboardBlocks/UserBlock';
 import { VaccinationBlock } from '@/app/vet/(auth)/petConsult/components/DashboardBlocks/VaccinationBlock';
+import { CreatePetSchema } from '@/utils/actions/AddPet';
 import { ClipboardPlus } from 'lucide-react';
-import React from 'react';
+import React, { useState } from 'react';
 
 export default function PetsBoard({ pets }: { pets: Pet[] }) {
+  const [openModal, setOpenModal] = useState(false)
   const pet = pets.length > 0 ? pets[0] : undefined;
+
+  const handleModal = () => {
+    setOpenModal(!openModal)
+  }
 
   return (
     <>
@@ -30,7 +37,7 @@ export default function PetsBoard({ pets }: { pets: Pet[] }) {
             <ConsultBlock pet={pet} />
             <div className="flex gap-4 animate-fade-in">
               <CalendarBlock />
-              <PetCardBlock pet={pet} />
+              <PetCardBlock pet={pet} handle={handleModal}/>
             </div>
           </div>
         </div> :
@@ -42,6 +49,7 @@ export default function PetsBoard({ pets }: { pets: Pet[] }) {
           </div>
         </div>
       }
+      {openModal && <ModalPetCard pet={pet} handleOpen={handleModal}/>}
     </>
   )
 }

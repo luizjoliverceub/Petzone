@@ -4,7 +4,7 @@ import { NextResponse } from "next/server"
 export async function POST(request: Request) {
 
   const session = request.headers.get("session")
-  const newSessionValue = JSON.parse(session)
+  const newSessionValue = session ? JSON.parse(session) : null
 
   console.log("Bateu appointments POST");
 
@@ -30,7 +30,7 @@ export async function POST(request: Request) {
 export async function GET(request: Request) {
 
   const session = request.headers.get("session")
-  const newSessionValue = JSON.parse(session)
+  const newSessionValue = session ? JSON.parse(session) : null
 
 
   console.log("Bateu appointments GET");

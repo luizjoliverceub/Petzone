@@ -19,7 +19,7 @@ export function NavPet() {
         <>
             <div className={`w-full flex items-start animate-fade-in`}>
                 <div className="w-full flex justify-start items-center px-8 py-4 gap-8">
-                    <div className="flex gap-6">
+                    <div className="flex flex-1 gap-6">
                         {pets.map(pet => (
                             <Link
                                 href={`/user/pets/${pet.id}`}
@@ -30,15 +30,16 @@ export function NavPet() {
                             </Link>
                         ))}
                     </div>
+                    <button
+                        onClick={toggleOpen}
+                        className="w-[166px] h-11 border-2 border-transparent bg-brand-secondary font-medium px-4 py-2 rounded-md text-white hover:bg-transparent hover:text-brand-secondary hover:border-brand-secondary duration-300 flex gap-2 justify-center items-center"
+                    >
+                        Adicionar pet
+                        <Plus className="size-5" />
+                    </button>
                 </div>
             </div>
-            <button
-                onClick={toggleOpen}
-                className="border-2 border-transparent bg-brand-secondary font-medium px-4 py-2 rounded-md text-white hover:bg-transparent hover:text-brand-secondary hover:border-brand-secondary duration-300 flex gap-2 justify-center items-center absolute top-4 right-5"
-            >
-                Adicionar pet
-                <Plus className="size-5" />
-            </button>
+
             {isOpen && <AddPet user={session as Session} onPetAdded={handleAddPet} setOpen={toggleOpen} />}
         </>
     );

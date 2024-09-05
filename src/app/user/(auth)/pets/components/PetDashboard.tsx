@@ -19,6 +19,7 @@ import { NotesBlock } from "./DashboardBlocks/NotesBlock";
 import { UserBlock } from "./DashboardBlocks/UserBlock";
 import { PetInfoBlock } from "./DashboardBlocks/PetInfoBlock";
 import { PetIdBlock } from "./DashboardBlocks/PetIdBlock";
+import { ModalPetCard } from "./ModalPetCard";
 
 dayjs.extend(localizedFormat)
 
@@ -26,6 +27,7 @@ export function PetDashboard() {
     const { pets, session } = useUser()
     const { id } = useParams<{ id: string }>()
     const [openRemove, setOpenRemove] = useState(false)
+    const [openPetCard, setOpenPetCard] = useState(false)
     const router = useRouter()
 
     const pet = pets.find(pet => pet.id === id) as CreatePetSchema
@@ -37,6 +39,10 @@ export function PetDashboard() {
 
     const handleOpenRemove = () => {
         setOpenRemove(!openRemove)
+    }
+
+    const handleOpenPetCard = () => {
+        setOpenPetCard(!openPetCard)
     }
 
     return (
@@ -55,11 +61,12 @@ export function PetDashboard() {
                     <ConsultBlock pet={pet}/>
                     <div className="flex gap-4">
                         <CalendarBlock />
-                        <PetCardBlock pet={pet} />
+                        <PetCardBlock pet={pet} handleOpenPetCard={handleOpenPetCard} />
                     </div>
                 </div>
             </div>
             {openRemove && <RemovePet handleRemove={handleOpenRemove} pet={pet} />}
+            {openPetCard && <ModalPetCard pet={pet} handleOpen={handleOpenPetCard}/>}
         </>
     )
 }
