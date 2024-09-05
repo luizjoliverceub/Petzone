@@ -1,4 +1,7 @@
 -- CreateEnum
+CREATE TYPE "Role" AS ENUM ('normal', 'veterinarian');
+
+-- CreateEnum
 CREATE TYPE "Sex" AS ENUM ('M', 'F', 'U');
 
 -- CreateTable

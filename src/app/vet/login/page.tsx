@@ -3,9 +3,6 @@
 import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from 'react';
-import Image from "next/image";
-import googleBrand from '../../../../public/google-brand.svg';
-import appleBrand from '../../../../public/apple-brand.svg';
 import { signIn, useSession } from "next-auth/react";
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';

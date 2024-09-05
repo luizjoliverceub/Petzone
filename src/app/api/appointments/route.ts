@@ -32,9 +32,7 @@ export async function GET(request: Request) {
   const session = request.headers.get("session")
   const newSessionValue = session ? JSON.parse(session) : null
 
-
   console.log("Bateu appointments GET");
-
 
   try {
 

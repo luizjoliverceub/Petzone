@@ -22,11 +22,12 @@ const registerSchema = z.object({
     role: z.string()
 });
 
-type RegisterSchemaType = z.infer<typeof registerSchema>;
+export type RegisterSchemaType = z.infer<typeof registerSchema>;
 
 export default function RegisterVeterinario() {
     const [show, setShow] = useState('password');
-    const [isTermsAccepted, setIsTermsAccepted] = useState(false);
+    const [check, setCheck] = useState(false);
+    const [isFormValid, setIsFormValid] = useState(false);
     const router = useRouter();
     const { data: session, status } = useSession();
 
@@ -45,6 +46,10 @@ export default function RegisterVeterinario() {
         resolver: zodResolver(registerSchema),
         mode: 'all'
     });
+
+    useEffect(() => {
+        setIsFormValid(isValid && check);
+    }, [isValid, check]);
 
     const handleShow = () => {
         setShow(show === 'password' ? 'text' : 'password');
@@ -67,11 +72,9 @@ export default function RegisterVeterinario() {
         }
     };
 
-    const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setIsTermsAccepted(e.target.checked);
+    const handleCheck = () => {
+        setCheck(!check);
     };
-
-    const isFormValid = isValid && dirtyFields && isTermsAccepted;
 
     return (
         <main className="p-4 h-screen w-full flex justify-between gap-2 animate-fade-in">
@@ -155,7 +158,7 @@ export default function RegisterVeterinario() {
                                 type="checkbox"
                                 id="terms"
                                 {...register("termsAccepted")}
-                                onChange={handleCheckboxChange}
+                                onChange={handleCheck}
                                 className={`mr-2 ${errors.termsAccepted ? 'border-red-500' : ''}`}
                             />
                             <label htmlFor="terms" className="text-sm font-medium">Eu aceito os <span className="text-vet-secondary hover:underline">Termos e Condições</span></label>
@@ -164,10 +167,10 @@ export default function RegisterVeterinario() {
                             {show === 'password' ? <EyeOff strokeWidth={2.5} className="text-zinc-500 size-5 hover:text-zinc-700 duration-300" /> : <Eye strokeWidth={2.5} className="text-zinc-500 size-5 hover:text-zinc-700 duration-300" />}
                         </button>
                         <button
-                            className={`text-white font-semibold text-lg rounded-md py-1.5 px-4 border-2 duration-300 mt-4 ${isFormValid
+                            className={`text-white font-semibold text-lg rounded-md py-1.5 px-4 border-2 mt-4 ${isFormValid
                                     ? 'bg-vet-secondary hover:bg-transparent hover:border-vet-secondary hover:text-vet-secondary'
                                     : 'bg-zinc-600'
-                                }`}
+                                } duration-300`}
                             type="submit"
                             disabled={isSubmitting || !isFormValid}
                         >

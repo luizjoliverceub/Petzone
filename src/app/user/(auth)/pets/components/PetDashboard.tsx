@@ -4,13 +4,9 @@ import { useUser } from "@/contexts/UserContext"
 import { CreatePetSchema } from "@/utils/actions/AddPet";
 import dayjs from "dayjs";
 import localizedFormat from 'dayjs/plugin/localizedFormat';
-import { Check, Copy, ExternalLink, Plus, Settings, View } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
-import { Options } from "./Options";
 import { RemovePet } from "./RemovePet";
-import Link from "next/link";
-import { Calendar } from "@/components/ui/calendar"
 import { PetCardBlock } from "./DashboardBlocks/PetCardBlock";
 import { CalendarBlock } from "./DashboardBlocks/CalendarBlock";
 import { ConsultBlock } from "./DashboardBlocks/ConsultBlock";

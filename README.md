@@ -52,6 +52,7 @@ Esse Projeto utiliza [`next/font`](https://nextjs.org/docs/basic-features/font-o
 ## Autores ✒️
 
 - Luiz joliver (Desenvolvedor full stack) - https://github.com/luizjoliver
+- João Victor Macedo (Desenvolvedor full stack) - https://github.com/espindolajv
 
 
 ## Saiba mais 📌 
