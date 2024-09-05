@@ -29,7 +29,6 @@ bun dev
 
 
 
-
 ## Iniciando o projeto 🚀
 
 Primeiramente, para rodar o servidor de desenvolvimento:
