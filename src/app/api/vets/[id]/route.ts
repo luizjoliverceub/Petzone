@@ -12,9 +12,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
       try {
         
         const vetById = await prisma.veterinarianProfile.findUnique({
-          where: {
-            id: vetId
-          }
+         
         })
   
         return new NextResponse(JSON.stringify(vetById), { status: 200 })

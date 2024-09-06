@@ -3,7 +3,7 @@
 import { ButtonNav } from "@/app/user/(auth)/components/ButtonNav";
 import { LogOutButton } from "@/components/LogOutButton";
 import { useUser } from "@/contexts/UserContext";
-import { Activity, EllipsisVertical, House, MessageCircle, Newspaper, PawPrint } from "lucide-react";
+import { Activity, EllipsisVertical, House, MessageCircle, Newspaper, PawPrint, Bolt } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { redirect, usePathname } from "next/navigation";
@@ -34,11 +34,12 @@ export function NavBarApp() {
                     <h2 className="font-semibold text-2xl text-brand-secondary">Petzone</h2>
                 </div>
                 <div className="w-full flex flex-col gap-2">
-                    <ButtonNav title="Inicio" icon={House} href="/user/home" path={path}/>
-                    <ButtonNav title="Mensagens" icon={MessageCircle} isChat href="/user/message" path={path}/>
-                    <ButtonNav title="Meus Pets" icon={PawPrint} href={pets.length ? `/user/pets/${pets[0].id}` : '/user/pets'} path={path}/>
-                    <ButtonNav title="Consultas" icon={Activity} href="/user/consults" path={path}/>
-                    <ButtonNav title="Noticias e Dicas" icon={Newspaper} href="/user/newsletter" path={path}/>
+                    <ButtonNav title="Inicio" icon={House} href="/user/home" path={path} />
+                    <ButtonNav title="Mensagens" icon={MessageCircle} isChat href="/user/message" path={path} />
+                    <ButtonNav title="Meus Pets" icon={PawPrint} href={pets.length ? `/user/pets/${pets[0].id}` : '/user/pets'} path={path} />
+                    <ButtonNav title="Consultas" icon={Activity} href="/user/consults" path={path} />
+                    <ButtonNav title="Noticias e Dicas" icon={Newspaper} href="/user/newsletter" path={path} />
+                    <ButtonNav title="Configuração" icon={Bolt} href="/user/config" path={path} />
                 </div>
             </div>
             <div>

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ForwardRefExoticComponent, RefAttributes } from "react";
 
 export function ButtonNav({ title, icon: Icon, isChat = false, href, path }: { title: string, icon: ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>, isChat?: boolean, href: string, path: string }) {
-    const hrefSliced = href.slice(0,9)
+    const hrefSliced = href.slice(0,10)
     const params = path.includes(hrefSliced)
 
     return (

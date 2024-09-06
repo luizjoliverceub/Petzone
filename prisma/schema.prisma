@@ -91,7 +91,7 @@ model Pet {
   id          String   @id @default(cuid())
   name        String
   age         Int
-  user        User?    @relation(fields: [userEmail], references: [email])
+  user        User?    @relation(fields: [userEmail], references: [email], onDelete: Cascade)
   birthDate   DateTime
   notes       String
   vaccination String
