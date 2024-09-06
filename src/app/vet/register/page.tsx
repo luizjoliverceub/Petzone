@@ -88,7 +88,7 @@ export default function RegisterVeterinario() {
                         <h2 className="text-5xl font-semibold text-vet-primary">Registrar</h2>
                         <p className="text-lg font-semibold text-zinc-500">Digite suas informações para se registrar no Petzone</p>
                     </div>
-                    <form className="flex flex-col gap-2 relative" onSubmit={handleSubmit(onSubmit)}>
+                    <form className="flex flex-col gap-2 relative min-w-full" onSubmit={handleSubmit(onSubmit)}>
                         <input
                             type="text"
                             placeholder="Nome"
@@ -105,12 +105,17 @@ export default function RegisterVeterinario() {
                         />
                         {errors.email && <span className="text-red-500 text-sm">{errors.email?.message}</span>}
 
-                        <input
-                            type={show}
-                            placeholder="Senha"
-                            {...register("password")}
-                            className={`outline-none border-2 rounded-lg py-2 px-4 w-full font-medium ${errors.password ? 'border-red-500' : ''}`}
-                        />
+                        <div className="relative">
+                            <input
+                                type={show}
+                                placeholder="Senha"
+                                {...register("password")}
+                                className={`outline-none border-2 rounded-lg py-2 px-4 w-full font-medium ${errors.password ? 'border-red-500' : ''}`}
+                            />
+                            <button className="absolute top-3 right-6 duration-300" type="button" onClick={handleShow}>
+                                {show === 'password' ? <EyeOff strokeWidth={2.5} className="text-zinc-500 size-5 hover:text-zinc-700 duration-300" /> : <Eye strokeWidth={2.5} className="text-zinc-500 size-5 hover:text-zinc-700 duration-300" />}
+                            </button>
+                        </div>
                         {errors.password && <span className="text-red-500 text-sm">{errors.password?.message}</span>}
 
                         <input type="hidden" id="role"  {...register("role", { required: true })} value="veterinarian" />
@@ -160,13 +165,10 @@ export default function RegisterVeterinario() {
                             />
                             <label htmlFor="terms" className="text-sm font-medium">Eu aceito os <span className="text-vet-secondary hover:underline">Termos e Condições</span></label>
                         </div>
-                        <button className="absolute bottom-[268px] right-6 duration-300" type="button" onClick={handleShow}>
-                            {show === 'password' ? <EyeOff strokeWidth={2.5} className="text-zinc-500 size-5 hover:text-zinc-700 duration-300" /> : <Eye strokeWidth={2.5} className="text-zinc-500 size-5 hover:text-zinc-700 duration-300" />}
-                        </button>
                         <button
                             className={`text-white font-semibold text-lg rounded-md py-1.5 px-4 border-2 mt-4 ${isFormValid
-                                    ? 'bg-vet-secondary hover:bg-transparent hover:border-vet-secondary hover:text-vet-secondary'
-                                    : 'bg-zinc-600'
+                                ? 'bg-vet-secondary hover:bg-transparent hover:border-vet-secondary hover:text-vet-secondary'
+                                : 'bg-zinc-600'
                                 } duration-300`}
                             type="submit"
                             disabled={isSubmitting || !isFormValid}

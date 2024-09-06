@@ -94,23 +94,25 @@ export default function Home() {
                         />
                         {errors.email && watchEmail.length > 0 && <p className="text-red-500 text-sm">{errors.email.message}</p>}
 
-                        <input
-                            type={show}
-                            placeholder="Senha"
-                            className={`outline-none border-2 rounded-lg py-2 px-4 w-full font-medium ${errors.password && watchPassword.length > 0 ? 'border-red-500' : 'border-zinc-300'}`}
-                            {...register("password")}
-                        />
+                        <div className="relative">
+                            <input
+                                type={show}
+                                placeholder="Senha"
+                                className={`outline-none border-2 rounded-lg py-2 px-4 w-full font-medium ${errors.password && watchPassword.length > 0 ? 'border-red-500' : 'border-zinc-300'}`}
+                                {...register("password")}
+                            />
+
+                            <button className="absolute top-3 right-6 duration-300" type="button" onClick={handleShow}>
+                                {show === 'password' ?
+                                    <EyeOff strokeWidth={2.5} className="text-zinc-500 size-5 hover:text-zinc-700 duration-300" /> :
+                                    <Eye strokeWidth={2.5} className="text-zinc-500 size-5 hover:text-zinc-700 duration-300" />}
+                            </button>
+                        </div>
                         {errors.password && watchPassword.length > 0 && <p className="text-red-500 text-sm">{errors.password.message}</p>}
 
                         <div className="text-end">
                             <Link href={'#'} className="text-xs font-semibold text-brand-secondary hover:underline">Esqueceu sua senha?</Link>
                         </div>
-
-                        <button className="absolute bottom-28 right-6 duration-300" type="button" onClick={handleShow}>
-                            {show === 'password' ?
-                                <EyeOff strokeWidth={2.5} className="text-zinc-500 size-5 hover:text-zinc-700 duration-300" /> :
-                                <Eye strokeWidth={2.5} className="text-zinc-500 size-5 hover:text-zinc-700 duration-300" />}
-                        </button>
 
                         <button
                             className={`${isValid ? 'bg-brand-secondary hover:bg-transparent hover:border-brand-secondary hover:text-brand-secondary' : 'bg-zinc-600'} text-white font-semibold text-lg rounded-md py-1.5 px-4 border-2 border-transparent  duration-300 mt-4`}
