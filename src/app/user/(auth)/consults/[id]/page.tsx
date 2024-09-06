@@ -3,6 +3,7 @@
 import { useParams } from "next/navigation";
 import { useQuery } from '@tanstack/react-query';
 import { VetUserType } from "@/models/Types";
+import { FormCreateAppointment } from "./components/FormAppointment";
 
 export default function Home() {
     const { id } = useParams<{ id: string }>();
@@ -24,6 +25,9 @@ export default function Home() {
                 <div className="h-60 w-60 rounded-full bg-zinc-800" />
                 <div>
                     <h2>{data?.region}</h2>
+                    <FormCreateAppointment vetId={id}/>
+                </div>
+                <div>
                 </div>
             </div>
         </div>

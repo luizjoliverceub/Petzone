@@ -11,7 +11,7 @@ const createPetSchema = z.object({
   city: z.string().min(2, 'Digite no minimo 2 caracteres'),
   birthDate: z.date(),
   userEmail: z.string().email({
-    message: "Invalid email addres"
+    message: "Endereco de email invalido"
   }),
   sex: z.enum(["M", "F", "U"]),
   notes: z.string(),
@@ -24,9 +24,7 @@ export type CreatePetSchema = z.infer<typeof createPetSchema>;
 
 export async function addPet(dataForm: CreatePetSchema) {
 
-
   const session = await auth()
-
 
   const resp = await fetch("http://localhost:3000/api/pets/create", {
     method: "POST",

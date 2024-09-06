@@ -18,7 +18,6 @@ const registerSchema = z.object({
     crmv: z.string().nonempty('CRMV é obrigatório'),
     cep: z.string().nonempty('CEP é obrigatório'),
     region: z.string().nonempty('Região é obrigatória'),
-    termsAccepted: z.boolean().refine(val => val === true, 'Você deve aceitar os Termos e Condições'),
     role: z.string()
 });
 
@@ -40,8 +39,7 @@ export default function RegisterVeterinario() {
     const {
         register,
         handleSubmit,
-        formState: { errors, isSubmitting, isValid, dirtyFields },
-        watch
+        formState: { errors, isSubmitting, isValid },
     } = useForm<RegisterSchemaType>({
         resolver: zodResolver(registerSchema),
         mode: 'all'
@@ -157,9 +155,8 @@ export default function RegisterVeterinario() {
                             <input
                                 type="checkbox"
                                 id="terms"
-                                {...register("termsAccepted")}
                                 onChange={handleCheck}
-                                className={`mr-2 ${errors.termsAccepted ? 'border-red-500' : ''}`}
+                                className={`mr-2`}
                             />
                             <label htmlFor="terms" className="text-sm font-medium">Eu aceito os <span className="text-vet-secondary hover:underline">Termos e Condições</span></label>
                         </div>

@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import dogImg from '../../../public/HomePage.svg';
 import dogOwner from '../../../public/hugging.svg';
 import vetWithCat from '../../../public/vetWithCat.jpg';
-import { ToggleButton } from "./components/ToggleButton";
+import { ToggleButton } from "../../components/welcome/components/ToggleButton";
 import Link from "next/link";
 import { Session } from "next-auth";
 
