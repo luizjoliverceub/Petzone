@@ -3,9 +3,6 @@
 import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from 'react';
-import Image from "next/image";
-import googleBrand from '../../../../public/google-brand.svg';
-import appleBrand from '../../../../public/apple-brand.svg';
 import { signIn, useSession } from "next-auth/react";
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -98,23 +95,25 @@ export default function LoginVeterinario() {
                         />
                         {errors.email && watchEmail.length > 0 && <p className="text-red-500 text-sm">{errors.email.message}</p>}
 
-                        <input
-                            type={show}
-                            placeholder="Senha"
-                            className={`outline-none border-2 rounded-lg py-2 px-4 w-full font-medium ${errors.password && watchPassword.length > 0 ? 'border-red-500' : 'border-zinc-300'}`}
-                            {...register("password")}
-                        />
+                        <div className="relative">
+                            <input
+                                type={show}
+                                placeholder="Senha"
+                                className={`outline-none border-2 rounded-lg py-2 px-4 w-full font-medium ${errors.password && watchPassword.length > 0 ? 'border-red-500' : 'border-zinc-300'}`}
+                                {...register("password")}
+                            />
+
+                            <button className="absolute top-3 right-6 duration-300" type="button" onClick={handleShow}>
+                                {show === 'password' ?
+                                    <EyeOff strokeWidth={2.5} className="text-zinc-500 size-5 hover:text-zinc-700 duration-300" /> :
+                                    <Eye strokeWidth={2.5} className="text-zinc-500 size-5 hover:text-zinc-700 duration-300" />}
+                            </button>
+                        </div>
                         {errors.password && watchPassword.length > 0 && <p className="text-red-500 text-sm">{errors.password.message}</p>}
 
                         <div className="text-end">
                             <Link href={'#'} className="text-xs font-semibold text-vet-secondary hover:underline">Esqueceu sua senha?</Link>
                         </div>
-
-                        <button className="absolute bottom-28 right-6 duration-300" type="button" onClick={handleShow}>
-                            {show === 'password' ?
-                                <EyeOff strokeWidth={2.5} className="text-zinc-500 size-5 hover:text-zinc-700 duration-300" /> :
-                                <Eye strokeWidth={2.5} className="text-zinc-500 size-5 hover:text-zinc-700 duration-300" />}
-                        </button>
 
                         <button
                             className={`${isValid ? 'bg-vet-secondary hover:bg-transparent hover:border-vet-secondary hover:text-vet-secondary' : 'bg-zinc-600'} text-white font-semibold text-lg rounded-md py-1.5 px-4 border-2 border-transparent  duration-300 mt-4`}
@@ -124,7 +123,7 @@ export default function LoginVeterinario() {
                             {isSubmitting ? 'Entrando...' : 'Entrar'}
                         </button>
                     </form>
-                   
+
                 </div>
                 <div>
                     <Link href={'/vet/register'} className="text-sm font-medium">

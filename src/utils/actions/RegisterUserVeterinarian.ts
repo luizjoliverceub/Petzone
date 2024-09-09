@@ -23,9 +23,4 @@ export async function registerVeterinario(dataForm:CreateUserSchema){
       method:"POST",
        body: JSON.stringify(dataForm)
      })
-  
-   
-    
-    
-  
   }

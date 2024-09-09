@@ -1,4 +1,4 @@
-import { NavbarHeader } from "./components/NavbarHeader"
+import { NavbarHeader } from "../../components/welcome/components/NavbarHeader"
 
 export default function DashboardLayout({
     children,

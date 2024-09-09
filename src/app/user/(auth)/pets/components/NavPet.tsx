@@ -7,11 +7,21 @@ import { useParams } from "next/navigation";
 import { useState } from "react";
 import { AddPet } from "./AddPet";
 import { Session } from "next-auth";
+import { useQuery } from "@tanstack/react-query";
+import { CreatePetSchema } from "@/utils/actions/AddPet";
 
 export function NavPet() {
-    const { pets, session, handleAddPet } = useUser();
+    const { session, handleAddPet } = useUser();
     const [isOpen, setIsOpen] = useState(false);
     const { id: currentPetId } = useParams<{ id: string }>();
+
+    const { data, isLoading, error } = useQuery<CreatePetSchema[]>({
+        queryKey: ['pets-data'],
+        queryFn: () =>
+            fetch("/api/pets").then((res) =>
+                res.json()
+            )
+    });
 
     const toggleOpen = () => setIsOpen(prev => !prev);
 
@@ -20,7 +30,7 @@ export function NavPet() {
             <div className={`w-full flex items-start animate-fade-in`}>
                 <div className="w-full flex justify-start items-center px-8 py-4 gap-8">
                     <div className="flex flex-1 gap-6">
-                        {pets.map(pet => (
+                        {data?.map(pet => (
                             <Link
                                 href={`/user/pets/${pet.id}`}
                                 key={pet.id}
@@ -28,7 +38,8 @@ export function NavPet() {
                             >
                                 {pet.name}
                             </Link>
-                        ))}
+                        )) 
+                        }
                     </div>
                     <button
                         onClick={toggleOpen}

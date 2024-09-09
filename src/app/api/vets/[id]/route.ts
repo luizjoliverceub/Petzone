@@ -4,56 +4,45 @@ import { NextResponse } from "next/server";
 
 export async function GET(request: Request, { params }: { params: { id: string } }) {
 
-   
-  
-    const vetId = params.id
-  
+  const vetId = params.id
 
-      try {
-        
-        const vetById = await prisma.veterinarianProfile.findUnique({
-         
-        })
-  
-        return new NextResponse(JSON.stringify(vetById), { status: 200 })
+  try {
 
-
-      } catch (error) {
-        return NextResponse.json({ error: error }, { status: 500 })
+    const vetById = await prisma.veterinarianProfile.findUnique({
+      where: {
+        id: vetId
       }
-  
+    })
+
+    return new NextResponse(JSON.stringify(vetById), { status: 200 })
+
+
+  } catch (error) {
+    return NextResponse.json({ error: error }, { status: 500 })
   }
 
-
+}
 
 export async function DELETE(request: Request, { params }: { params: { id: string } }) {
 
-
- 
-
-
   const vetId = params.id
 
+  try {
 
-    try {
+    await prisma.veterinarianProfile.delete({
+      where: {
+        id: vetId
+      }
+    })
 
-      await prisma.veterinarianProfile.delete({
-        where: {
-          id: vetId
-        }
-      })
+    return new NextResponse(JSON.stringify({ message: "vet has been deleted!" }), { status: 201 })
 
-      return new NextResponse(JSON.stringify({ message: "vet has been deleted!" }), { status: 201 })
-
-    } catch (error) {
-      console.log(error);
-      return new NextResponse(
-        JSON.stringify({ message: "Something went wrong!" }),
-        { status: 500 }
-      );
-    }
-  
-
-
+  } catch (error) {
+    console.log(error);
+    return new NextResponse(
+      JSON.stringify({ message: "Something went wrong!" }),
+      { status: 500 }
+    );
+  }
 }
 

@@ -4,8 +4,9 @@ import { CreatePetSchema } from "@/utils/actions/AddPet";
 import { getAllPets } from "@/utils/actions/GetAllPets";
 import { signOut, useSession } from "next-auth/react";
 import { createContext, useState, ReactNode, useContext, useEffect, useCallback } from "react";
-import { useRouter } from "next/navigation";
 import { Session } from "next-auth";
+import { getAllVets } from "@/utils/actions/GetAllVets";
+import { VeterinarianType } from "@/models/Types";
 
 interface UserContextType {
   isLoggingOut: boolean;
@@ -13,6 +14,7 @@ interface UserContextType {
   session: Session | null;
   status: "authenticated" | "loading" | "unauthenticated";
   pets: CreatePetSchema[];
+  vets: VeterinarianType[]
   handleLogout: () => void;
   handleAddPet: () => void;
 }
@@ -22,16 +24,10 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 export function UserProvider({ children }: { children: ReactNode }) {
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [pets, setPets] = useState<CreatePetSchema[]>([]);
+  const [vets, setVets] = useState<VeterinarianType[]>([]);
   const [refresh, setRefresh] = useState(false);
 
   const { data: session, status } = useSession();
-  const router = useRouter();
-
-  // useEffect(() => {
-  //   if (status === "unauthenticated") {
-  //     router.push("/user/login");
-  //   }
-  // }, [status, router]); 
 
   const handleFetchPets = useCallback(async () => {
     if (status === "authenticated") {
@@ -40,9 +36,20 @@ export function UserProvider({ children }: { children: ReactNode }) {
     }
   }, [status]);
 
+  const handleFetchVets = useCallback(async () => {
+    if (status === "authenticated") {
+      const data = await getAllVets();
+      setVets(data);
+    }
+  }, [status]);
+
   useEffect(() => {
     handleFetchPets();
   }, [refresh, status, handleFetchPets]);
+
+  useEffect(() => {
+    handleFetchVets();
+  }, [refresh, status, handleFetchVets]);
 
   const handleAddPet = useCallback(() => {
     setRefresh((prev) => !prev);
@@ -58,7 +65,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <UserContext.Provider value={{ isLoggingOut, handleLogout, handleAddPet, pets, refresh, status, session }}>
+    <UserContext.Provider value={{ isLoggingOut, handleLogout, handleAddPet, pets, refresh, status, session, vets }}>
       {children}
     </UserContext.Provider>
   );

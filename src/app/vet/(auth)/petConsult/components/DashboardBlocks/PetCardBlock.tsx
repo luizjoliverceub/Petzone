@@ -1,5 +1,5 @@
 import { CreatePetSchema } from "@/utils/actions/AddPet";
-import { ExternalLink, View } from "lucide-react";
+import { View } from "lucide-react";
 
 export function PetCardBlock({ pet, handle }: { pet: CreatePetSchema, handle: () => void }) {
     return (
