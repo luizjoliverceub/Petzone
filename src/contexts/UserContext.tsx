@@ -4,10 +4,9 @@ import { CreatePetSchema } from "@/utils/actions/AddPet";
 import { getAllPets } from "@/utils/actions/GetAllPets";
 import { signOut, useSession } from "next-auth/react";
 import { createContext, useState, ReactNode, useContext, useEffect, useCallback } from "react";
-import { useRouter } from "next/navigation";
 import { Session } from "next-auth";
 import { getAllVets } from "@/utils/actions/GetAllVets";
-import { VeterinarianType } from "@/app/user/(auth)/consults/components/ConsultDashboard";
+import { VeterinarianType } from "@/models/Types";
 
 interface UserContextType {
   isLoggingOut: boolean;

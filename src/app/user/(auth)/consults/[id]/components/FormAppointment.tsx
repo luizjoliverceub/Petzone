@@ -6,7 +6,11 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { toast } from 'sonner';
 import { createAppointment } from "@/utils/actions/CreateAppointments";
-import { useUser } from "@/contexts/UserContext";
+import { useSession } from "next-auth/react";
+import { useQuery } from "@tanstack/react-query";
+import { getUser } from "@/utils/actions/GetUser";
+import { LoaderCircle, X } from "lucide-react";
+import { Span } from "next/dist/trace";
 
 const AppointmentSchema = z.object({
   userId: z.string(),
@@ -21,8 +25,22 @@ const AppointmentSchema = z.object({
 
 type CreateAppointmentSchema = z.infer<typeof AppointmentSchema>;
 
-export function FormCreateAppointment({ vetId }: { vetId: string }) {
-  const { session } = useUser();
+export function FormCreateAppointment({ vetId, handle }: { vetId: string, handle: () => void }) {
+  const { data: session } = useSession();
+
+  const email = session?.user?.email
+
+  const { data } = useQuery({
+    queryKey: ['user-data', email],
+    queryFn: async () => {
+      if (!email) {
+        throw new Error('Email is not defined')
+      }
+      const user = await getUser(email)
+      return user
+    },
+    enabled: !!email
+  })
 
   const {
     register,
@@ -53,98 +71,157 @@ export function FormCreateAppointment({ vetId }: { vetId: string }) {
   }
 
   return (
-    <div className='h-full w-[65%] py-8'>
-      <form className='flex flex-col justify-center items-center h-full gap-6'
-        noValidate
-        onSubmit={handleSubmit(onSubmit)}>
+    <>
+      <div className="h-screen w-full bg-black opacity-80 absolute z-40 top-0 right-0" />
+      <div className="absolute z-50 animate-fade-in">
+        <button
+          type="button"
+          className="text-zinc-400 hover:text-red-500 duration-300 absolute -top-8 -right-8"
+          onClick={handle}
+        >
+          <X className="size-7" />
+        </button>
+        <form
+          className="flex flex-col gap-5 border-2 p-6 bg-white rounded-xl max-w-[490px]"
+          noValidate
+          onSubmit={handleSubmit(onSubmit)}>
 
-        <div className="w-full h-full flex gap-4">
-
-          <div className="h-full w-1/4 flex items-center justify-center">
-            <div className="h-full w-full flex flex-col items-center justify-center">
-              <label htmlFor="appointment_date" className="self-start pl-5">Data do Agendamento</label>
-              <input type="date" className="border border-slate-300"
-                id='appointment_date'
-                {...register("appointment_date", { required: true })}
-              />
-              {errors.appointment_date && <p className="h-1 text-red-600">{errors.appointment_date.message}</p>}
-            </div>
+          <div>
+            <h2 className="text-lg font-medium">Agendamento de consulta</h2>
+            <p className="text-sm font-medium text-zinc-500">Preencha o campos abaixo para realizar um agendamento</p>
           </div>
 
-          <div className="h-full w-3/4 flex flex-col items-center justify-center gap-6">
-            <div className="w-[100%]">
-              <label htmlFor="clientName">Nome do Cliente</label>
+          <input
+            className='hidden'
+            id='veterinarianProfileId'
+            value={vetId}
+            {...register("veterinarianProfileId", { required: true })}
+          />
+
+          <input
+            className='hidden'
+            id='userId'
+            value={data?.id}
+            {...register("userId", { required: true })}
+          />
+
+          <div className="flex flex-col gap-2">
+
+            <div className="flex flex-col gap-1">
+              <label
+                htmlFor="clientName"
+                className="font-medium text-zinc-700 text-sm"
+              >
+                Nome do Cliente{errors.clientName && <span className="text-red-600">*</span>}
+              </label>
               <input
-                className='py-1 border border-slate-300 w-full h-8 rounded-md'
+                readOnly
+                className='px-4 py-2 border-2 rounded-md bg-gray-200 text-zinc-500 outline-none'
                 id='clientName'
                 value={session?.user?.name || ''}
                 {...register("clientName", { required: true })}
               />
-              {errors.clientName && <p className="h-1 text-red-600 text-sm">{errors.clientName.message}</p>}
             </div>
 
-            <input
-              className='hidden'
-              id='veterinarianProfileId'
-              value={vetId}
-              {...register("veterinarianProfileId", { required: true })}
-            />
-
-            <input
-              className=''
-              id='userId'
-              {...register("userId", { required: true })}
-            />
-
-            <div className="w-[100%] flex gap-4">
-              <div className="w-1/2">
-                <label htmlFor="phone">Telefone</label>
-                <input className='py-1 border border-slate-300 w-full h-8 rounded-md'
-                  id='phone'
-                  {...register("phone", { required: true })}
-                />
-                {errors.phone && <p className="h-1 text-red-600 text-sm">{errors.phone.message}</p>}
-              </div>
-              <div className="w-1/2">
-                <label htmlFor="service">Serviço</label>
-                <input className='py-1 border border-slate-300 w-full h-8 rounded-md'
-                  id='service'
-                  {...register("service", { required: true })}
-                />
-                {errors.service && <p className="h-1 text-red-600 text-sm">{errors.service.message}</p>}
-              </div>
-            </div>
-
-            <div className="w-[100%]">
-              <label htmlFor="email">Email</label>
+            <div className="flex flex-col gap-1">
+              <label
+                htmlFor="email"
+                className="font-medium text-zinc-700 text-sm"
+              >
+                Email{errors.email && <span className="text-red-600">*</span>}
+              </label>
               <input
-                className='py-1 border border-slate-300 w-full h-8 rounded-md'
+                readOnly
+                className='px-4 py-2 border-2 rounded-md bg-gray-200 text-zinc-500 outline-none'
                 id='email'
                 value={session?.user?.email || ''}
                 {...register("email", { required: true })}
               />
-              {errors.email && <p className="h-1 text-red-600 text-sm">{errors.email.message}</p>}
             </div>
 
-            <div className="w-[100%]">
-              <label htmlFor="petId">PetId:</label>
+            <div className="flex gap-2">
+
+              {/* Input de data */}
+              <div className="flex flex-col gap-1">
+                <label
+                  htmlFor="appointment_date"
+                  className="font-medium text-zinc-700 text-sm"
+                >
+                  Data{errors.appointment_date && <span className="text-red-600">*</span>}
+                </label>
+                <input
+                  type="date"
+                  className='px-4 py-2 border-2 rounded-md outline-none'
+                  id='appointment_date'
+                  {...register("appointment_date", { required: true })}
+                />
+              </div>
+
+              {/* Input de telefone */}
+              <div className="flex flex-col gap-1">
+                <label
+                  htmlFor="phone"
+                  className="font-medium text-zinc-700 text-sm"
+                >
+                  Telefone {errors.phone && <span className="text-red-600">*</span>}
+                </label>
+                <input
+                  className='px-4 py-2 border-2 rounded-md outline-none'
+                  id='phone'
+                  {...register("phone", { required: true })}
+                />
+              </div>
+
+            </div>
+
+            {/* Input de PetID */}
+            <div className="flex flex-col gap-1">
+              <label
+                htmlFor="petId"
+                className="font-medium text-zinc-700 text-sm"
+              >
+                PetId{errors.petId && <span className="text-red-600">*</span>}
+              </label>
               <input
-                className='py-1 border border-slate-300 w-full h-8 rounded-md'
+                className='px-4 py-2 border-2 rounded-md outline-none'
                 id='petId'
                 {...register("petId", { required: true })}
               />
-              {errors.petId && <p className="h-1 text-red-600 text-sm">{errors.petId.message}</p>}
             </div>
-          </div>
-        </div>
 
-        <button type='submit'
-          disabled={isSubmitting}
-          className='text-white border-2 border-transparent font-semibold px-4 py-2 bg-brand-secondary rounded-lg hover:border-brand-secondary hover:bg-transparent hover:text-brand-secondary duration-300'>
-          {isSubmitting ? <ImSpinner9 /> : "Criar Agendamento"}
-        </button>
-      </form>
-    </div>
+            {/* Input de servico */}
+            <div className="flex flex-col gap-1">
+              <label
+                htmlFor="service"
+                className="font-medium text-zinc-700 text-sm"
+              >
+                Serviço{errors.service && <span className="text-red-600">*</span>}
+              </label>
+              <input className='px-4 py-2 border-2 rounded-md outline-none'
+                id='service'
+                {...register("service", { required: true })}
+              />
+            </div>
+
+          </div>
+
+          {/* Botao de submit */}
+          <button
+            type='submit'
+            disabled={isSubmitting}
+            className='text-white border-2 border-transparent font-semibold py-2 bg-brand-secondary rounded-lg hover:border-brand-secondary hover:bg-transparent hover:text-brand-secondary duration-300 flex gap-2 justify-center items-center'>
+            {isSubmitting ?
+              <>
+                <span>Agendando</span>
+                <LoaderCircle className="animate-spin size-5" />
+              </>
+              :
+              <span>Agendar consulta</span>
+            }
+          </button>
+        </form>
+      </div>
+    </>
   );
 }
 

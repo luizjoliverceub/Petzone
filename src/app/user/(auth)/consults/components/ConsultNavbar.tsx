@@ -24,7 +24,7 @@ export function ConsultNavbar() {
     };
 
     useEffect(() => {
-        if (data) {
+        if (Array.isArray(data)) {
             const lowercasedSearch = search.toLowerCase();
             setVet(data.filter(item =>
                 item.user.name.toLowerCase().includes(lowercasedSearch) ||
@@ -32,7 +32,7 @@ export function ConsultNavbar() {
                 item.region.toLowerCase().includes(lowercasedSearch) ||
                 item.cep.toLowerCase().includes(lowercasedSearch)
             ));
-        }
+        } 
     }, [search, data]);
 
     if (error) return <div>Falha ao carregar dados: {error.message}</div>;
