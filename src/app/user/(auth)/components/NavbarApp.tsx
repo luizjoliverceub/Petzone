@@ -1,7 +1,7 @@
 'use client'
 
 import { ButtonNav } from "@/app/user/(auth)/components/ButtonNav";
-import { LogOutButton } from "@/components/LogOutButton";
+import { UserOptionBtn } from "@/components/UserOptionBtn";
 import { useUser } from "@/contexts/UserContext";
 import { Activity, EllipsisVertical, House, MessageCircle, Newspaper, PawPrint, Bolt } from "lucide-react";
 import { useSession } from "next-auth/react";
@@ -34,12 +34,41 @@ export function NavBarApp() {
                     <h2 className="font-semibold text-2xl text-brand-secondary">Petzone</h2>
                 </div>
                 <div className="w-full flex flex-col gap-2">
-                    <ButtonNav title="Inicio" icon={House} href="/user/home" path={path} />
-                    <ButtonNav title="Mensagens" icon={MessageCircle} isChat href="/user/message" path={path} />
-                    <ButtonNav title="Meus Pets" icon={PawPrint} href={pets.length ? `/user/pets/${pets[0].id}` : '/user/pets'} path={path} />
-                    <ButtonNav title="Consultas" icon={Activity} href="/user/consults" path={path} />
-                    <ButtonNav title="Noticias e Dicas" icon={Newspaper} href="/user/newsletter" path={path} />
-                    <ButtonNav title="Configuração" icon={Bolt} href="/user/config" path={path} />
+                    <ButtonNav
+                        title="Inicio"
+                        icon={House}
+                        href="/user/home"
+                        path={path} />
+
+                    <ButtonNav
+                        title="Mensagens"
+                        icon={MessageCircle}
+                        isChat
+                        href="/user/message"
+                        path={path} />
+
+                    <ButtonNav title="Meus Pets"
+                        icon={PawPrint}
+                        href={pets.length ? `/user/pets/${pets[0].id}` : '/user/pets'}
+                        path={path} />
+
+                    <ButtonNav
+                        title="Consultas"
+                        icon={Activity}
+                        href="/user/consults"
+                        path={path} />
+
+                    <ButtonNav
+                        title="Noticias e Dicas"
+                        icon={Newspaper}
+                        href="/user/newsletter"
+                        path={path} />
+
+                    <ButtonNav
+                        title="Configuração"
+                        icon={Bolt}
+                        href="/user/config"
+                        path={path} />
                 </div>
             </div>
             <div>
@@ -55,7 +84,7 @@ export function NavBarApp() {
                     <EllipsisVertical className="size-4 text-white" strokeWidth={2.5} />
                 </button>
                 {open &&
-                    <div className="flex flex-col gap-2 w-48 p-2 bg-zinc-100 border-2 border-zinc-300 absolute bottom-[70px] left-12 rounded-md animate-fade-in">
+                    <div className="flex flex-col gap-3 w-48 p-2 bg-zinc-100 border-2 border-zinc-300 absolute bottom-8 -right-40 rounded-md animate-fade-in">
                         <div>
                             <h2 className="font-medium">{session?.user ? capitalize(session?.user?.name as any) : 'User'}</h2>
                             <h3 className="text-sm font-medium text-zinc-500">{session?.user?.email}</h3>
@@ -63,7 +92,9 @@ export function NavBarApp() {
 
                         <div className="h-0.5 w-full bg-zinc-700 rounded-full" />
 
-                        <LogOutButton />
+                        <UserOptionBtn />
+
+                        <UserOptionBtn signOut />
                     </div>
                 }
             </div>

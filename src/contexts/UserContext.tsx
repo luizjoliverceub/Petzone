@@ -7,16 +7,20 @@ import { createContext, useState, ReactNode, useContext, useEffect, useCallback 
 import { Session } from "next-auth";
 import { getAllVets } from "@/utils/actions/GetAllVets";
 import { VeterinarianType } from "@/models/Types";
+import { getAppointments } from "@/utils/actions/GetAppointments";
+import { getAllNews } from "@/utils/actions/GetAllNews";
 
 interface UserContextType {
-  isLoggingOut: boolean;
-  refresh: boolean;
-  session: Session | null;
+  isLoggingOut: boolean
+  refresh: boolean
+  session: Session | null
   status: "authenticated" | "loading" | "unauthenticated";
-  pets: CreatePetSchema[];
+  pets: CreatePetSchema[]
   vets: VeterinarianType[]
-  handleLogout: () => void;
-  handleAddPet: () => void;
+  news: NewsType[]
+  appointments: AppointmentType[]
+  handleLogout: () => void
+  handleAddPet: () => void
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -25,9 +29,13 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [pets, setPets] = useState<CreatePetSchema[]>([]);
   const [vets, setVets] = useState<VeterinarianType[]>([]);
+  const [appointments, setAppointments] = useState<AppointmentType[]>([]);
+  const [news, setNews] = useState<NewsType[]>([]);
+
   const [refresh, setRefresh] = useState(false);
 
   const { data: session, status } = useSession();
+
 
   const handleFetchPets = useCallback(async () => {
     if (status === "authenticated") {
@@ -35,6 +43,11 @@ export function UserProvider({ children }: { children: ReactNode }) {
       setPets(data);
     }
   }, [status]);
+
+  useEffect(() => {
+    handleFetchPets();
+  }, [refresh, handleFetchPets]);
+
 
   const handleFetchVets = useCallback(async () => {
     if (status === "authenticated") {
@@ -44,12 +57,32 @@ export function UserProvider({ children }: { children: ReactNode }) {
   }, [status]);
 
   useEffect(() => {
-    handleFetchPets();
-  }, [refresh, status, handleFetchPets]);
+    handleFetchVets();
+  }, [refresh, handleFetchVets]);
+
+
+  const handleFetchAppointments = useCallback(async () => {
+    if (status === "authenticated") {
+      const data = await getAppointments();
+      setAppointments(data);
+    }
+  }, [status]);
 
   useEffect(() => {
-    handleFetchVets();
-  }, [refresh, status, handleFetchVets]);
+    handleFetchAppointments();
+  }, [refresh, handleFetchAppointments]);
+
+  const handleFetchNews = useCallback(async () => {
+    if (status === "authenticated") {
+      const data = await getAllNews();
+      setNews(data);
+    }
+  }, [status]);
+
+  useEffect(() => {
+    handleFetchNews();
+  }, [refresh, handleFetchNews]);
+
 
   const handleAddPet = useCallback(() => {
     setRefresh((prev) => !prev);
@@ -57,7 +90,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   const handleLogout = useCallback(async () => {
     setIsLoggingOut(true);
-    await signOut({ callbackUrl: '/welcome'});
+    await signOut({ callbackUrl: '/welcome' });
   }, []);
 
   if (isLoggingOut) {
@@ -65,7 +98,19 @@ export function UserProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <UserContext.Provider value={{ isLoggingOut, handleLogout, handleAddPet, pets, refresh, status, session, vets }}>
+    <UserContext.Provider
+      value={{
+        isLoggingOut,
+        handleLogout,
+        handleAddPet,
+        pets,
+        refresh,
+        status,
+        session,
+        vets,
+        news,
+        appointments
+      }}>
       {children}
     </UserContext.Provider>
   );
@@ -86,4 +131,22 @@ export function useUser(): UserContextType {
     throw new Error("useUser must be used within a UserProvider");
   }
   return context;
+}
+
+export type AppointmentType = {
+  clientName: string
+  email: string
+  phone: string
+  userId: string
+  veterinarianProfileId: string
+  service: string
+  petId: string
+  appointment_date: Date
+}
+
+export type NewsType = {
+  imgUrl: string
+  webSite: string
+  title: string
+  description: string
 }

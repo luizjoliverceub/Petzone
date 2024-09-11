@@ -67,6 +67,8 @@ const config: Config = {
 			},
 			boxShadow: {
 				custom: 'rgba(17, 12, 46, 0.15) 0px 48px 100px 0px',
+				custom2: 'rgba(50, 50, 93, 0.05) 0px 13px 27px -5px, rgba(0, 0, 0, 0.05) 0px 8px 16px -8px;',
+				custom3: 'rgba(50, 50, 93, 0.10) 0px 13px 27px -5px, rgba(0, 0, 0, 0.1) 0px 8px 16px -8px;'
 			},
 			animation: {
 				'fade-in': 'fadeIn 0.3s ease-out',

@@ -11,6 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getUser } from "@/utils/actions/GetUser";
 import { LoaderCircle, X } from "lucide-react";
 import { Span } from "next/dist/trace";
+import { useUser } from "@/contexts/UserContext";
 
 const AppointmentSchema = z.object({
   userId: z.string(),
@@ -27,6 +28,7 @@ type CreateAppointmentSchema = z.infer<typeof AppointmentSchema>;
 
 export function FormCreateAppointment({ vetId, handle }: { vetId: string, handle: () => void }) {
   const { data: session } = useSession();
+  const { pets } = useUser()
 
   const email = session?.user?.email
 
@@ -180,13 +182,31 @@ export function FormCreateAppointment({ vetId, handle }: { vetId: string, handle
                 htmlFor="petId"
                 className="font-medium text-zinc-700 text-sm"
               >
-                PetId{errors.petId && <span className="text-red-600">*</span>}
+                Pet{errors.petId && <span className="text-red-600">*</span>}
               </label>
-              <input
-                className='px-4 py-2 border-2 rounded-md outline-none'
+              <select
+                className='px-4 py-2 border-2 rounded-md outline-none bg-white'
                 id='petId'
+                defaultValue=""
                 {...register("petId", { required: true })}
-              />
+              >
+                <option
+                  value=""
+                  disabled
+                >
+                  Selecione um pet
+                </option>
+
+                {pets?.map(pet => (
+                  <option
+                    value={pet.id}
+                    key={pet.id}
+                    className="font-medium"
+                  >
+                    {pet.name}
+                  </option>
+                ))}
+              </select>
             </div>
 
             {/* Input de servico */}
@@ -224,4 +244,3 @@ export function FormCreateAppointment({ vetId, handle }: { vetId: string, handle
     </>
   );
 }
-
