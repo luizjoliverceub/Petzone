@@ -1,4 +1,5 @@
 import { BriefcaseMedical } from "lucide-react";
+import Link from "next/link";
 
 export default function Home() {
     return (
@@ -10,6 +11,12 @@ export default function Home() {
                         <h2 className="font-bold text-4xl text-brand-primary">Bem vindo PetConsultas</h2>
                         <h3 className="font-semibold text-sm text-zinc-500">Para comecar selecione ao lado um veterinário de seu interesse!</h3>
                     </div>
+                    <Link
+                        href={'/user/consults/allConsults'}
+                        className="rounded-md px-4 py-1 bg-brand-secondary border-2 border-transparent text-white font-semibold hover:bg-transparent hover:border-brand-secondary hover:text-brand-secondary duration-300"
+                    >
+                        Ver suas consultas
+                    </Link>
                 </div>
             </div>
         </div>

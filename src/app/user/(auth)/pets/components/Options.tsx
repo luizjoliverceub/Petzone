@@ -7,7 +7,7 @@ export function Options({ handleRemove, handleOpen }: { handleRemove: () => void
     }
 
     return (
-        <div className="flex gap-1 absolute p-1 bg-zinc-50 animate-fade-in rounded-xl top-[75px] left-[560px] border-2 items-center justify-center">
+        <div className="flex gap-1 absolute p-1 bg-zinc-50 animate-fade-in rounded-xl -top-10 -right-44 border-2 items-center justify-center">
             <button
                 className="text-red-600 bg-red-100 rounded-md px-2 py-1 flex gap-1 items-center justify-center text-sm font-semibold hover:text-red-100 hover:bg-red-600 duration-300"
                 onClick={handle}

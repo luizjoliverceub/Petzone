@@ -15,12 +15,6 @@ export function Blocks() {
             <div>
                 <div className="p-8 flex flex-col items-center gap-6 xl:flex-row">
                     <BlockInfo
-                        title="Pets cadastrados"
-                        Icon={Bone}
-                        href="/user/pets"
-                        value={pets.length}
-                    />
-                    <BlockInfo
                         title="Mensagens"
                         Icon={MessageCircle}
                         href="/user/message"

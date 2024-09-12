@@ -84,7 +84,7 @@ export function FormCreateAppointment({ vetId, handle }: { vetId: string, handle
           <X className="size-7" />
         </button>
         <form
-          className="flex flex-col gap-5 border-2 p-6 bg-white rounded-xl max-w-[490px]"
+          className="flex flex-col gap-5 border-2 p-6 bg-white rounded-xl w-[490px]"
           noValidate
           onSubmit={handleSubmit(onSubmit)}>
 
@@ -141,10 +141,60 @@ export function FormCreateAppointment({ vetId, handle }: { vetId: string, handle
               />
             </div>
 
+            <div className="flex gap-2 w-full">
+              {/* Input de PetID */}
+              <div className="flex flex-col gap-1">
+                <label
+                  htmlFor="petId"
+                  className="font-medium text-zinc-700 text-sm"
+                >
+                  Pet{errors.petId && <span className="text-red-600">*</span>}
+                </label>
+                <select
+                  className='px-4 py-2.5 border-2 rounded-md outline-none bg-white'
+                  id='petId'
+                  defaultValue=""
+                  {...register("petId", { required: true })}
+                >
+                  <option
+                    value=""
+                    disabled
+                  >
+                    Selecione um pet
+                  </option>
+
+                  {pets?.map(pet => (
+                    <option
+                      value={pet.id}
+                      key={pet.id}
+                      className="font-medium"
+                    >
+                      {pet.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Input de telefone */}
+              <div className="flex flex-col gap-1 w-[245px]">
+                <label
+                  htmlFor="phone"
+                  className="font-medium text-zinc-700 text-sm"
+                >
+                  Telefone {errors.phone && <span className="text-red-600">*</span>}
+                </label>
+                <input
+                  className='px-4 py-2 border-2 rounded-md outline-none'
+                  id='phone'
+                  {...register("phone", { required: true })}
+                />
+              </div>
+            </div>
+
             <div className="flex gap-2">
 
               {/* Input de data */}
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-1 w-[185px]">
                 <label
                   htmlFor="appointment_date"
                   className="font-medium text-zinc-700 text-sm"
@@ -159,54 +209,38 @@ export function FormCreateAppointment({ vetId, handle }: { vetId: string, handle
                 />
               </div>
 
-              {/* Input de telefone */}
-              <div className="flex flex-col gap-1">
+              {/* Input de Horario */}
+              <div className="flex flex-col gap-1 flex-1">
                 <label
-                  htmlFor="phone"
+                  htmlFor="hourAppointment"
                   className="font-medium text-zinc-700 text-sm"
                 >
-                  Telefone {errors.phone && <span className="text-red-600">*</span>}
+                  Horário
                 </label>
-                <input
-                  className='px-4 py-2 border-2 rounded-md outline-none'
-                  id='phone'
-                  {...register("phone", { required: true })}
-                />
+                <select
+                  className='px-4 py-2.5 border-2 rounded-md outline-none bg-white'
+                  id='hourAppointment'
+                  defaultValue=""
+                >
+                  <option
+                    value=""
+                    disabled
+                  >
+                    Selecione um horário
+                  </option>
+
+                  {hours?.map(hour => (
+                    <option
+                      value={hour}
+                      key={hour}
+                      className="font-medium"
+                    >
+                      {hour}
+                    </option>
+                  ))}
+                </select>
               </div>
 
-            </div>
-
-            {/* Input de PetID */}
-            <div className="flex flex-col gap-1">
-              <label
-                htmlFor="petId"
-                className="font-medium text-zinc-700 text-sm"
-              >
-                Pet{errors.petId && <span className="text-red-600">*</span>}
-              </label>
-              <select
-                className='px-4 py-2 border-2 rounded-md outline-none bg-white'
-                id='petId'
-                defaultValue=""
-                {...register("petId", { required: true })}
-              >
-                <option
-                  value=""
-                  disabled
-                >
-                  Selecione um pet
-                </option>
-
-                {pets?.map(pet => (
-                  <option
-                    value={pet.id}
-                    key={pet.id}
-                    className="font-medium"
-                  >
-                    {pet.name}
-                  </option>
-                ))}
-              </select>
             </div>
 
             {/* Input de servico */}
@@ -244,3 +278,10 @@ export function FormCreateAppointment({ vetId, handle }: { vetId: string, handle
     </>
   );
 }
+
+const hours = [
+  '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', 
+  '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', 
+  '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', 
+  '17:00', '17:30', '18:00'
+];

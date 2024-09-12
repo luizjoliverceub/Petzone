@@ -1,5 +1,5 @@
-import { Blocks } from "./components/Blocks";
-import { HeaderHome } from "./components/HeaderHome";
+import { Blocks } from "@/app/user/(auth)/home/components/Blocks";
+import { HeaderHome } from "@/app/user/(auth)/home/components/HeaderHome";
 
 export default function Home() {
     return (

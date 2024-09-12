@@ -4,6 +4,7 @@ import { Session } from "next-auth";
 import { useEffect, useState } from "react";
 import dayjs from 'dayjs';
 import { generateId } from "@/utils/actions/GenerateID";
+import { useRouter } from "next/navigation";
 
 export function AddPet({ user, onPetAdded, setOpen }: { user: Session, onPetAdded: () => void, setOpen: () => void }) {
     const [pet, setPet] = useState<CreatePetSchema>({
@@ -18,6 +19,8 @@ export function AddPet({ user, onPetAdded, setOpen }: { user: Session, onPetAdde
         sex: 'U',
         vaccination: ''
     });
+
+    const router = useRouter()
 
     useEffect(() => {
         if (pet.name) {
@@ -81,6 +84,7 @@ export function AddPet({ user, onPetAdded, setOpen }: { user: Session, onPetAdde
                 sex: 'U',
                 vaccination: ''
             });
+            router.push(`/user/pets/${pet.id}`)
         } catch (error) {
             console.error('Error adding pet:', error);
             postMessage('Failed to add pet.');

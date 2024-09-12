@@ -9,7 +9,7 @@ export function PetCardBlock({ pet, handleOpenPetCard }: { pet: CreatePetSchema,
                 <div className="w-full h-56 bg-brand-primary rounded-xl flex flex-col">
                     <div className="flex">
                         <div className="h-full w-36 flex flex-col pt-6 px-6 gap-3">
-                            <div className="bg-zinc-300 rounded-xl h-28 w-28" />
+                            <div className="bg-zinc-300 rounded-xl xl:h-28 xl:w-28" />
                         </div>
                         <div className="px-2 py-12 flex flex-col">
                             <h3 className="text-white font-medium text-3xl">{pet.name}</h3>

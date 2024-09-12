@@ -1,7 +1,7 @@
 'use client'
 
 import { ButtonNav } from "@/app/vet/(auth)/components/ButtonNav";
-import { LogOutButton } from "@/components/LogOutButton";
+import { UserOptionBtn } from "@/components/UserOptionBtn";
 import { useUser } from "@/contexts/UserContext";
 import { Activity, EllipsisVertical, House, MessageCircle, Newspaper, PawPrint } from "lucide-react";
 import { useSession } from "next-auth/react";
@@ -62,7 +62,9 @@ export function NavBarApp() {
 
                         <div className="h-0.5 w-full bg-zinc-700 rounded-full" />
 
-                        <LogOutButton />
+                        <UserOptionBtn />
+
+                        <UserOptionBtn signOut />
                     </div>
                 }
             </div>

@@ -21,7 +21,7 @@ export function PetIdBlock({ pet, handleOpenRemove }: { pet: CreatePetSchema, ha
     
     return (
         <div className="border-2 rounded-xl px-4 py-4 flex flex-col gap-4 items-center justify-center h-[352px]">
-                        <div className="flex w-full justify-end">
+                        <div className="flex w-full justify-end relative">
                             <button
                                 type="button"
                                 className="p-0.5 rounded-full text-zinc-400 hover:text-zinc-800 duration-300"

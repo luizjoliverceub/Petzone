@@ -5,6 +5,8 @@ import { useQuery } from '@tanstack/react-query';
 import { VetUserType } from "@/models/Types";
 import { FormCreateAppointment } from "./components/FormAppointment";
 import { useState } from "react";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 export default function Home() {
     const [open, setOpen] = useState(false)
@@ -27,7 +29,7 @@ export default function Home() {
 
     return (
         <div className="h-screen flex-1 flex items-center justify-center py-4 pr-4">
-            <div className="w-full h-full border-2 flex rounded-xl py-8 px-10 animate-fade-in shadow-md">
+            <div className="w-full h-full border-2 flex rounded-xl p-12 animate-fade-in shadow-md relative">
                 <div className="h-60 w-60 rounded-full bg-zinc-800" />
                 <h2>{data?.region}</h2>
                 <div className="flex flex-col items-center justify-center">
@@ -40,8 +42,13 @@ export default function Home() {
                     </button>
                     {open && <FormCreateAppointment vetId={id} handle={handleOpen} />}
                 </div>
-                <div>
-                </div>
+                <Link
+                    href={'/user/consults'}
+                    className="absolute left-4 top-4 text-zinc-500 hover:text-brand-secondary duration-300 flex gap-2"
+                >
+                    <ArrowLeft />
+                    <span className="font-medium">Voltar</span>
+                </Link>
             </div>
         </div>
     );

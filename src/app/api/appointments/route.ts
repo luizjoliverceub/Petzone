@@ -38,7 +38,6 @@ export async function GET(request: Request) {
 
     const userEmail = newSessionValue.user.email
 
-
     const Appointments = await prisma.appointments.findMany({
       where: {
         email: userEmail

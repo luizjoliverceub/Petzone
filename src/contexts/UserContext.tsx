@@ -134,6 +134,7 @@ export function useUser(): UserContextType {
 }
 
 export type AppointmentType = {
+  id: string
   clientName: string
   email: string
   phone: string

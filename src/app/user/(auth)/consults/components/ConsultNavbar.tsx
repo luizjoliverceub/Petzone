@@ -6,9 +6,14 @@ import { NavVets } from "./NavVets";
 import { SkeletonNavVet } from "./SkeletonNavVet";
 import { VeterinarianType } from "@/models/Types";
 import { ChangeEvent, useState, useEffect } from "react";
+import { AppointmentType, useUser } from "@/contexts/UserContext";
+import { usePathname } from "next/navigation";
+import { NavAppoint } from "./NavAppoint";
 
 export function ConsultNavbar() {
     const [search, setSearch] = useState('');
+    const path = usePathname()
+    const { appointments } = useUser()
     const { data, isLoading, error } = useQuery<VeterinarianType[]>({
         queryKey: ['vet-data'],
         queryFn: () =>
@@ -18,13 +23,14 @@ export function ConsultNavbar() {
     });
 
     const [vet, setVet] = useState<VeterinarianType[]>([]);
+    const [appoint, setAppoint] = useState<AppointmentType[]>([]);
 
     const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
         setSearch(event.currentTarget.value);
     };
 
     useEffect(() => {
-        if (Array.isArray(data)) {
+        if (Array.isArray(data) && path.includes('/user/consults')) {
             const lowercasedSearch = search.toLowerCase();
             setVet(data.filter(item =>
                 item.user.name.toLowerCase().includes(lowercasedSearch) ||
@@ -32,8 +38,15 @@ export function ConsultNavbar() {
                 item.region.toLowerCase().includes(lowercasedSearch) ||
                 item.cep.toLowerCase().includes(lowercasedSearch)
             ));
-        } 
-    }, [search, data]);
+        }
+
+        if (Array.isArray(appointments) && path.includes('/user/consults/allConsults')) {
+            const lowercasedSearch = search.toLowerCase();
+            setAppoint(appointments.filter(item =>
+                item.appointment_date.toString().toLowerCase().includes(lowercasedSearch)
+            ));
+        }
+    }, [search, data, path, appointments]);
 
     if (error) return <div>Falha ao carregar dados: {error.message}</div>;
 
@@ -49,7 +62,13 @@ export function ConsultNavbar() {
                 <Search className="absolute top-3.5 left-3.5 size-4 text-zinc-400" strokeWidth={3} />
             </div>
             <div className="mt-12 flex flex-col gap-4 overflow-y-auto py-2">
-                {isLoading ? <SkeletonNavVet /> : <NavVets data={vet} />}
+                {
+                    isLoading ?
+                        <SkeletonNavVet /> :
+                        path.includes('/user/consults/allConsults') ?
+                            <NavAppoint data={appoint} /> :
+                            <NavVets data={vet} />
+                }
             </div>
         </div>
     );
