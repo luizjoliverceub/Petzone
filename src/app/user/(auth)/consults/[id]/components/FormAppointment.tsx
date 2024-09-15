@@ -75,7 +75,7 @@ export function FormCreateAppointment({ vetId, handle }: { vetId: string, handle
   return (
     <>
       <div className="h-screen w-full bg-black opacity-80 absolute z-40 top-0 right-0" />
-      <div className="absolute z-50 animate-fade-in">
+      <div className="absolute z-50 animate-fade-in top-44">
         <button
           type="button"
           className="text-zinc-400 hover:text-red-500 duration-300 absolute -top-8 -right-8"

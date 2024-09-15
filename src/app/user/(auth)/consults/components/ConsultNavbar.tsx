@@ -4,11 +4,11 @@ import { Search } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { NavVets } from "./NavVets";
 import { SkeletonNavVet } from "./SkeletonNavVet";
-import { VeterinarianType } from "@/models/Types";
+import { AppointmentType, VeterinarianType } from "@/models/Types";
 import { ChangeEvent, useState, useEffect } from "react";
-import { AppointmentType, useUser } from "@/contexts/UserContext";
 import { usePathname } from "next/navigation";
 import { NavAppoint } from "./NavAppoint";
+import { useUser } from "@/contexts/UserContext";
 
 export function ConsultNavbar() {
     const [search, setSearch] = useState('');

@@ -1,5 +1,5 @@
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { NewsType } from "@/contexts/UserContext";
+import { NewsType } from "@/models/Types";
 import Image from 'next/image';
 
 export function BlockNews({ news }: { news: NewsType[] }) {

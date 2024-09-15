@@ -16,4 +16,25 @@ export type VetUserType = {
     region: string;
     cep: string;
     addressId: null;
-};
+}
+
+export type AppointmentType = {
+    id: string
+    clientName: string
+    email: string
+    phone: string
+    userId: string
+    veterinarianProfileId: string
+    service: string
+    petId: string
+    appointment_date: Date
+  }
+  
+  export type NewsType = {
+    id: string
+    imgUrl: string
+    webSite: string
+    title: string
+    description: string
+    content: string
+  }

@@ -24,7 +24,7 @@ export function NavPet() {
                             <Link
                                 href={`/user/pets/${pet.id}`}
                                 key={pet.id}
-                                className={`px-4 py-2 font-medium rounded-md ${currentPetId === pet.id ? 'bg-brand-primary text-white' : 'hover:bg-brand-primary hover:text-white duration-300'}`}
+                                className={`px-4 py-2 font-medium rounded-md ${currentPetId === pet.id ? 'bg-brand-primary text-white' : 'hover:bg-brand-primary hover:text-white duration-300'} animate-fade-in`}
                             >
                                 {pet.name}
                             </Link>

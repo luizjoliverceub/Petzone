@@ -6,9 +6,20 @@ import { BlockInfo } from "./BlockInfo";
 import { BlockNews } from "./BlockNew";
 import { BlockEvents } from "./BlockEvents";
 import { BlockEmpty } from "./BlockEmpty";
+import { useQuery } from "@tanstack/react-query";
+import { getAllNews } from "@/utils/actions/GetAllNews";
 
 export function Blocks() {
-    const { pets, appointments, news } = useUser()
+    const { pets, appointments } = useUser()
+
+    const { data, isLoading } = useQuery({
+        queryKey: ['news'],
+        queryFn: async () => {
+            const data = await getAllNews()
+
+            return data
+        }
+    })
 
     return (
         <div className="flex flex-col items-center 2xl:flex-row 2xl:items-start">
@@ -41,7 +52,7 @@ export function Blocks() {
                 </div>
             </div>
             <div className="p-8 flex-1 rounded-xl relative animate-fade-in flex flex-col gap-10">
-                <BlockNews news={news} />
+                {isLoading ? <div className="w-[610px] h-[406px] rounded-xl bg-zinc-300 animate-pulse" /> : <BlockNews news={data} />}
                 <BlockEmpty />
             </div>
         </div>

@@ -1,4 +1,5 @@
-import { AppointmentType, useUser } from "@/contexts/UserContext";
+import { useUser } from "@/contexts/UserContext";
+import { AppointmentType } from "@/models/Types";
 import { parseDate } from "@/utils/actions/ParseDate";
 import Link from "next/link";
 
@@ -15,7 +16,7 @@ export function NavAppoint({ data }: { data?: AppointmentType[] | undefined }) {
         const vet = vets.find(vet => vet.id === id)
 
         return vet?.user.name
-    }   
+    } 
 
     return (
         data ? data?.length === 0 ?

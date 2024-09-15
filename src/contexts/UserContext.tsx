@@ -6,7 +6,7 @@ import { signOut, useSession } from "next-auth/react";
 import { createContext, useState, ReactNode, useContext, useEffect, useCallback } from "react";
 import { Session } from "next-auth";
 import { getAllVets } from "@/utils/actions/GetAllVets";
-import { VeterinarianType } from "@/models/Types";
+import { AppointmentType, NewsType, VeterinarianType } from "@/models/Types";
 import { getAppointments } from "@/utils/actions/GetAppointments";
 import { getAllNews } from "@/utils/actions/GetAllNews";
 
@@ -131,23 +131,4 @@ export function useUser(): UserContextType {
     throw new Error("useUser must be used within a UserProvider");
   }
   return context;
-}
-
-export type AppointmentType = {
-  id: string
-  clientName: string
-  email: string
-  phone: string
-  userId: string
-  veterinarianProfileId: string
-  service: string
-  petId: string
-  appointment_date: Date
-}
-
-export type NewsType = {
-  imgUrl: string
-  webSite: string
-  title: string
-  description: string
 }

@@ -1,11 +1,11 @@
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { NewsType } from "@/contexts/UserContext";
+import { NewsType } from "@/models/Types";
 import Image from 'next/image';
 
 export function BlockNews({ news }: { news: NewsType[] }) {
 
     return (
-        <Carousel className="w-[610px] rounded-xl shadow-custom2 hover:shadow-custom3 duration-300" opts={{ loop: true }}>
+        <Carousel className="w-[610px] rounded-xl shadow-custom2 hover:shadow-custom3 duration-300 animate-fade-in" opts={{ loop: true }}>
             <CarouselContent>
                 {news.map(newItem => (
                     <CarouselItem key={newItem.title}>

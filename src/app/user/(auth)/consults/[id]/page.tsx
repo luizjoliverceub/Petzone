@@ -29,26 +29,28 @@ export default function Home() {
 
     return (
         <div className="h-screen flex-1 flex items-center justify-center py-4 pr-4">
-            <div className="w-full h-full border-2 flex rounded-xl p-12 animate-fade-in shadow-md relative">
-                <div className="h-60 w-60 rounded-full bg-zinc-800" />
-                <h2>{data?.region}</h2>
-                <div className="flex flex-col items-center justify-center">
-                    <button
-                        type="button"
-                        className="px-4 py-2 border-2 rounded-xl border-transparent bg-brand-secondary text-white font-semibold hover:bg-transparent hover:text-brand-secondary hover:border-brand-secondary duration-300"
-                        onClick={handleOpen}
-                    >
-                        Realizar agendamento
-                    </button>
-                    {open && <FormCreateAppointment vetId={id} handle={handleOpen} />}
-                </div>
+            <div className="w-full h-full border-2 flex flex-col rounded-xl p-4 animate-fade-in shadow-md">
                 <Link
                     href={'/user/consults'}
-                    className="absolute left-4 top-4 text-zinc-500 hover:text-brand-secondary duration-300 flex gap-2"
+                    className="text-zinc-500 hover:text-brand-secondary duration-300 flex gap-2"
                 >
                     <ArrowLeft />
                     <span className="font-medium">Voltar</span>
                 </Link>
+                <div className="flex p-8">
+                    <div className="h-60 w-60 rounded-full bg-zinc-800" />
+                    <h2>{data?.region}</h2>
+                    <div className="flex flex-col items-center justify-center">
+                        <button
+                            type="button"
+                            className="px-4 py-2 border-2 rounded-xl border-transparent bg-brand-secondary text-white font-semibold hover:bg-transparent hover:text-brand-secondary hover:border-brand-secondary duration-300"
+                            onClick={handleOpen}
+                        >
+                            Realizar agendamento
+                        </button>
+                        {open && <FormCreateAppointment vetId={id} handle={handleOpen} />}
+                    </div>
+                </div>
             </div>
         </div>
     );
