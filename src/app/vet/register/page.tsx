@@ -32,7 +32,7 @@ export default function RegisterVeterinario() {
 
     useEffect(() => {
         if (status === "authenticated") {
-            router.push('/veterinario/home');
+            router.push('/vet/home');
         }
     }, [status, router]);
 

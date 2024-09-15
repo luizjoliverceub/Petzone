@@ -27,20 +27,37 @@ export async function POST(request: Request) {
   }
 }
 
+type userRole = "normal" | "veterinarian"
 export async function GET(request: Request) {
 
   const session = request.headers.get("session")
   const newSessionValue = session ? JSON.parse(session) : null
-
-  console.log("Bateu appointments GET");
+  const userRole = newSessionValue?.user?.role  as userRole
+  const userEmail = newSessionValue.user.email
+  
+  console.log("Bateu appointments GET" + userRole );
 
   try {
 
-    const userEmail = newSessionValue.user.email
+    if(userRole === "normal"){
+      
 
     const Appointments = await prisma.appointments.findMany({
       where: {
-        email: userEmail
+        email: userEmail,
+      }
+    })
+
+    return new NextResponse(JSON.stringify(Appointments), { status: 200 })
+    }
+
+    const Appointments = await prisma.appointments.findMany({
+      where: {
+        veterinarian:{
+          user:{
+            email: userEmail,
+          }
+        }
       }
     })
 
