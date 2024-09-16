@@ -29,13 +29,13 @@ export function Blocks() {
                     <BlockInfo
                         title="Mensagens"
                         Icon={MessageCircle}
-                        href="/user/message"
+                        href="/vet/message"
                         value={3}
                     />
                     <BlockInfo
                         title="Consultas agendadas"
                         Icon={Activity}
-                        href="/user/consults"
+                        href="/vet/myConsults"
                         value={appointments.length}
                     />
                 </div>

@@ -18,6 +18,12 @@ export type VetUserType = {
     addressId: null;
 }
 
+export type UserAppointType = {
+    id: string;
+    name: string;
+    email: string;
+}
+
 export type AppointmentType = {
     id: string
     clientName: string

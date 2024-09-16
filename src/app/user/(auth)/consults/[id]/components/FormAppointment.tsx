@@ -42,6 +42,14 @@ export function FormCreateAppointment({ vetId, handle }: { vetId: string, handle
     enabled: !!email
   })
 
+  const servicesData = useQuery<{ service: string }[]>({
+    queryKey: ['services-data'],
+    queryFn: () =>
+      fetch(`/api/vets/services`).then((res) =>
+        res.json()
+      ),
+  })
+
   console.log(data?.id)
 
   const {
@@ -57,7 +65,6 @@ export function FormCreateAppointment({ vetId, handle }: { vetId: string, handle
   async function onSubmit(data: CreateAppointmentSchema) {
     try {
       console.log("Submitted data:", data);
-
       const formattedData = {
         ...data,
         appointment_date: new Date(data.appointment_date),
@@ -65,6 +72,7 @@ export function FormCreateAppointment({ vetId, handle }: { vetId: string, handle
 
       await createAppointment(formattedData);
       toast.success('Agendamento criado com sucesso!');
+      handle()
       reset();
     } catch (error) {
       console.error("Error creating appointment:", error);
@@ -184,6 +192,7 @@ export function FormCreateAppointment({ vetId, handle }: { vetId: string, handle
                   Telefone {errors.phone && <span className="text-red-600">*</span>}
                 </label>
                 <input
+                  placeholder="(  ) _____ - ____ "
                   className='px-4 py-2 border-2 rounded-md outline-none'
                   id='phone'
                   {...register("phone", { required: true })}
@@ -249,12 +258,31 @@ export function FormCreateAppointment({ vetId, handle }: { vetId: string, handle
                 htmlFor="service"
                 className="font-medium text-zinc-700 text-sm"
               >
-                Serviço{errors.service && <span className="text-red-600">*</span>}
+                Serviço
               </label>
-              <input className='px-4 py-2 border-2 rounded-md outline-none'
+              <select
+                className='px-4 py-2.5 border-2 rounded-md outline-none bg-white'
                 id='service'
+                defaultValue=""
                 {...register("service", { required: true })}
-              />
+              >
+                <option
+                  value=""
+                  disabled
+                >
+                  Selecione um serviço
+                </option>
+
+                {servicesData.data?.map(service => (
+                  <option
+                    value={service.service}
+                    key={service.service}
+                    className="font-medium"
+                  >
+                    {service.service}
+                  </option>
+                ))}
+              </select>
             </div>
 
           </div>
@@ -280,8 +308,8 @@ export function FormCreateAppointment({ vetId, handle }: { vetId: string, handle
 }
 
 const hours = [
-  '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', 
-  '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', 
-  '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', 
+  '08:00', '08:30', '09:00', '09:30', '10:00', '10:30',
+  '11:00', '11:30', '12:00', '12:30', '13:00', '13:30',
+  '14:00', '14:30', '15:00', '15:30', '16:00', '16:30',
   '17:00', '17:30', '18:00'
 ];

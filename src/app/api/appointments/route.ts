@@ -28,40 +28,43 @@ export async function POST(request: Request) {
 }
 
 type userRole = "normal" | "veterinarian"
+
 export async function GET(request: Request) {
 
   const session = request.headers.get("session")
   const newSessionValue = session ? JSON.parse(session) : null
-  const userRole = newSessionValue?.user?.role  as userRole
+  const userRole = newSessionValue?.user?.role as userRole
   const userEmail = newSessionValue.user.email
-  
-  console.log("Bateu appointments GET" + userRole );
+
+  console.log("Bateu appointments GET" + userRole);
 
   try {
 
-    if(userRole === "normal"){
-      
+    if (userRole === "normal") {
 
-    const Appointments = await prisma.appointments.findMany({
-      where: {
-        email: userEmail,
-      }
-    })
 
-    return new NextResponse(JSON.stringify(Appointments), { status: 200 })
+      const Appointments = await prisma.appointments.findMany({
+        where: {
+          email: userEmail,
+        }
+      })
+
+      return new NextResponse(JSON.stringify(Appointments), { status: 200 })
     }
 
-    const Appointments = await prisma.appointments.findMany({
-      where: {
-        veterinarian:{
-          user:{
-            email: userEmail,
+    if (userRole === "veterinarian") {
+      const Appointments = await prisma.appointments.findMany({
+        where: {
+          veterinarian: {
+            user: {
+              email: userEmail,
+            }
           }
         }
-      }
-    })
+      })
 
-    return new NextResponse(JSON.stringify(Appointments), { status: 200 })
+      return new NextResponse(JSON.stringify(Appointments), { status: 200 })
+    }
 
   } catch (error) {
     console.log(error);
