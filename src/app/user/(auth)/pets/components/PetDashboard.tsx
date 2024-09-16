@@ -43,26 +43,20 @@ export function PetDashboard() {
 
     return (
         <>
-            <div className="w-full h-full items-start justify-start px-8 py-6 flex gap-4">
-                <div className="flex flex-col w-72 gap-4">
+            <div className="w-full h-full items-start justify-start px-8 py-6 flex flex-col gap-4">
+                <div className="flex w-full gap-4 items-center justify-center">
                     <PetIdBlock pet={pet} handleOpenRemove={handleOpenRemove} />
-                    <PetInfoBlock pet={pet}/>
-                    <UserBlock pet={pet} session={session} />
-                </div>
-                <div className="flex flex-col gap-4 w-1/3">
+                    <PetInfoBlock pet={pet} session={session} handleOpenPetCard={handleOpenPetCard}/>
                     <NotesBlock pet={pet} />
-                    <VaccinationBlock pet={pet} />
                 </div>
-                <div className="flex flex-col flex-1 gap-4">
-                    <ConsultBlock pet={pet}/>
-                    <div className="flex gap-4">
-                        <CalendarBlock />
-                        <PetCardBlock pet={pet} handleOpenPetCard={handleOpenPetCard} />
-                    </div>
+                <div className="flex gap-4 w-full">
+                    <ConsultBlock pet={pet} />
+                    <VaccinationBlock pet={pet} />
+                    <CalendarBlock />
                 </div>
             </div>
             {openRemove && <RemovePet handleRemove={handleOpenRemove} pet={pet} />}
-            {openPetCard && <ModalPetCard pet={pet} handleOpen={handleOpenPetCard}/>}
+            {openPetCard && <ModalPetCard pet={pet} handleOpen={handleOpenPetCard} />}
         </>
     )
 }

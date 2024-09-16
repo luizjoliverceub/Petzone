@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export function ConsultBlock({ pet }: { pet: CreatePetSchema }) {
     return (
-        <div className="border-2 p-8 rounded-xl flex flex-col min-h-[352px] min-w-[300px] flex-1">
+        <div className="border-2 p-8 rounded-xl flex flex-col h-full w-full">
             <div className="flex justify-between">
                 <h2 className="font-semibold text-zinc-700">Consultas</h2>
             </div>

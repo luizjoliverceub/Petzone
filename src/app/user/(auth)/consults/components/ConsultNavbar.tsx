@@ -22,6 +22,7 @@ export function ConsultNavbar() {
             )
     });
 
+
     const [vet, setVet] = useState<VeterinarianType[]>([]);
     const [appoint, setAppoint] = useState<AppointmentType[]>([]);
 

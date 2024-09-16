@@ -36,7 +36,7 @@ export function NavBarApp() {
                 <div className="w-full flex flex-col gap-2">
                     <ButtonNav title="Inicio" icon={House} href="/vet/home" path={path} />
                     <ButtonNav title="Mensagens" icon={MessageCircle} isChat href="/vet/message" path={path} />
-                    <ButtonNav title="Consultar Pet" icon={PawPrint} href={pets.length ? `/vet/petConsult/${pets[0].id}` : '/vet/petConsult'} path={path} />
+                    <ButtonNav title="Consultar Pet" icon={PawPrint} href={'/vet/petConsult'} path={path} />
                     <ButtonNav title="Minhas Consultas" icon={Activity} href="/vet/myConsults" path={path} />
                     <ButtonNav title="Notas" icon={Newspaper} href="/vet/notes" path={path} />
                 </div>

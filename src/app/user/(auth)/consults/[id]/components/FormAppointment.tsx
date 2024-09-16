@@ -27,8 +27,7 @@ const AppointmentSchema = z.object({
 type CreateAppointmentSchema = z.infer<typeof AppointmentSchema>;
 
 export function FormCreateAppointment({ vetId, handle }: { vetId: string, handle: () => void }) {
-  const { data: session } = useSession();
-  const { pets } = useUser()
+  const { pets, session } = useUser()
 
   const email = session?.user?.email
 

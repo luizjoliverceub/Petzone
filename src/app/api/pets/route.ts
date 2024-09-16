@@ -4,9 +4,10 @@ import { NextResponse } from "next/server"
 export async function GET(request: Request) {
   const session = request.headers.get("session")
   const newSessionValue = JSON.parse(session || '')
+  const userRole = newSessionValue?.user?.role as userRole
 
-  if (session && newSessionValue) {
-    try {
+  try {
+    if (userRole === 'normal') {
       const resp = await prisma.pet.findMany({
         where: {
           userEmail: newSessionValue.user.email
@@ -14,12 +15,21 @@ export async function GET(request: Request) {
       })
 
       return new NextResponse(JSON.stringify(resp), { status: 200 })
-    } catch (error) {
-      return NextResponse.json({ error: error }, { status: 500 })
     }
 
-  } else {
-    return new NextResponse(JSON.stringify({ message: "you are not authenticated" }),
-      { status: 401 })
+    if (userRole === 'veterinarian') {
+      const resp = await prisma.pet.findMany({
+        select: {
+          name: true,
+          id: true
+        }
+      })
+
+      return new NextResponse(JSON.stringify(resp), { status: 200 })
+    }
+  } catch (error) {
+    return NextResponse.json({ error: error }, { status: 500 })
   }
 }
+
+type userRole = "normal" | "veterinarian"

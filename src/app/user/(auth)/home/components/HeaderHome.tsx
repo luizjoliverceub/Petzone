@@ -20,7 +20,7 @@ export function HeaderHome() {
                         <input
                             type="text"
                             id="search"
-                            className="outline-none text-sm w-72 text-medium"
+                            className="outline-none text-sm w-72 text-medium bg-transparent"
                             placeholder="Pesquisar"
                         />
                     </div>

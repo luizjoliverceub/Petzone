@@ -12,7 +12,7 @@ type BlockInfoProps = {
 export function BlockInfo({ title, Icon, href, value }: BlockInfoProps) {
     return (
         <Link
-            className="animate-fade-in shadow-custom2 w-72 h-32 rounded-xl p-5 flex flex-col bg-zinc-50 gap-3 hover:shadow-custom3 duration-300 group"
+            className="animate-fade-in shadow-custom2 w-full h-32 rounded-xl p-5 flex flex-col bg-zinc-50 gap-3 hover:shadow-custom3 duration-300 group"
             href={href}
         >
             <div className="flex justify-between items-center text-zinc-500 group-hover:text-brand-secondary duration-300">

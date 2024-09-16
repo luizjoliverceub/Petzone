@@ -23,8 +23,8 @@ export function Blocks() {
 
     return (
         <div className="flex flex-col items-center 2xl:flex-row 2xl:items-start">
-            <div>
-                <div className="p-8 flex flex-col items-center gap-6 xl:flex-row">
+            <div className="w-full">
+                <div className="w-full p-8 flex flex-col items-center gap-6 xl:flex-row">
                     <BlockInfo
                         title="Pets cadastrados"
                         Icon={Bone}
@@ -47,11 +47,11 @@ export function Blocks() {
                 <div className="px-8">
                     <BlockEvents />
                 </div>
-                <div className="px-8">
+                <div className="px-8 hidden 2xl:flex">
                     <BlockEmpty horizontal />
                 </div>
             </div>
-            <div className="p-8 flex-1 rounded-xl relative animate-fade-in flex flex-col gap-10">
+            <div className="p-8 flex-1 rounded-xl relative animate-fade-in flex 2xl:flex-col gap-10 w-full h-full">
                 {isLoading ? <div className="w-[610px] h-[406px] rounded-xl bg-zinc-300 animate-pulse" /> : <BlockNews news={data} />}
                 <BlockEmpty />
             </div>

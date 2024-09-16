@@ -2,7 +2,7 @@ import { CreatePetSchema } from "@/utils/actions/AddPet";
 
 export function NotesBlock({ pet }: { pet: CreatePetSchema | null }) {
     return (
-        <div className="border-2 p-8 rounded-xl flex flex-col gap-2 min-h-[352px] overflow-hidden">
+        <div className="border-2 p-8 rounded-xl flex flex-col gap-2 h-full w-full overflow-hidden">
             <h2 className="font-semibold text-zinc-700">Observações</h2>
             <div className={`flex flex-1 ${pet?.notes.length ? '' : 'items-center justify-center'}`}>
                 {

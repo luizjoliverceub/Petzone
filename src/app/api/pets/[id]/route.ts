@@ -41,38 +41,32 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
 export async function GET(request: Request, { params }: { params: { id: string } }) {
 
   const session = request.headers.get("session")
-  const newSessionValue = JSON.parse(session)
+  const newSessionValue = JSON.parse(session || '')
 
   const petId = params.id
 
-  if (session && newSessionValue) {
-    try {
-      const petById = await prisma.pet.findUnique({
-        where: {
-          id: petId
-        }
-      })
+  try {
+    const petById = await prisma.pet.findUnique({
+      where: {
+        id: petId
+      }
+    })
 
-      return new NextResponse(JSON.stringify(petById), { status: 200 })
-    } catch (error) {
-      return NextResponse.json({ error: error }, { status: 500 })
-    }
-
-  } else {
-    return new NextResponse(JSON.stringify({ message: "you are not authenticated route get pet id" }),
-      { status: 401 })
+    return new NextResponse(JSON.stringify(petById), { status: 200 })
+  } catch (error) {
+    return NextResponse.json({ error: error }, { status: 500 })
   }
 }
 
 
-export async function PUT(request: Request,{ params }: { params: { id: string } }) {
+export async function PUT(request: Request, { params }: { params: { id: string } }) {
 
   const session = request.headers.get("session")
-const newSessionValue = JSON.parse(session) 
+  const newSessionValue = JSON.parse(session)
 
 
 
-const petId = params.id
+  const petId = params.id
 
 
 
@@ -86,7 +80,7 @@ const petId = params.id
       data: body,
     });
 
-    return new NextResponse(JSON.stringify({message:"Pet Alterado com sucesso!"}), { status: 200 });
+    return new NextResponse(JSON.stringify({ message: "Pet Alterado com sucesso!" }), { status: 200 });
   } catch (error) {
     console.log(error);
     return new NextResponse(

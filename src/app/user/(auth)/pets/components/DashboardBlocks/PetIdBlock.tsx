@@ -20,7 +20,7 @@ export function PetIdBlock({ pet, handleOpenRemove }: { pet: CreatePetSchema, ha
     }
     
     return (
-        <div className="border-2 rounded-xl px-4 py-4 flex flex-col gap-4 items-center justify-center h-[352px]">
+        <div className="border-2 rounded-xl px-4 py-8 flex flex-col gap-4 items-center justify-center w-[50%]">
                         <div className="flex w-full justify-end relative">
                             <button
                                 type="button"
@@ -32,7 +32,7 @@ export function PetIdBlock({ pet, handleOpenRemove }: { pet: CreatePetSchema, ha
                             {isOpenOptions && <Options handleRemove={handleOpenRemove} handleOpen={handleOpenOptions} />}
                         </div>
                         <div>
-                            <div className="w-48 h-48 rounded-full bg-zinc-300"></div>
+                            <div className="w-36 h-36 2xl:w-44 2xl:h-44 rounded-full bg-zinc-300" />
                         </div>
                         <div className="flex flex-col text-center">
                             <h2 className="w-auto font-semibold text-2xl flex gap-1 items-center justify-center relative">{pet.name}
@@ -43,7 +43,6 @@ export function PetIdBlock({ pet, handleOpenRemove }: { pet: CreatePetSchema, ha
                                 >
                                     {isClicked ? <Check strokeWidth={3} className="animate-fade-in text-white" /> : <Copy className="animate-fade-in" />}
                                 </button></h2>
-                            <h3 className="font-medium text-lg text-zinc-400">{pet.race}</h3>
                         </div>
                     </div>
     )

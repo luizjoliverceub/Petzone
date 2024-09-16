@@ -11,7 +11,7 @@ import { getPetByidByVet } from "@/utils/actions/GetPetByIdByVet";
 import PetsBoard from "@/components/Auth/vet/PetsBoard";
 
 const AddPetSchema = z.object({
-  id: z.string().nonempty("O ID do pet é obrigatório.") // Adiciona a validação de campo não vazio
+  id: z.string().nonempty("O ID do pet é obrigatório.")
 });
 
 type typeAddPetSchema = z.infer<typeof AddPetSchema>;

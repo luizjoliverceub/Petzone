@@ -3,7 +3,7 @@ import { CreatePetSchema } from "@/utils/actions/AddPet";
 
 export function PetIdBlock({ pet }: { pet: CreatePetSchema | undefined }) {
     return (
-        <div className="border-2 rounded-xl px-4 py-4 flex flex-col gap-4 items-center justify-center h-[352px]">
+        <div className="border-2 rounded-xl px-4 py-4 flex flex-col gap-4 items-center justify-center h-full w-[40%]">
             <div>
                 <div className="w-48 h-48 rounded-full bg-zinc-300"></div>
             </div>

@@ -24,10 +24,7 @@ export async function getPetById (petId:string){
 
    
     
-    const data = await res.json() as Pet[]
+    const data = await res.json() as Pet
 
-    
-    
-    
-    return [data]
+    return data
   }
