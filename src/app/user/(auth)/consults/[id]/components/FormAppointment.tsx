@@ -6,11 +6,9 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { toast } from 'sonner';
 import { createAppointment } from "@/utils/actions/CreateAppointments";
-import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
 import { getUser } from "@/utils/actions/GetUser";
 import { LoaderCircle, X } from "lucide-react";
-import { Span } from "next/dist/trace";
 import { useUser } from "@/contexts/UserContext";
 
 const AppointmentSchema = z.object({
@@ -31,6 +29,7 @@ export function FormCreateAppointment({ vetId, handle }: { vetId: string, handle
 
   const email = session?.user?.email
 
+
   const { data } = useQuery({
     queryKey: ['user-data', email],
     queryFn: async () => {
@@ -42,6 +41,8 @@ export function FormCreateAppointment({ vetId, handle }: { vetId: string, handle
     },
     enabled: !!email
   })
+
+  console.log(data?.id)
 
   const {
     register,
