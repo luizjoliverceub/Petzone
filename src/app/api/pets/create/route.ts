@@ -9,17 +9,18 @@ export async function POST(request:Request) {
  const newSessionValue = JSON.parse(session)
 
   
-  console.log(newSessionValue);
+  // console.log(newSessionValue);
   
     if(session && newSessionValue ){
 
    try {
       
     const body = await request.json()
+    console.log(body);
     
     const createdPet = await prisma.pet.create({
         data:body,
-       
+      
     })
 
      return new NextResponse(JSON.stringify(createdPet),{status:201})

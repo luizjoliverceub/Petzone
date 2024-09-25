@@ -44,11 +44,19 @@ export async function GET(request: Request, { params }: { params: { id: string }
   const newSessionValue = JSON.parse(session || '')
 
   const petId = params.id
-
+  
+  
   try {
     const petById = await prisma.pet.findUnique({
       where: {
         id: petId
+      },
+      include:{
+        user:{
+          select:{
+            name:true
+          }
+        }
       }
     })
 

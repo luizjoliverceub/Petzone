@@ -9,6 +9,7 @@ import { getAllVets } from "@/utils/actions/GetAllVets";
 import { AppointmentType, NewsType, VeterinarianType } from "@/models/Types";
 import { getAppointments } from "@/utils/actions/GetAppointments";
 import { getAllNews } from "@/utils/actions/GetAllNews";
+import { log } from "util";
 
 interface UserContextType {
   isLoggingOut: boolean
@@ -32,6 +33,8 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const [appointments, setAppointments] = useState<AppointmentType[]>([]);
   const [news, setNews] = useState<NewsType[]>([]);
 
+  console.log(pets);
+  
   const [refresh, setRefresh] = useState(false);
 
   const { data: session, status } = useSession();
