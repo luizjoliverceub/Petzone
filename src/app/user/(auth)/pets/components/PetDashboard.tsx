@@ -1,6 +1,6 @@
 'use client'
 
-import { useUser } from "@/contexts/UserContext";
+import { PetType, useUser } from "@/contexts/UserContext";
 import { CreatePetSchema } from "@/utils/actions/AddPet";
 import dayjs from "dayjs";
 import localizedFormat from 'dayjs/plugin/localizedFormat';
@@ -26,7 +26,7 @@ export function PetDashboard() {
     const [openPetCard, setOpenPetCard] = useState(false)
     const router = useRouter()
 
-    const pet = pets.find(pet => pet.id === id) as CreatePetSchema
+    const pet = pets.find(pet => pet.id === id) as PetType
 
     if (!pet) {
         router.push('/user/pets');
@@ -46,7 +46,7 @@ export function PetDashboard() {
             <div className="w-full h-full items-start justify-start px-8 py-6 flex flex-col gap-4">
                 <div className="flex w-full gap-4 items-center justify-center">
                     <PetIdBlock pet={pet} handleOpenRemove={handleOpenRemove} />
-                    <PetInfoBlock pet={pet} session={session} handleOpenPetCard={handleOpenPetCard}/>
+                    <PetInfoBlock pet={pet} handleOpenPetCard={handleOpenPetCard}/>
                     <NotesBlock pet={pet} />
                 </div>
                 <div className="flex gap-4 w-full">

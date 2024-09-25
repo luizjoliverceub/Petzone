@@ -6,9 +6,9 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { toast } from 'sonner';
 import { useState, useEffect } from "react";
-import { Pet } from "@/app/(auth)/dashboard/page";
 import { getPetByidByVet } from "@/utils/actions/GetPetByIdByVet";
 import PetsBoard from "@/components/Auth/vet/PetsBoard";
+import { PetType } from "@/contexts/UserContext";
 
 const AddPetSchema = z.object({
   id: z.string().nonempty("O ID do pet é obrigatório.")
@@ -17,7 +17,7 @@ const AddPetSchema = z.object({
 type typeAddPetSchema = z.infer<typeof AddPetSchema>;
 
 export default function VeterinarioAllpets() {
-  const [pets, setPets] = useState<Pet[]>([]);
+  const [pets, setPets] = useState<PetType[]>([]);
   const [inputValue, setInputValue] = useState<string>('');
 
   const {

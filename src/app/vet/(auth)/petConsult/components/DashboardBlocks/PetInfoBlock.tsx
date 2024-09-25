@@ -1,8 +1,8 @@
-import { CreatePetSchema } from "@/utils/actions/AddPet";
+import { PetType } from "@/contexts/UserContext";
 import dayjs from "dayjs";
 import { View } from "lucide-react";
 
-export function PetInfoBlock({ pet, handleOpenPetCard }: { pet: CreatePetSchema, handleOpenPetCard: () => void }) {
+export function PetInfoBlock({ pet, handleOpenPetCard }: { pet: PetType, handleOpenPetCard: () => void }) {
     const formatarIdadeDoPet = (idadeEmMeses: number) => {
         if (idadeEmMeses >= 12) {
             const anos = Math.floor(idadeEmMeses / 12);
@@ -27,7 +27,7 @@ export function PetInfoBlock({ pet, handleOpenPetCard }: { pet: CreatePetSchema,
                         </div>
                         <div>
                             <h2 className="font-semibold text-zinc-700">Dono</h2>
-                            <p className="text-wrap text-sm text-zinc-500 font-medium truncate">{pet.race}</p >
+                            <p className="text-wrap text-sm text-zinc-500 font-medium truncate">{pet.user.name}</p >
                         </div>
                         <div>
                             <h2 className="font-semibold text-zinc-700">Localização</h2>
@@ -50,7 +50,7 @@ export function PetInfoBlock({ pet, handleOpenPetCard }: { pet: CreatePetSchema,
                         </div>
                         <div>
                             <h2 className="font-semibold text-zinc-700">Raça</h2>
-                            <p className="text-wrap text-zinc-500 font-medium truncate text-sm">{pet.userEmail}</p>
+                            <p className="text-wrap text-zinc-500 font-medium truncate text-sm">{pet.race}</p>
                         </div>
                     </div>
                 </div>

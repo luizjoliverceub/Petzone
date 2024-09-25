@@ -1,4 +1,3 @@
-import { Pet } from '@/app/(auth)/dashboard/page';
 import { ModalPetCard } from '@/app/user/(auth)/pets/components/ModalPetCard';
 import { CalendarBlock } from '@/app/vet/(auth)/petConsult/components/DashboardBlocks/CalendarBlock';
 import { ConsultBlock } from '@/app/vet/(auth)/petConsult/components/DashboardBlocks/ConsultBlock';
@@ -6,10 +5,11 @@ import { NotesBlock } from '@/app/vet/(auth)/petConsult/components/DashboardBloc
 import { PetIdBlock } from '@/app/vet/(auth)/petConsult/components/DashboardBlocks/PetIdBlock';
 import { PetInfoBlock } from '@/app/vet/(auth)/petConsult/components/DashboardBlocks/PetInfoBlock';
 import { VaccinationBlock } from '@/app/vet/(auth)/petConsult/components/DashboardBlocks/VaccinationBlock';
+import { PetType } from '@/contexts/UserContext';
 import { ClipboardPlus } from 'lucide-react';
 import React, { useState } from 'react';
 
-export default function PetsBoard({ pets }: { pets: Pet[] }) {
+export default function PetsBoard({ pets }: { pets: PetType[] }) {
   const [openModal, setOpenModal] = useState(false)
   const pet = pets.length > 0 ? pets[0] : undefined;
 

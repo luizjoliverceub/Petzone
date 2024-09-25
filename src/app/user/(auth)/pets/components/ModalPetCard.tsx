@@ -1,11 +1,8 @@
-import { useUser } from "@/contexts/UserContext";
-import { CreatePetSchema } from "@/utils/actions/AddPet";
+import { PetType } from "@/contexts/UserContext";
 import dayjs from "dayjs";
 import { X } from "lucide-react";
 
-export function ModalPetCard({ pet, handleOpen }: { pet: CreatePetSchema, handleOpen: () => void }) {
-
-    const { session } = useUser()
+export function ModalPetCard({ pet, handleOpen }: { pet: PetType | undefined, handleOpen: () => void }) {
 
     const formatarIdadeDoPet = (idadeEmMeses: number) => {
         if (idadeEmMeses >= 12) {
@@ -30,21 +27,21 @@ export function ModalPetCard({ pet, handleOpen }: { pet: CreatePetSchema, handle
                     <div className="h-44 w-40 bg-zinc-400 rounded-xl" />
                     <div className="h-full flex flex-col px-2 py-4 flex-1">
                         <div className="flex-1">
-                            <h2 className="text-4xl font-semibold">{pet.name}</h2>
-                            <h3 className="text-2xl font-semibold text-zinc-500">{pet.race}</h3>
+                            <h2 className="text-4xl font-semibold">{pet?.name}</h2>
+                            <h3 className="text-2xl font-semibold text-zinc-500">{pet?.race}</h3>
                         </div>
                         <div className="flex justify-between w-full">
                             <div>
                                 <h4 className="font-medium text-zinc-500 text-sm">Data de nascimento:</h4>
-                                <h4 className="font-medium">{dayjs(pet.birthDate).format('DD/MM/YYYY')}</h4>
+                                <h4 className="font-medium">{dayjs(pet?.birthDate).format('DD/MM/YYYY')}</h4>
                             </div>
                             <div>
                                 <h4 className="font-medium text-zinc-500 text-sm">Idade:</h4>
-                                <h4 className="font-medium">{formatarIdadeDoPet(pet.age)}</h4>
+                                <h4 className="font-medium">{formatarIdadeDoPet(pet?.age || 0)}</h4>
                             </div>
                             <div>
                                 <h4 className="font-medium text-zinc-500 text-sm">Sexo:</h4>
-                                <h4 className="font-medium">{pet.sex === 'F' ? 'Femea' : 'Macho'}</h4>
+                                <h4 className="font-medium">{pet?.sex === 'F' ? 'Femea' : 'Macho'}</h4>
                             </div>
                         </div>
                     </div>
@@ -53,25 +50,25 @@ export function ModalPetCard({ pet, handleOpen }: { pet: CreatePetSchema, handle
                     <div className="flex justify-between">
                         <div>
                             <h4 className="font-medium text-zinc-500 text-sm">Dono:</h4>
-                            <h4 className="font-medium">{session?.user?.name}</h4>
+                            <h4 className="font-medium">{pet?.user.name}</h4>
                         </div>
                         <div>
                             <h4 className="font-medium text-zinc-500 text-sm">Contato:</h4>
-                            <h4 className="font-medium">{pet.userEmail}</h4>
+                            <h4 className="font-medium">{pet?.userEmail}</h4>
                         </div>
                         <div>
                             <h4 className="font-medium text-zinc-500 text-sm">Cidade:</h4>
-                            <h4 className="font-medium">{pet.city}</h4>
+                            <h4 className="font-medium">{pet?.city}</h4>
                         </div>
                     </div>
                     <div className="flex justify-between">
                         <div>
                             <h4 className="font-medium text-zinc-500 text-sm">Observações:</h4>
-                            <h4 className="font-medium">{pet.notes ? pet.notes : 'Não há observações sobre este pet'}</h4>
+                            <h4 className="font-medium">{pet?.notes ? pet?.notes : 'Não há observações sobre este pet'}</h4>
                         </div>
                         <div>
                             <h4 className="font-medium text-zinc-500 text-sm">Vacinas:</h4>
-                            <h4 className="font-medium">{pet.vaccination ? pet.vaccination : 'Não há vacinas sobre este pet'}</h4>
+                            <h4 className="font-medium">{pet?.vaccination ? pet.vaccination : 'Não há vacinas sobre este pet'}</h4>
                         </div>
                     </div>
                 </div>

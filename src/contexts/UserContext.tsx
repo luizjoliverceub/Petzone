@@ -11,12 +11,17 @@ import { getAppointments } from "@/utils/actions/GetAppointments";
 import { getAllNews } from "@/utils/actions/GetAllNews";
 import { log } from "util";
 
+export interface PetType extends CreatePetSchema {
+  user: {
+      name: string
+  }
+}
 interface UserContextType {
   isLoggingOut: boolean
   refresh: boolean
   session: Session | null
   status: "authenticated" | "loading" | "unauthenticated";
-  pets: CreatePetSchema[]
+  pets: PetType[]
   vets: VeterinarianType[]
   news: NewsType[]
   appointments: AppointmentType[]
@@ -28,7 +33,7 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export function UserProvider({ children }: { children: ReactNode }) {
   const [isLoggingOut, setIsLoggingOut] = useState(false);
-  const [pets, setPets] = useState<CreatePetSchema[]>([]);
+  const [pets, setPets] = useState<PetType[]>([]);
   const [vets, setVets] = useState<VeterinarianType[]>([]);
   const [appointments, setAppointments] = useState<AppointmentType[]>([]);
   const [news, setNews] = useState<NewsType[]>([]);

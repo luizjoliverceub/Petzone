@@ -9,23 +9,6 @@ import { getAllNews } from "@/utils/actions/GetAllNews";
 import MainNewsLetterCarousel from "@/components/MainNewsLetterCarousel";
 
 
-
-
-export type Pet = {
-  age:number,
-  name:string,
-  id:string,
-  userEmail:string,
-  race:string,
-  city:string,
-  birthDate:Date,
-  sex: "M" | "H",
-  vaccination:string,
-  notes:string
-
-  
-}
-
 export default async function DashboardPage() {
 
    const firstPet = await getFirstPet()
