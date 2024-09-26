@@ -19,7 +19,20 @@ export async function POST(request:Request) {
     console.log(body);
     
     const createdPet = await prisma.pet.create({
-        data:body,
+      data: {
+        id: body.id,
+        name: body.name,
+        age: body.age,
+        city: body.city,
+        birthDate: body.birthDate,
+        race: body.race,
+        notes: body.notes,
+        sex: body.sex,
+        user: {
+          connect: { email: body.userEmail }, 
+        },
+      },
+        
       
     })
 

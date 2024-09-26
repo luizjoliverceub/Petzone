@@ -65,6 +65,7 @@ model VeterinarianProfile {
   addressId    String?        @unique
   address      Address?       @relation(fields: [addressId], references: [id])
   Appointments Appointments[]
+  Service      Service[]
 }
 
 enum Role {
@@ -88,13 +89,13 @@ model VerificationToken {
 }
 
 model Pet {
-  id          String   @id @default(cuid())
+  id          String        @id @default(cuid())
   name        String
   age         Int
-  user        User?    @relation(fields: [userEmail], references: [email], onDelete: Cascade)
+  user        User?         @relation(fields: [userEmail], references: [email], onDelete: Cascade)
   birthDate   DateTime
   notes       String
-  vaccination String
+  vaccination Vaccination[] // Lista de vacinas
   sex         Sex
   city        String
   race        String
@@ -120,4 +121,20 @@ model Appointments {
   phone                 String
   service               String
   email                 String
+}
+
+model Vaccination {
+  id               String   @id @default(cuid())
+  name             String
+  vaccination_date DateTime
+  petId            String
+  pet              Pet      @relation(fields: [petId], references: [id], onDelete: Cascade)
+}
+
+model Service {
+  id                    String              @id @default(cuid())
+  name                  String
+  price                 Float
+  veterinarianProfile   VeterinarianProfile @relation(fields: [veterinarianProfileId], references: [id], onDelete: Cascade)
+  veterinarianProfileId String
 }
