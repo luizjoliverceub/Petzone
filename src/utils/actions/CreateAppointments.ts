@@ -8,7 +8,7 @@ const AppointmentSchema = z.object({
   userId: z.string(),
   veterinarianProfileId: z.string(),
   petId: z.string(),
-  appointment_date: z.date(),
+  appointment_date: z.string(),
   clientName: z.string().min(2, 'Digite no mínimo 2 caracteres'),
   phone: z.string().min(1, 'Telefone inválido'),
   service: z.string().min(2, 'Serviço inválido'),

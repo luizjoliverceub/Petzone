@@ -95,7 +95,7 @@ model Pet {
   user        User?         @relation(fields: [userEmail], references: [email], onDelete: Cascade)
   birthDate   DateTime
   notes       String
-  vaccination Vaccination[] // Lista de vacinas
+  vaccination Vaccination[]
   sex         Sex
   city        String
   race        String

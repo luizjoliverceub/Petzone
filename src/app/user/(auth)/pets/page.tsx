@@ -27,7 +27,9 @@ export default function Home() {
     );
   }
 
-  if (pets.length === 0) {
+  console.log(pets)
+
+  if (pets.length == 0) {
     return (
       <main className="h-full w-full flex items-center justify-center flex-col">
         <div className="h-72 w-[480px] flex flex-col justify-center items-center relative z-0">
@@ -50,5 +52,5 @@ export default function Home() {
     );
   }
 
-  return null; // Retorno caso `pets` tenha sido redirecionado antes da renderização
+  return null
 }

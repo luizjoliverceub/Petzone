@@ -8,12 +8,11 @@ import { AppointmentType, VeterinarianType } from "@/models/Types";
 import { ChangeEvent, useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { NavAppoint } from "./NavAppoint";
-import { useUser } from "@/contexts/UserContext";
+import { getAppointments } from "@/utils/actions/GetAppointments";
 
 export function ConsultNavbar() {
     const [search, setSearch] = useState('');
     const path = usePathname()
-    const { appointments } = useUser()
     const { data, isLoading, error } = useQuery<VeterinarianType[]>({
         queryKey: ['vet-data'],
         queryFn: () =>
@@ -22,6 +21,16 @@ export function ConsultNavbar() {
             )
     });
 
+    const appointData = useQuery({
+        queryKey: ['appoint'],
+        queryFn: async () => {
+            const data: AppointmentType[] = await getAppointments()
+
+            return data
+        }
+    })  
+
+    const appointments = appointData.data
 
     const [vet, setVet] = useState<VeterinarianType[]>([]);
     const [appoint, setAppoint] = useState<AppointmentType[]>([]);
@@ -64,12 +73,14 @@ export function ConsultNavbar() {
             </div>
             <div className="mt-12 flex flex-col gap-4 overflow-y-auto py-2">
                 {
-                    isLoading ?
+                    isLoading || appointData.isLoading ?
                         <SkeletonNavVet /> :
                         path.includes('/user/consults/allConsults') ?
                             <NavAppoint data={appoint} /> :
                             <NavVets data={vet} />
                 }
+
+                
             </div>
         </div>
     );

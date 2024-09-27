@@ -7,8 +7,8 @@ import * as z from "zod";
 import { toast } from 'sonner';
 import { useState, useEffect } from "react";
 import { getPetByidByVet } from "@/utils/actions/GetPetByIdByVet";
-import PetsBoard from "@/components/Auth/vet/PetsBoard";
 import { PetType } from "@/contexts/UserContext";
+import { PetDashboard } from "@/components/InfoPet/PetDashboard";
 
 const AddPetSchema = z.object({
   id: z.string().nonempty("O ID do pet é obrigatório.")
@@ -101,7 +101,7 @@ export default function VeterinarioAllpets() {
         </form>
       </div>
       <div className="flex-1 flex items-center justify-center">
-        <PetsBoard pets={pets} />
+        <PetDashboard petsVet={pets} />
       </div>
     </div>
   );

@@ -16,7 +16,7 @@ const createPetSchema = z.object({
   sex: z.enum(["M", "F", "U"]),
   notes: z.string(),
   race: z.string().min(2, 'Raça inválida'),
-  vaccination: z.string(),
+  vaccination: z.string()
   // urlImage: z.string()
 });
 

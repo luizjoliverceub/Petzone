@@ -2,12 +2,12 @@
 
 import { auth } from "@/app/api/auth/[...nextauth]/route"
 
-export async function GetUserInfo(){
+export async function getVaccines (petId: string){
     const session = await auth()
 
-    const res = await fetch("http://localhost:3000/api/user",{
+    const res = await fetch(`http://localhost:3000/api/vaccination/pet/${petId}`,{
       next:{
-        tags:["user"]
+        tags:["vaccines"]
       },
       headers:{
            'session': JSON.stringify(session)
@@ -17,6 +17,4 @@ export async function GetUserInfo(){
     const data = await res.json()
     
     return data
-
-    
   }

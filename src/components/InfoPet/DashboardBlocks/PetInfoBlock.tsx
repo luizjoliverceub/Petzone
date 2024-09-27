@@ -1,9 +1,11 @@
-import { PetType } from "@/contexts/UserContext";
+import { PetType, useUser } from "@/contexts/UserContext";
 import dayjs from "dayjs";
 import { ExternalLink, View } from "lucide-react";
 import { Session } from "next-auth";
 
 export function PetInfoBlock({ pet, handleOpenPetCard }: { pet: PetType, handleOpenPetCard: () => void }) {
+    const { session } = useUser()
+
     const formatarIdadeDoPet = (idadeEmMeses: number) => {
         if (idadeEmMeses >= 12) {
             const anos = Math.floor(idadeEmMeses / 12);
@@ -57,18 +59,22 @@ export function PetInfoBlock({ pet, handleOpenPetCard }: { pet: PetType, handleO
                 </div>
                 <div className="w-full border-2 rounded-lg h-12 flex gap-2 p-1 justify-center">
                     <button
-                        className="px-2 py-1 rounded-md border-2 text-xs flex-1 flex gap-1 items-center justify-center font-medium text-brand-primary hover:bg-brand-secondary hover:text-white duration-300"
+                        className={`px-2 py-1 rounded-md border-2 text-xs flex-1 flex gap-1 items-center justify-center font-medium text-brand-primary 
+                            ${session?.user?.role === 'normal' ? 'hover:bg-brand-secondary' : 'hover:bg-vet-primary'} hover:text-white duration-300`}
                         onClick={handleOpenPetCard}
                     >
                         Mostrar
                         <View className="size-4" />
                     </button>
-                    <button
-                        className="px-2 py-1 rounded-md border-2 text-xs flex-1 flex gap-1 items-center justify-center font-medium text-brand-primary hover:bg-brand-primary hover:text-white duration-300"
-                    >
-                        Compartilhar
-                        <ExternalLink className="size-4" />
-                    </button>
+                    {
+                        session?.user?.role === 'normal' &&
+                        <button
+                            className="px-2 py-1 rounded-md border-2 text-xs flex-1 flex gap-1 items-center justify-center font-medium text-brand-primary hover:bg-brand-primary hover:text-white duration-300"
+                        >
+                            Compartilhar
+                            <ExternalLink className="size-4" />
+                        </button>
+                    }
                 </div>
             </div>
         </div>

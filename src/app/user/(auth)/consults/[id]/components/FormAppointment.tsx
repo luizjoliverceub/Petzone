@@ -1,15 +1,15 @@
-"use client"
+"use client";
 
-import { ImSpinner9 } from "react-icons/im";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { toast } from 'sonner';
 import { createAppointment } from "@/utils/actions/CreateAppointments";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { getUser } from "@/utils/actions/GetUser";
 import { LoaderCircle, X } from "lucide-react";
 import { useUser } from "@/contexts/UserContext";
+import { queryClient } from "@/hooks/useQuery";
 
 const AppointmentSchema = z.object({
   userId: z.string(),
@@ -24,23 +24,8 @@ const AppointmentSchema = z.object({
 
 type CreateAppointmentSchema = z.infer<typeof AppointmentSchema>;
 
-export function FormCreateAppointment({ vetId, handle }: { vetId: string, handle: () => void }) {
-  const { pets, session } = useUser()
-
-  const email = session?.user?.email
-
-
-  const { data } = useQuery({
-    queryKey: ['user-data', email],
-    queryFn: async () => {
-      if (!email) {
-        throw new Error('Email is not defined')
-      }
-      const user = await getUser(email)
-      return user
-    },
-    enabled: !!email
-  })
+export function FormCreateAppointment({ vetId, handle, userId }: { vetId: string, handle: () => void, userId: string | undefined }) {
+  const { pets, session } = useUser();
 
   const servicesData = useQuery<{ service: string }[]>({
     queryKey: ['services-data'],
@@ -48,9 +33,7 @@ export function FormCreateAppointment({ vetId, handle }: { vetId: string, handle
       fetch(`/api/vets/services`).then((res) =>
         res.json()
       ),
-  })
-
-  console.log(data?.id)
+  });
 
   const {
     register,
@@ -61,23 +44,21 @@ export function FormCreateAppointment({ vetId, handle }: { vetId: string, handle
     resolver: zodResolver(AppointmentSchema)
   });
 
-
-  async function onSubmit(data: CreateAppointmentSchema) {
-    try {
-      console.log("Submitted data:", data);
-      const formattedData = {
-        ...data,
-        appointment_date: new Date(data.appointment_date),
-      };
-
-      await createAppointment(formattedData);
+  const createAppointmentMutation = useMutation({
+    mutationFn: createAppointment,
+    onSuccess: () => {
       toast.success('Agendamento criado com sucesso!');
-      handle()
+      queryClient.invalidateQueries({ queryKey: ['appoint'] })
+      handle();
       reset();
-    } catch (error) {
-      console.error("Error creating appointment:", error);
+    },
+    onError: () => {
       toast.error('Erro ao criar agendamento');
     }
+  });
+
+  async function onSubmit(data: CreateAppointmentSchema) {
+    createAppointmentMutation.mutate(data);
   }
 
   return (
@@ -111,12 +92,11 @@ export function FormCreateAppointment({ vetId, handle }: { vetId: string, handle
           <input
             className='hidden'
             id='userId'
-            value={data?.id}
+            value={userId}
             {...register("userId", { required: true })}
           />
 
           <div className="flex flex-col gap-2">
-
             <div className="flex flex-col gap-1">
               <label
                 htmlFor="clientName"
@@ -150,7 +130,6 @@ export function FormCreateAppointment({ vetId, handle }: { vetId: string, handle
             </div>
 
             <div className="flex gap-2 w-full">
-              {/* Input de PetID */}
               <div className="flex flex-col gap-1">
                 <label
                   htmlFor="petId"
@@ -164,13 +143,9 @@ export function FormCreateAppointment({ vetId, handle }: { vetId: string, handle
                   defaultValue=""
                   {...register("petId", { required: true })}
                 >
-                  <option
-                    value=""
-                    disabled
-                  >
+                  <option value="" disabled>
                     Selecione um pet
                   </option>
-
                   {pets?.map(pet => (
                     <option
                       value={pet.id}
@@ -183,7 +158,6 @@ export function FormCreateAppointment({ vetId, handle }: { vetId: string, handle
                 </select>
               </div>
 
-              {/* Input de telefone */}
               <div className="flex flex-col gap-1 w-[245px]">
                 <label
                   htmlFor="phone"
@@ -201,8 +175,6 @@ export function FormCreateAppointment({ vetId, handle }: { vetId: string, handle
             </div>
 
             <div className="flex gap-2">
-
-              {/* Input de data */}
               <div className="flex flex-col gap-1 w-[185px]">
                 <label
                   htmlFor="appointment_date"
@@ -218,7 +190,6 @@ export function FormCreateAppointment({ vetId, handle }: { vetId: string, handle
                 />
               </div>
 
-              {/* Input de Horario */}
               <div className="flex flex-col gap-1 flex-1">
                 <label
                   htmlFor="hourAppointment"
@@ -231,28 +202,18 @@ export function FormCreateAppointment({ vetId, handle }: { vetId: string, handle
                   id='hourAppointment'
                   defaultValue=""
                 >
-                  <option
-                    value=""
-                    disabled
-                  >
+                  <option value="" disabled>
                     Selecione um horário
                   </option>
-
-                  {hours?.map(hour => (
-                    <option
-                      value={hour}
-                      key={hour}
-                      className="font-medium"
-                    >
+                  {hours.map(hour => (
+                    <option value={hour} key={hour} className="font-medium">
                       {hour}
                     </option>
                   ))}
                 </select>
               </div>
-
             </div>
 
-            {/* Input de servico */}
             <div className="flex flex-col gap-1">
               <label
                 htmlFor="service"
@@ -266,33 +227,23 @@ export function FormCreateAppointment({ vetId, handle }: { vetId: string, handle
                 defaultValue=""
                 {...register("service", { required: true })}
               >
-                <option
-                  value=""
-                  disabled
-                >
+                <option value="" disabled>
                   Selecione um serviço
                 </option>
-
                 {servicesData.data?.map(service => (
-                  <option
-                    value={service.service}
-                    key={service.service}
-                    className="font-medium"
-                  >
+                  <option value={service.service} key={service.service} className="font-medium">
                     {service.service}
                   </option>
                 ))}
               </select>
             </div>
-
           </div>
 
-          {/* Botao de submit */}
           <button
             type='submit'
-            disabled={isSubmitting}
+            disabled={createAppointmentMutation.isPending}
             className='text-white border-2 border-transparent font-semibold py-2 bg-brand-secondary rounded-lg hover:border-brand-secondary hover:bg-transparent hover:text-brand-secondary duration-300 flex gap-2 justify-center items-center'>
-            {isSubmitting ?
+            {createAppointmentMutation.isPending ?
               <>
                 <span>Agendando</span>
                 <LoaderCircle className="animate-spin size-5" />
@@ -310,6 +261,5 @@ export function FormCreateAppointment({ vetId, handle }: { vetId: string, handle
 const hours = [
   '08:00', '08:30', '09:00', '09:30', '10:00', '10:30',
   '11:00', '11:30', '12:00', '12:30', '13:00', '13:30',
-  '14:00', '14:30', '15:00', '15:30', '16:00', '16:30',
-  '17:00', '17:30', '18:00'
+  '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00'
 ];

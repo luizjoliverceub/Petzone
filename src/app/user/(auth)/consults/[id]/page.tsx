@@ -8,10 +8,28 @@ import { useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, BadgeCheck } from "lucide-react";
 import { Service } from "./components/Service";
+import { useUser } from "@/contexts/UserContext";
+import { getUser } from "@/utils/actions/GetUser";
 
 export default function Home() {
     const [open, setOpen] = useState(false)
+    const { session } = useUser()
     const { id } = useParams<{ id: string }>();
+
+    const email = session?.user?.email
+
+    const user = useQuery({
+        queryKey: ['user-data', email],
+        queryFn: async () => {
+            if (!email) {
+                throw new Error('Email is not defined')
+            }
+            const user = await getUser(email)
+            return user
+        },
+        enabled: !!email
+    })
+
     const { data, isLoading, error } = useQuery<VetUserType>({
         queryKey: ['vet-data', id],
         queryFn: () =>
@@ -113,7 +131,7 @@ export default function Home() {
                                 >
                                     Realizar agendamento
                                 </button>
-                                {open && <FormCreateAppointment vetId={id} handle={handleOpen} />}
+                                {open && <FormCreateAppointment vetId={id} handle={handleOpen} userId={user.data?.id}/>}
                             </div>
 
                         </div>

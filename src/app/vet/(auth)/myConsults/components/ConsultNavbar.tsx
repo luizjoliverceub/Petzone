@@ -2,10 +2,20 @@
 
 import { Search } from "lucide-react";
 import { NavAppoint } from "./NavAppoint";
-import { useUser } from "@/contexts/UserContext";
+import { useQuery } from "@tanstack/react-query";
+import { AppointmentType } from "@/models/Types";
+import { getAppointments } from "@/utils/actions/GetAppointments";
+import { SkeletonNavVet } from "./SkeletonNavVet";
 
 export function ConsultNavbar() {
-    const { appointments } = useUser()
+    const { data, isLoading } = useQuery({
+        queryKey: ['appoint'],
+        queryFn: async () => {
+            const data: AppointmentType[] = await getAppointments()
+
+            return data
+        }
+    })
 
     return (
         <div className="h-full p-4 flex flex-col gap-2 min-w-80">
@@ -19,7 +29,10 @@ export function ConsultNavbar() {
                 <Search className="absolute top-3.5 left-3.5 size-4 text-zinc-400" strokeWidth={3} />
             </div>
             <div className="mt-12 flex flex-col gap-4 overflow-y-auto py-2">
-                <NavAppoint data={appointments} />
+                {
+                    isLoading ? <SkeletonNavVet /> :
+                        <NavAppoint data={data} />
+                }
             </div>
         </div>
     );

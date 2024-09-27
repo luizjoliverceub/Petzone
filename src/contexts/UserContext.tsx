@@ -1,50 +1,60 @@
-'use client'
+'use client';
 
+import { createContext, useState, ReactNode, useContext, useEffect, useCallback } from "react";
+import { useSession, signOut } from "next-auth/react";
+
+// Importações de Ações
 import { CreatePetSchema } from "@/utils/actions/AddPet";
 import { getAllPets } from "@/utils/actions/GetAllPets";
-import { signOut, useSession } from "next-auth/react";
-import { createContext, useState, ReactNode, useContext, useEffect, useCallback } from "react";
-import { Session } from "next-auth";
 import { getAllVets } from "@/utils/actions/GetAllVets";
-import { AppointmentType, NewsType, VeterinarianType } from "@/models/Types";
 import { getAppointments } from "@/utils/actions/GetAppointments";
 import { getAllNews } from "@/utils/actions/GetAllNews";
-import { log } from "util";
 
+// Importações de Tipos
+import { AppointmentType, NewsType, VeterinarianType } from "@/models/Types";
+import { Session } from "next-auth";
+
+// Definição do tipo Pet
 export interface PetType extends CreatePetSchema {
   user: {
-      name: string
-  }
-}
-interface UserContextType {
-  isLoggingOut: boolean
-  refresh: boolean
-  session: Session | null
-  status: "authenticated" | "loading" | "unauthenticated";
-  pets: PetType[]
-  vets: VeterinarianType[]
-  news: NewsType[]
-  appointments: AppointmentType[]
-  handleLogout: () => void
-  handleAddPet: () => void
+    name: string;
+  };
+  vaccinations: {
+    id: string;
+    name: string;
+    petId: string;
+  }[];
 }
 
+// Interface do Contexto
+interface UserContextType {
+  isLoggingOut: boolean;
+  refresh: boolean;
+  session: Session | null;
+  status: "authenticated" | "loading" | "unauthenticated";
+  pets: PetType[];
+  vets: VeterinarianType[];
+  news: NewsType[];
+  appointments: AppointmentType[];
+  handleLogout: () => void;
+  handleAddPet: () => void;
+}
+
+// Criação do contexto
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
+// Provedor do Contexto
 export function UserProvider({ children }: { children: ReactNode }) {
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [pets, setPets] = useState<PetType[]>([]);
   const [vets, setVets] = useState<VeterinarianType[]>([]);
   const [appointments, setAppointments] = useState<AppointmentType[]>([]);
   const [news, setNews] = useState<NewsType[]>([]);
-
-  console.log(pets);
-  
   const [refresh, setRefresh] = useState(false);
 
   const { data: session, status } = useSession();
 
-
+  // Função para buscar todos os pets
   const handleFetchPets = useCallback(async () => {
     if (status === "authenticated") {
       const data = await getAllPets();
@@ -52,11 +62,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
     }
   }, [status]);
 
-  useEffect(() => {
-    handleFetchPets();
-  }, [refresh, handleFetchPets]);
-
-
+  // Função para buscar todos os veterinários
   const handleFetchVets = useCallback(async () => {
     if (status === "authenticated") {
       const data = await getAllVets();
@@ -64,11 +70,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
     }
   }, [status]);
 
-  useEffect(() => {
-    handleFetchVets();
-  }, [refresh, handleFetchVets]);
-
-
+  // Função para buscar todos os agendamentos
   const handleFetchAppointments = useCallback(async () => {
     if (status === "authenticated") {
       const data = await getAppointments();
@@ -76,10 +78,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
     }
   }, [status]);
 
-  useEffect(() => {
-    handleFetchAppointments();
-  }, [refresh, handleFetchAppointments]);
-
+  // Função para buscar todas as notícias
   const handleFetchNews = useCallback(async () => {
     if (status === "authenticated") {
       const data = await getAllNews();
@@ -87,15 +86,20 @@ export function UserProvider({ children }: { children: ReactNode }) {
     }
   }, [status]);
 
+  // Efeitos para carregar dados
   useEffect(() => {
+    handleFetchPets();
+    handleFetchVets();
+    handleFetchAppointments();
     handleFetchNews();
-  }, [refresh, handleFetchNews]);
+  }, [refresh, handleFetchPets, handleFetchVets, handleFetchAppointments, handleFetchNews]);
 
-
+  // Função para adicionar um pet
   const handleAddPet = useCallback(() => {
     setRefresh((prev) => !prev);
   }, []);
 
+  // Função para logout
   const handleLogout = useCallback(async () => {
     setIsLoggingOut(true);
     await signOut({ callbackUrl: '/welcome' });
@@ -124,6 +128,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
   );
 }
 
+// Componente de Loading
 function LoadingScreen() {
   return (
     <div className="h-screen flex flex-col justify-center items-center gap-4 animate-fade-in">
@@ -133,6 +138,7 @@ function LoadingScreen() {
   );
 }
 
+// Hook para usar o contexto
 export function useUser(): UserContextType {
   const context = useContext(UserContext);
   if (!context) {

@@ -1,8 +1,5 @@
 import { prisma } from "@/utils/db/prisma"
 import { NextResponse } from "next/server"
-import { auth } from "../auth/[...nextauth]/route"
-
-
 
 export async function GET(request:Request) {
 
@@ -13,11 +10,6 @@ export async function GET(request:Request) {
   console.log(newSessionValue);
 
   const userEmail = newSessionValue.user.email as string
-
-    
-    
-  
-
     try {
     
      const userInfo = await prisma.user.findUnique({

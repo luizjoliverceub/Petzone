@@ -1,4 +1,4 @@
-import { PetDashboard } from "../components/PetDashboard"
+import { PetDashboard } from "@/components/InfoPet/PetDashboard";
 
 export default function Home() {
     return (

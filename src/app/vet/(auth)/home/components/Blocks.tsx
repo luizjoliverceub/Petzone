@@ -8,10 +8,10 @@ import { BlockEvents } from "./BlockEvents";
 import { BlockEmpty } from "./BlockEmpty";
 import { useQuery } from "@tanstack/react-query";
 import { getAllNews } from "@/utils/actions/GetAllNews";
+import { AppointmentType } from "@/models/Types";
+import { getAppointments } from "@/utils/actions/GetAppointments";
 
 export function Blocks() {
-    const { pets, appointments, news } = useUser()
-
     const { data, isLoading } = useQuery({
         queryKey: ['news'],
         queryFn: async () => {
@@ -21,7 +21,15 @@ export function Blocks() {
         }
     })
 
+    const appointData = useQuery({
+        queryKey: ['appoint'],
+        queryFn: async () => {
+            const data: AppointmentType[] = await getAppointments()
 
+            return data
+        }
+    })
+    
     return (
         <div className="flex flex-col items-center 2xl:flex-row 2xl:items-start">
             <div>
@@ -36,7 +44,8 @@ export function Blocks() {
                         title="Consultas agendadas"
                         Icon={Activity}
                         href="/vet/myConsults"
-                        value={appointments.length}
+                        value={appointData.data?.length}
+                        isLoading={isLoading}
                     />
                 </div>
                 <div className="px-8">
@@ -47,7 +56,7 @@ export function Blocks() {
                 </div>
             </div>
             <div className="p-8 flex-1 rounded-xl relative animate-fade-in flex flex-col gap-10">
-            {isLoading ? <div className="w-[610px] h-[406px] rounded-xl bg-zinc-300 animate-pulse" /> : <BlockNews news={data} />}
+                {isLoading ? <div className="w-[610px] h-[406px] rounded-xl bg-zinc-300 animate-pulse" /> : <BlockNews news={data} />}
                 <BlockEmpty />
             </div>
         </div>

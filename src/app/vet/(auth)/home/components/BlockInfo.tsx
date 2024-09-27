@@ -7,9 +7,10 @@ type BlockInfoProps = {
     Icon: ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>
     href: string
     value: number | null | undefined
+    isLoading?: boolean
 }
 
-export function BlockInfo({ title, Icon, href, value }: BlockInfoProps) {
+export function BlockInfo({ title, Icon, href, value, isLoading }: BlockInfoProps) {
     return (
         <Link
             className="animate-fade-in shadow-custom2 w-[450px] h-32 rounded-xl p-5 flex flex-col bg-zinc-50 gap-3 hover:shadow-custom3 duration-300 group"
@@ -21,7 +22,11 @@ export function BlockInfo({ title, Icon, href, value }: BlockInfoProps) {
             </div>
             <div className="flex h-full items-center gap-3">
                 <Icon className="text-zinc-600 p-1.5 rounded-full border-[1.5px] size-8 group-hover:text-vet-secondary duration-300" />
-                <span className="text-3xl font-semibold">{value ? value : 0}</span>
+                {
+                    isLoading ? 
+                    <div className="h-9 w-40 rounded-xl bg-zinc-300 animate-pulse"/> :
+                    <span className="text-3xl font-semibold">{value || 0}</span>
+                }
             </div>
         </Link>
     )

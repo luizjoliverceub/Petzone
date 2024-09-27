@@ -7,16 +7,26 @@ export async function GET(request: Request) {
   const userRole = newSessionValue?.user?.role as userRole
 
   try {
-    
+
     if (userRole === 'normal') {
       const resp = await prisma.pet.findMany({
         where: {
           userEmail: newSessionValue.user.email
         },
-        include:{
-          user:{select:{
-            name:true
-          }}
+        include: {
+          user: {
+            select: {
+              name: true
+            }
+          },
+          vaccination: {
+            select: {
+              id: true,
+              name: true,
+              petId: true,
+              vaccination_date: true
+            }
+          }
         }
       })
 

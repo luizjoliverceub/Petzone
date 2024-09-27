@@ -13,7 +13,16 @@ export async function POST(request: Request) {
     const body = await request.json()
 
     const createAppointment = await prisma.appointments.create({
-      data: body,
+      data: {
+        appointment_date: new Date(body.appointment_date),
+        email: body.email,
+        clientName: body.clientName,
+        petId: body.petId,
+        phone: body.phone,
+        service: body.service,
+        userId: body.userId,
+        veterinarianProfileId: body.veterinarianProfileId
+      },
     })
 
     return new NextResponse(JSON.stringify(createAppointment), { status: 201 })
