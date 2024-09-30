@@ -6,10 +6,13 @@ import * as z from "zod";
 import { toast } from 'sonner';
 import { createAppointment } from "@/utils/actions/CreateAppointments";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { getUser } from "@/utils/actions/GetUser";
 import { LoaderCircle, X } from "lucide-react";
 import { useUser } from "@/contexts/UserContext";
 import { queryClient } from "@/hooks/useQuery";
+import { ServiceType } from "@/app/vet/(auth)/config/services/components/VetServices";
+import { getAllService } from "@/utils/actions/GetAllVetServices";
+import { useState } from "react";
+import { InputMask } from '@react-input/mask';
 
 const AppointmentSchema = z.object({
   userId: z.string(),
@@ -26,14 +29,16 @@ type CreateAppointmentSchema = z.infer<typeof AppointmentSchema>;
 
 export function FormCreateAppointment({ vetId, handle, userId }: { vetId: string, handle: () => void, userId: string | undefined }) {
   const { pets, session } = useUser();
+  const [consultValue, setConsultValue] = useState('')
 
-  const servicesData = useQuery<{ service: string }[]>({
-    queryKey: ['services-data'],
-    queryFn: () =>
-      fetch(`/api/vets/services`).then((res) =>
-        res.json()
-      ),
-  });
+  const { data, isLoading } = useQuery({
+    queryKey: ['services'],
+    queryFn: async () => {
+      const data: ServiceType[] = await getAllService()
+
+      return data
+    }
+  })
 
   const {
     register,
@@ -61,200 +66,232 @@ export function FormCreateAppointment({ vetId, handle, userId }: { vetId: string
     createAppointmentMutation.mutate(data);
   }
 
-  return (
-    <>
-      <div className="h-screen w-full bg-black opacity-80 absolute z-40 top-0 right-0" />
-      <div className="absolute z-50 animate-fade-in top-44">
-        <button
-          type="button"
-          className="text-zinc-400 hover:text-red-500 duration-300 absolute -top-8 -right-8"
-          onClick={handle}
-        >
-          <X className="size-7" />
-        </button>
-        <form
-          className="flex flex-col gap-5 border-2 p-6 bg-white rounded-xl w-[490px]"
-          noValidate
-          onSubmit={handleSubmit(onSubmit)}>
+  const formatted = (valor: any) => new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL'
+  }).format(valor)
 
-          <div>
+  const handlePrice = (price: string) => {
+    setConsultValue(price)
+  }
+
+  return (
+    <div className="h-full w-full absolute z-50 animate-fade-in top-0 right-0 bg-black/50 flex justify-center items-center">
+      <form
+        className="flex flex-col gap-5 border-2 p-6 bg-gray-100 rounded-xl w-[490px]"
+        noValidate
+        onSubmit={handleSubmit(onSubmit)}>
+
+        <div>
+          <div className="w-full flex justify-between relative">
             <h2 className="text-lg font-medium">Agendamento de consulta</h2>
-            <p className="text-sm font-medium text-zinc-500">Preencha o campos abaixo para realizar um agendamento</p>
+            <button
+              type="button"
+              className="text-zinc-400 hover:text-red-500 duration-300 absolute -top-3 -right-3"
+              onClick={handle}
+            >
+              <X className="size-6" />
+            </button>
+          </div>
+          <p className="text-sm font-medium text-zinc-500">Preencha o campos abaixo para realizar um agendamento</p>
+        </div>
+
+        <input
+          className='hidden'
+          id='veterinarianProfileId'
+          value={vetId}
+          {...register("veterinarianProfileId", { required: true })}
+        />
+
+        <input
+          className='hidden'
+          id='userId'
+          value={userId}
+          {...register("userId", { required: true })}
+        />
+
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-1">
+            <label
+              htmlFor="clientName"
+              className="font-medium text-zinc-700 text-sm"
+            >
+              Nome do Cliente{errors.clientName && <span className="text-red-600">*</span>}
+            </label>
+            <input
+              readOnly
+              className='px-4 py-2 border-2 rounded-md bg-gray-200 text-zinc-500 outline-none'
+              id='clientName'
+              value={session?.user?.name || ''}
+              {...register("clientName", { required: true })}
+            />
           </div>
 
-          <input
-            className='hidden'
-            id='veterinarianProfileId'
-            value={vetId}
-            {...register("veterinarianProfileId", { required: true })}
-          />
+          <div className="flex flex-col gap-1">
+            <label
+              htmlFor="email"
+              className="font-medium text-zinc-700 text-sm"
+            >
+              Email{errors.email && <span className="text-red-600">*</span>}
+            </label>
+            <input
+              readOnly
+              className='px-4 py-2 border-2 rounded-md bg-gray-200 text-zinc-500 outline-none'
+              id='email'
+              value={session?.user?.email || ''}
+              {...register("email", { required: true })}
+            />
+          </div>
 
-          <input
-            className='hidden'
-            id='userId'
-            value={userId}
-            {...register("userId", { required: true })}
-          />
-
-          <div className="flex flex-col gap-2">
+          <div className="flex gap-2 w-full">
             <div className="flex flex-col gap-1">
               <label
-                htmlFor="clientName"
+                htmlFor="petId"
                 className="font-medium text-zinc-700 text-sm"
               >
-                Nome do Cliente{errors.clientName && <span className="text-red-600">*</span>}
-              </label>
-              <input
-                readOnly
-                className='px-4 py-2 border-2 rounded-md bg-gray-200 text-zinc-500 outline-none'
-                id='clientName'
-                value={session?.user?.name || ''}
-                {...register("clientName", { required: true })}
-              />
-            </div>
-
-            <div className="flex flex-col gap-1">
-              <label
-                htmlFor="email"
-                className="font-medium text-zinc-700 text-sm"
-              >
-                Email{errors.email && <span className="text-red-600">*</span>}
-              </label>
-              <input
-                readOnly
-                className='px-4 py-2 border-2 rounded-md bg-gray-200 text-zinc-500 outline-none'
-                id='email'
-                value={session?.user?.email || ''}
-                {...register("email", { required: true })}
-              />
-            </div>
-
-            <div className="flex gap-2 w-full">
-              <div className="flex flex-col gap-1">
-                <label
-                  htmlFor="petId"
-                  className="font-medium text-zinc-700 text-sm"
-                >
-                  Pet{errors.petId && <span className="text-red-600">*</span>}
-                </label>
-                <select
-                  className='px-4 py-2.5 border-2 rounded-md outline-none bg-white'
-                  id='petId'
-                  defaultValue=""
-                  {...register("petId", { required: true })}
-                >
-                  <option value="" disabled>
-                    Selecione um pet
-                  </option>
-                  {pets?.map(pet => (
-                    <option
-                      value={pet.id}
-                      key={pet.id}
-                      className="font-medium"
-                    >
-                      {pet.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="flex flex-col gap-1 w-[245px]">
-                <label
-                  htmlFor="phone"
-                  className="font-medium text-zinc-700 text-sm"
-                >
-                  Telefone {errors.phone && <span className="text-red-600">*</span>}
-                </label>
-                <input
-                  placeholder="(  ) _____ - ____ "
-                  className='px-4 py-2 border-2 rounded-md outline-none'
-                  id='phone'
-                  {...register("phone", { required: true })}
-                />
-              </div>
-            </div>
-
-            <div className="flex gap-2">
-              <div className="flex flex-col gap-1 w-[185px]">
-                <label
-                  htmlFor="appointment_date"
-                  className="font-medium text-zinc-700 text-sm"
-                >
-                  Data{errors.appointment_date && <span className="text-red-600">*</span>}
-                </label>
-                <input
-                  type="date"
-                  className='px-4 py-2 border-2 rounded-md outline-none'
-                  id='appointment_date'
-                  {...register("appointment_date", { required: true })}
-                />
-              </div>
-
-              <div className="flex flex-col gap-1 flex-1">
-                <label
-                  htmlFor="hourAppointment"
-                  className="font-medium text-zinc-700 text-sm"
-                >
-                  Horário
-                </label>
-                <select
-                  className='px-4 py-2.5 border-2 rounded-md outline-none bg-white'
-                  id='hourAppointment'
-                  defaultValue=""
-                >
-                  <option value="" disabled>
-                    Selecione um horário
-                  </option>
-                  {hours.map(hour => (
-                    <option value={hour} key={hour} className="font-medium">
-                      {hour}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-1">
-              <label
-                htmlFor="service"
-                className="font-medium text-zinc-700 text-sm"
-              >
-                Serviço
+                Pet{errors.petId && <span className="text-red-600">*</span>}
               </label>
               <select
                 className='px-4 py-2.5 border-2 rounded-md outline-none bg-white'
-                id='service'
+                id='petId'
                 defaultValue=""
-                {...register("service", { required: true })}
+                {...register("petId", { required: true })}
               >
                 <option value="" disabled>
-                  Selecione um serviço
+                  Selecione um pet
                 </option>
-                {servicesData.data?.map(service => (
-                  <option value={service.service} key={service.service} className="font-medium">
-                    {service.service}
+                {pets?.map(pet => (
+                  <option
+                    value={pet.id}
+                    key={pet.id}
+                    className="font-medium"
+                  >
+                    {pet.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="flex flex-col gap-1 w-[245px]">
+              <label
+                htmlFor="phone"
+                className="font-medium text-zinc-700 text-sm"
+              >
+                Telefone {errors.phone && <span className="text-red-600">*</span>}
+              </label>
+              <InputMask
+                mask="(__) _ ____-____"
+                placeholder="(__) _ ____-____"
+                replacement={{ _: /\d/ }}
+                id='phone'
+                className="px-4 py-2 border-2 rounded-md outline-none"
+                {...register("phone", { required: true })}
+              />
+            </div>
+          </div>
+
+          <div className="flex gap-2">
+            <div className="flex flex-col gap-1 w-[185px]">
+              <label
+                htmlFor="appointment_date"
+                className="font-medium text-zinc-700 text-sm"
+              >
+                Data{errors.appointment_date && <span className="text-red-600">*</span>}
+              </label>
+              <input
+                type="date"
+                className='px-4 py-2 border-2 rounded-md outline-none'
+                id='appointment_date'
+                {...register("appointment_date", { required: true })}
+              />
+            </div>
+
+            <div className="flex flex-col gap-1 flex-1">
+              <label
+                htmlFor="hourAppointment"
+                className="font-medium text-zinc-700 text-sm"
+              >
+                Horário
+              </label>
+              <select
+                className='px-4 py-2.5 border-2 rounded-md outline-none bg-white'
+                id='hourAppointment'
+                defaultValue=""
+              >
+                <option value="" disabled>
+                  Selecione um horário
+                </option>
+                {hours.map(hour => (
+                  <option value={hour} key={hour} className="font-medium">
+                    {hour}
                   </option>
                 ))}
               </select>
             </div>
           </div>
 
-          <button
-            type='submit'
-            disabled={createAppointmentMutation.isPending}
-            className='text-white border-2 border-transparent font-semibold py-2 bg-brand-secondary rounded-lg hover:border-brand-secondary hover:bg-transparent hover:text-brand-secondary duration-300 flex gap-2 justify-center items-center'>
-            {createAppointmentMutation.isPending ?
-              <>
-                <span>Agendando</span>
-                <LoaderCircle className="animate-spin size-5" />
-              </>
-              :
-              <span>Agendar consulta</span>
-            }
-          </button>
-        </form>
-      </div>
-    </>
+          <div className="flex flex-col gap-1">
+            <label
+              htmlFor="service"
+              className="font-medium text-zinc-700 text-sm"
+            >
+              Serviço
+            </label>
+            <select
+              className='px-4 py-2.5 border-2 rounded-md outline-none bg-white'
+              id='service'
+              defaultValue=""
+              {...register("service", { required: true })}
+              onChange={(e) => {
+                const selectedService = data?.find(service => service.name === e.target.value);
+                if (selectedService) {
+                  handlePrice(selectedService.price);
+                }
+              }}
+            >
+              <option value="" disabled>
+                Selecione um serviço
+              </option>
+              {data?.map(service => (
+                <option value={service.name} key={service.id} className="font-medium">
+                  {service.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+        <div className="flex flex-col gap-4 font-medium text-zinc-500 p-4 border rounded-xl shadow-lg bg-white hover:shadow-xl duration-300">
+          <div className="flex flex-col gap-2 text-sm font-semibold">
+            <div className="w-full flex justify-between">
+              <h3>Valor do serviço:</h3>
+              <h3 className="font-semibold">{consultValue ? formatted(consultValue) : 'R$ --,--'}</h3>
+            </div>
+            <div className="w-full flex justify-between">
+              <h3>Taxa fixa:</h3>
+              <h3 className="font-semibold">{formatted(20)}</h3>
+            </div>
+          </div>
+          <div className="w-full h-0.5 bg-zinc-300 rounded-xl"></div>
+          <div className="w-full flex justify-between text-brand-primary">
+            <h3>Valor total:</h3>
+            <h3 className="font-semibold">{formatted(consultValue + 20 || 0)}</h3>
+          </div>
+        </div>
+        <button
+          type='submit'
+          disabled={createAppointmentMutation.isPending}
+          className='text-white border-2 border-transparent font-semibold py-2 bg-brand-secondary rounded-lg hover:border-brand-secondary hover:bg-transparent hover:text-brand-secondary duration-300 flex gap-2 justify-center items-center'>
+          {createAppointmentMutation.isPending ?
+            <>
+              <span>Agendando</span>
+              <LoaderCircle className="animate-spin size-5" />
+            </>
+            :
+            <span>Agendar consulta</span>
+          }
+        </button>
+      </form>
+    </div>
   );
 }
 

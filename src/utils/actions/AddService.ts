@@ -1,23 +1,26 @@
 "use server"
 
 import { auth } from "@/app/api/auth/[...nextauth]/route"
+import { ServiceFormSchema } from "@/app/vet/(auth)/config/services/components/FormService";
 
 
-export async function addService (){
-    const session = await auth()
+export async function addService(dataForm: ServiceFormSchema) {
+  const session = await auth()
 
-    const res = await fetch("http://localhost:3000/api/service",{
-      next:{
-        tags:["service"]
-      },
-      headers:{
-           'session': JSON.stringify(session)
-      },
-      method:"POST"
-    })
+  const resp = await fetch("http://localhost:3000/api/service", {
+    method: "POST",
+    headers: {
+      'session': JSON.stringify(session)
+    },
+    body: JSON.stringify(dataForm),
+  })
 
 
-    const data = await res.json()
-    
-    return data
+  if (!resp.ok) {
+    const errorText = await resp.text();
+    console.error("Erro ao adicionar servico:", resp.status, resp.statusText, errorText);
+    throw new Error(`Falha ao adicionar servico: ${errorText}`);
   }
+
+  return resp.json();
+}

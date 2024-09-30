@@ -92,7 +92,7 @@ export function VaccinationBlock({ pet }: { pet: PetType }) {
             <div className={`flex flex-col flex-1 ${data && data?.length > 0 ? 'overflow-y-auto' : 'items-center justify-center'}`}>
                 {
                     isLoading &&
-                    <div className="flex flex-col gap-2">
+                    <div className="flex flex-col gap-2 w-full">
                         {Array.from({ length: 4 }).map((_, index) => (
                             <div
                                 key={index}

@@ -84,7 +84,7 @@ export function NavBarApp() {
                     <EllipsisVertical className="size-4 text-white" strokeWidth={2.5} />
                 </button>
                 {open &&
-                    <div className="flex flex-col gap-3 w-48 p-2 bg-zinc-100 border-2 border-zinc-300 absolute bottom-8 -right-40 rounded-md animate-fade-in">
+                    <div className="flex flex-col gap-3 w-48 p-2 bg-zinc-100 border-2 border-zinc-300 absolute bottom-[70px] right-4 rounded-md animate-fade-in">
                         <div>
                             <h2 className="font-medium">{session?.user ? capitalize(session?.user?.name as any) : 'User'}</h2>
                             <h3 className="text-sm font-medium text-zinc-500">{session?.user?.email}</h3>

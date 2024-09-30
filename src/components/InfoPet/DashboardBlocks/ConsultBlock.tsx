@@ -34,13 +34,11 @@ export function ConsultBlock({ pet }: { pet: CreatePetSchema }) {
             </div>
             <div className="w-full h-full flex-1 flex flex-col gap-2 items-center justify-start overflow-y-auto">
                 {isLoading ?
-                    <div className="flex flex-col gap-2">
-                        {Array.from({ length: 4 }).map((_, index) => (
-                            <div
-                                key={index}
-                                className="bg-zinc-300 w-full h-[58px] rounded-md animate-pulse"
-                            />
-                        ))}
+                    <div className="flex flex-col gap-2 w-full">
+                        <div className="bg-zinc-300 w-full h-[58px] rounded-md animate-pulse" />
+                        <div className="bg-zinc-300 w-full h-[58px] rounded-md animate-pulse" />
+                        <div className="bg-zinc-300 w-full h-[58px] rounded-md animate-pulse" />
+                        <div className="bg-zinc-300 w-full h-[58px] rounded-md animate-pulse" />
                     </div> :
                     data && data?.length > 0 ? data?.map(appoint => (
                         <div
@@ -60,7 +58,7 @@ export function ConsultBlock({ pet }: { pet: CreatePetSchema }) {
                             </Link>
                         </div>
                     )) :
-                        <p className="text-zinc-500 font-medium">Sem vacinas registradas sobre o {pet.name}</p>}
+                        <p className="text-zinc-500 font-medium">Sem consultas registradas sobre o {pet.name}</p>}
             </div>
         </div>
     )
