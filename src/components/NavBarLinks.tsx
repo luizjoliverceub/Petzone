@@ -23,7 +23,8 @@ const NavLists: NavListsType[] = [
   { id: 2, text: "My pets", icon: <RxDashboard className="text-xl" />, link: "pets" },
   { id: 3, text: "Message", icon: <BiMessageAltDetail className="text-xl" />, link: "message" },
   { id: 4, text: "NewsLetter", icon: <PiNewspaperClipping className="text-xl" />, link: "newsletter" },
-  { id: 5, text: "Vets", icon: <FaUserDoctor className="text-xl" />, link: "maps" }
+  { id: 5, text: "Vets", icon: <FaUserDoctor className="text-xl" />, link: "maps" },
+
 ]
 
 
