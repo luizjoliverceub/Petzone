@@ -16,6 +16,9 @@ import { InputMask } from '@react-input/mask';
 import dayjs from "dayjs";
 import { AppointmentsArray } from "@/models/Types";
 import { parseDate2, parseHour } from "@/utils/actions/ParseDate";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { createConversation } from "@/utils/actions/CreateConversation";
 
 const AppointmentSchema = z.object({
   userId: z.string(),
@@ -32,11 +35,12 @@ const AppointmentSchema = z.object({
 
 type CreateAppointmentSchema = z.infer<typeof AppointmentSchema>;
 
-export function FormCreateAppointment({ vetId, handle, userId, appointArray }: { vetId: string, handle: () => void, userId: string | undefined, appointArray: AppointmentsArray[] | undefined }) {
+export function FormCreateAppointment({ vetId, handle, userId, appointArray, vetEmail }: { vetId: string, handle: () => void, userId: string | undefined, appointArray: AppointmentsArray[] | undefined, vetEmail: string | undefined }) {
   const { pets, session } = useUser();
   const [consultValue, setConsultValue] = useState('')
   const [date, setDate] = useState('')
   const [hoursInput, setHoursInput] = useState(hours)
+  const [dataForm, setDataForm] = useState({} as CreateAppointmentSchema)
 
   const { data, isLoading } = useQuery({
     queryKey: ['services'],
@@ -63,11 +67,35 @@ export function FormCreateAppointment({ vetId, handle, userId, appointArray }: {
       queryClient.invalidateQueries({ queryKey: ['appoint'] })
       handle();
       reset();
+      createRoom(dataForm)
     },
     onError: () => {
       toast.error('Erro ao criar agendamento');
     }
   });
+
+  const { data: sessionData } = useSession()
+    const router = useRouter()
+    const userEmail = sessionData?.user?.email
+
+    const createRoom = async (data: CreateAppointmentSchema) => {
+        const now = dayjs()
+
+        const res = await createConversation({
+            clientEmail: userEmail,
+            veterinarianEmail: vetEmail,
+            session: sessionData,
+            started_at: dayjs(data.started_at),
+            ended_at: dayjs(data.ended_at)
+        })
+
+        const conversationId = res.id
+        console.log(res)
+        console.log(dayjs(data.started_at))
+        console.log(dayjs(data.ended_at))
+
+        router.push(`/user/message/${conversationId}`)
+    }
 
   async function onSubmit(data: CreateAppointmentSchema) {
     const formatedData = {
@@ -80,10 +108,8 @@ export function FormCreateAppointment({ vetId, handle, userId, appointArray }: {
         .format('YYYY-MM-DDTHH:mm:ss')
     };
 
-    console.log(formatedData);
-
-    console.log(formatedData)
     createAppointmentMutation.mutate(formatedData);
+    setDataForm(formatedData)
   }
 
   const formatted = (valor: any) => new Intl.NumberFormat('pt-BR', {

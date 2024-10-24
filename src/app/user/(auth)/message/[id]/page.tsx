@@ -104,7 +104,7 @@ const page = async ({ params }: PageProps) => {
         <Messages roomId={id} room={room || {} as Room} />
       </div>
 
-      {disabledChat && <div className='bg-black/50 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center gap-2 h-full w-full z-10 animate-fade-in'>
+      {disabledChat && <div className='bg-black/30 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center gap-2 h-full w-full z-10 animate-fade-in'>
         <div className='bg-white text-black flex flex-col justify-center items-center rounded-xl shadow-lg gap-2 p-10'>
           <h3 className='text-xl font-semibold'>Chat indisponível</h3>
           <div className='flex flex-col justify-center items-center'>

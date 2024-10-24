@@ -69,7 +69,7 @@ export default function Home() {
             veterinarianEmail: userData.data?.email,
             session: sessionData,
             started_at: now,
-            ended_at: now.add(1, 'minute')
+            ended_at: now.add(1, 'hour')
         })
 
         const conversationId = res.id
@@ -151,7 +151,7 @@ export default function Home() {
                                 >
                                     Realizar agendamento
                                 </button>
-                                {open && <FormCreateAppointment vetId={id} handle={handleOpen} userId={user.data?.id} appointArray={appointArray} />}
+                                {open && <FormCreateAppointment vetId={id} handle={handleOpen} userId={user.data?.id} appointArray={appointArray} vetEmail={userData.data?.email}/>}
                             </div>
 
                         </div>

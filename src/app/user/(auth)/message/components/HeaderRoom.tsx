@@ -4,9 +4,18 @@ import { parseDate, parseHour } from "@/utils/actions/ParseDate"
 import { useQuery } from "@tanstack/react-query"
 import { BadgeCheck } from "lucide-react"
 import { useSession } from "next-auth/react"
+import { useEffect } from "react"
 
 export function HeaderRoom({ id }: { id: string }) {
     const { data: sessionData} = useSession()
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+          window.location.reload()
+        }, 3600010)
+      
+        return () => clearInterval(interval)
+      }, [])
 
     const { data, isLoading } = useQuery({
         queryKey: ['room', id],
