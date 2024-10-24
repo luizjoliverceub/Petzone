@@ -16,6 +16,17 @@ export type VetUserType = {
     region: string;
     cep: string;
     addressId: null;
+    Appointments: AppointmentsArray[]
+    Service: {
+        name: string
+        price: string
+    }[]
+}
+
+export type AppointmentsArray = {
+    started_at: Date,
+    ended_at: Date,
+    id: string
 }
 
 export type UserAppointType = {
@@ -34,13 +45,13 @@ export type AppointmentType = {
     service: string
     petId: string
     appointment_date: Date
-  }
-  
-  export type NewsType = {
+}
+
+export type NewsType = {
     id: string
     imgUrl: string
     webSite: string
     title: string
     description: string
     content: string
-  }
+}

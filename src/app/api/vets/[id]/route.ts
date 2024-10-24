@@ -11,8 +11,25 @@ export async function GET(request: Request, { params }: { params: { id: string }
     const vetById = await prisma.veterinarianProfile.findUnique({
       where: {
         id: vetId
+      },
+      include: {
+        Appointments: {
+          select: {
+            started_at: true,
+            ended_at: true,
+            id: true
+          }
+        },
+        Service: {
+          select: {
+            name: true,
+            price: true
+          }
+        }
       }
-    })
+    }) 
+
+    console.log(vetById)
 
     return new NextResponse(JSON.stringify(vetById), { status: 200 })
 

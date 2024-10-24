@@ -14,7 +14,7 @@ const Page: FC = () => {
   const createRoom = async () => {
     const res = await createConversation({
       clientEmail: userEmail,
-      veterinarianEmail: 'vet1@gmail.com',
+      veterinarianEmail: 'vet1@email.com',
       session: data,
     })
 
@@ -24,12 +24,12 @@ const Page: FC = () => {
     router.push(`/user/message/${conversationId}`)
   }
 
-  const joinRoom = async (roomId: string) => {
+  const joinRoom = (roomId: string) => {
     router.push(`/user/message/${roomId}`)
   }
 
   return (
-    <div className="w-full  flex flex-col items-center justify-center h-screen bg-gray-50">
+    <div className="w-full flex flex-col items-center justify-center h-screen bg-gray-50">
       <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
         <h1 className="text-2xl font-semibold mb-4 text-center text-gray-800">Chat Test</h1>
         <button

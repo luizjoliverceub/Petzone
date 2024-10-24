@@ -10,6 +10,7 @@ import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { useSession } from "next-auth/react";
 import { registerVeterinario } from '@/utils/actions/RegisterUserVeterinarian';
+import { InputMask } from "@react-input/mask";
 
 const registerSchema = z.object({
     name: z.string().nonempty('Nome é obrigatório'),
@@ -130,7 +131,7 @@ export default function RegisterVeterinario() {
 
                         <input
                             type="text"
-                            placeholder="CEP da clínica"
+                            placeholder="CEP"
                             {...register("cep")}
                             className={`outline-none border-2 rounded-lg py-2 px-4 w-full font-medium ${errors.cep ? 'border-red-500' : ''}`}
                         />

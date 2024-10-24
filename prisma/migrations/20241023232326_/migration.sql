@@ -96,6 +96,8 @@ CREATE TABLE "Appointments" (
     "petId" TEXT NOT NULL,
     "appointment_date" TIMESTAMP(3) NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "started_at" TIMESTAMP(3) NOT NULL,
+    "ended_at" TIMESTAMP(3) NOT NULL,
     "clientName" TEXT NOT NULL,
     "phone" TEXT NOT NULL,
     "service" TEXT NOT NULL,
@@ -128,6 +130,8 @@ CREATE TABLE "Service" (
 CREATE TABLE "Conversation" (
     "id" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "started_at" TIMESTAMP(3) NOT NULL,
+    "ended_at" TIMESTAMP(3) NOT NULL,
     "clientIdEmail" TEXT NOT NULL,
     "veterinarianEmail" TEXT NOT NULL,
 

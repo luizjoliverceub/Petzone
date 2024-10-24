@@ -1,17 +1,24 @@
 'use client'
 
+import dayjs from 'dayjs'
+import { Send } from 'lucide-react'
 import { useSession } from 'next-auth/react'
-import { FC } from 'react'
+import { FC, useState } from 'react'
 
 interface MessageFieldProps {
   roomId: string
+  room: {
+    ended_at: Date,
+    started_at: Date
+  }
 }
 
-const MessageField: FC<MessageFieldProps> = ({ roomId }) => {
+const Messages: FC<MessageFieldProps> = ({ roomId, room }) => {
   let input = ''
 
   const { data } = useSession()
   const userEmail = data?.user?.email
+  const emailSession = data?.user?.role === 'normal'
 
   const sendMessage = async (text: string) => {
     await fetch('/api/message', {
@@ -23,22 +30,30 @@ const MessageField: FC<MessageFieldProps> = ({ roomId }) => {
     })
   }
 
+  const handleSend = () => {
+    sendMessage(input || '')
+  }
+
+  const disabledChat = dayjs(room.started_at).isAfter(dayjs()) || dayjs(room.ended_at).isBefore(dayjs())
+
   return (
-    <div className="flex items-center gap-3 p-3 border-t border-gray-300 bg-gray-100">
+    <div className="flex items-center gap-3 p-4 border-t border-gray-300 bg-gray-100 animate-fade-in z-40 absolute bottom-0 w-full">
       <input
-        onChange={({ target }) => (input = target.value)}
-        className="flex-1 rounded-full px-4 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        onChange={({ target }) => input = target.value}
+        className={`flex-1 rounded-full px-6 py-2 border border-gray-300 outline-none ${disabledChat ? 'cursor-not-allowed bg-zinc-300 placeholder-zinc-500' : ''} duration-300`}
         type="text"
-        placeholder="Type a new message..."
+        placeholder="Mensagem..."
+        disabled={disabledChat}
       />
       <button
-        onClick={() => sendMessage(input || '')}
-        className="bg-blue-500 text-white rounded-full px-4 py-2 hover:bg-blue-600 transition-colors"
+        onClick={handleSend}
+        className={`flex items-center justify-center gap-2 ${emailSession ? 'bg-blue-500 hover:bg-blue-600' : 'bg-vet-primary hover:bg-vet-third' } text-white rounded-full py-2 px-4 transition-colors ${disabledChat ? 'bg-zinc-600 hover:bg-zinc-600 cursor-not-allowed' : ''} duration-300`}
       >
-        Send
+        <Send className='size-4' />
+        Enviar
       </button>
     </div>
   )
 }
 
-export default MessageField
+export default Messages

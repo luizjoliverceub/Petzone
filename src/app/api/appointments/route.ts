@@ -1,4 +1,5 @@
 import { prisma } from "@/utils/db/prisma"
+import dayjs from "dayjs";
 import { NextResponse } from "next/server"
 
 export async function POST(request: Request) {
@@ -14,14 +15,16 @@ export async function POST(request: Request) {
 
     const createAppointment = await prisma.appointments.create({
       data: {
-        appointment_date: new Date(body.appointment_date),
+        appointment_date: dayjs(body.appointment_date).toDate(),
         email: body.email,
         clientName: body.clientName,
         petId: body.petId,
         phone: body.phone,
         service: body.service,
         userId: body.userId,
-        veterinarianProfileId: body.veterinarianProfileId
+        veterinarianProfileId: body.veterinarianProfileId,
+        started_at: dayjs(body.started_at).toDate(),
+        ended_at: dayjs(body.ended_at).toDate()
       },
     })
 

@@ -11,14 +11,19 @@ import { useUser } from "@/contexts/UserContext";
 import { queryClient } from "@/hooks/useQuery";
 import { ServiceType } from "@/app/vet/(auth)/config/services/components/VetServices";
 import { getAllService } from "@/utils/actions/GetAllVetServices";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { InputMask } from '@react-input/mask';
+import dayjs from "dayjs";
+import { AppointmentsArray } from "@/models/Types";
+import { parseDate2, parseHour } from "@/utils/actions/ParseDate";
 
 const AppointmentSchema = z.object({
   userId: z.string(),
   veterinarianProfileId: z.string(),
   petId: z.string(),
-  appointment_date: z.string(),
+  appointment_date: z.string().optional(),
+  ended_at: z.string(),
+  started_at: z.string(),
   clientName: z.string().min(2, 'Digite no mínimo 2 caracteres'),
   phone: z.string().min(1, 'Telefone inválido'),
   service: z.string().min(2, 'Serviço inválido'),
@@ -27,9 +32,11 @@ const AppointmentSchema = z.object({
 
 type CreateAppointmentSchema = z.infer<typeof AppointmentSchema>;
 
-export function FormCreateAppointment({ vetId, handle, userId }: { vetId: string, handle: () => void, userId: string | undefined }) {
+export function FormCreateAppointment({ vetId, handle, userId, appointArray }: { vetId: string, handle: () => void, userId: string | undefined, appointArray: AppointmentsArray[] | undefined }) {
   const { pets, session } = useUser();
   const [consultValue, setConsultValue] = useState('')
+  const [date, setDate] = useState('')
+  const [hoursInput, setHoursInput] = useState(hours)
 
   const { data, isLoading } = useQuery({
     queryKey: ['services'],
@@ -63,7 +70,20 @@ export function FormCreateAppointment({ vetId, handle, userId }: { vetId: string
   });
 
   async function onSubmit(data: CreateAppointmentSchema) {
-    createAppointmentMutation.mutate(data);
+    const formatedData = {
+      ...data,
+      appointment_date: date,
+      started_at: `${date}T${data.started_at}:00`,
+
+      ended_at: dayjs(`${date}T${data.started_at}:00`)
+        .add(30, 'minute')
+        .format('YYYY-MM-DDTHH:mm:ss')
+    };
+
+    console.log(formatedData);
+
+    console.log(formatedData)
+    createAppointmentMutation.mutate(formatedData);
   }
 
   const formatted = (valor: any) => new Intl.NumberFormat('pt-BR', {
@@ -74,6 +94,18 @@ export function FormCreateAppointment({ vetId, handle, userId }: { vetId: string
   const handlePrice = (price: string) => {
     setConsultValue(price)
   }
+
+  useEffect(() => {
+    const filteredHours = hours.filter(item => {
+      const isOccupied = appointArray?.some(a => {
+        const dateParse = parseDate2(a.started_at);
+        return dateParse === date && parseHour(a.started_at) === item;
+      });
+      return !isOccupied
+    });
+
+    setHoursInput(filteredHours)
+  }, [date, appointArray]);
 
   return (
     <div className="h-full w-full absolute z-50 animate-fade-in top-0 right-0 bg-black/50 flex justify-center items-center">
@@ -108,6 +140,13 @@ export function FormCreateAppointment({ vetId, handle, userId }: { vetId: string
           id='userId'
           value={userId}
           {...register("userId", { required: true })}
+        />
+
+        <input
+          className='hidden'
+          id='ended_at'
+          value=''
+          {...register("ended_at", { required: true })}
         />
 
         <div className="flex flex-col gap-4">
@@ -201,8 +240,9 @@ export function FormCreateAppointment({ vetId, handle, userId }: { vetId: string
               <input
                 type="date"
                 className='px-4 py-2 border-2 rounded-md outline-none'
+                value={date}
                 id='appointment_date'
-                {...register("appointment_date", { required: true })}
+                onChange={event => setDate(event.target.value)}
               />
             </div>
 
@@ -211,18 +251,19 @@ export function FormCreateAppointment({ vetId, handle, userId }: { vetId: string
                 htmlFor="hourAppointment"
                 className="font-medium text-zinc-700 text-sm"
               >
-                Horário
+                Horario da Consulta
               </label>
               <select
                 className='px-4 py-2.5 border-2 rounded-md outline-none bg-white'
                 id='hourAppointment'
                 defaultValue=""
+                {...register("started_at", { required: true })}
               >
                 <option value="" disabled>
                   Selecione um horário
                 </option>
-                {hours.map(hour => (
-                  <option value={hour} key={hour} className="font-medium">
+                {hoursInput.map((hour, i) => (
+                  <option value={hour} key={i} className="font-medium">
                     {hour}
                   </option>
                 ))}

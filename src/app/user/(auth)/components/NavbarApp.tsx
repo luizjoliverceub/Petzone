@@ -69,12 +69,6 @@ export function NavBarApp() {
                         icon={Bolt}
                         href="/user/config"
                         path={path} />
-                    <ButtonNav
-                        title="Mensagens2"
-                        icon={MessageCircle}
-                        isChat
-                        href="/user/messages"
-                        path={path} />
                 </div>
             </div>
             <div>

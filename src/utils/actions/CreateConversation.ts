@@ -1,10 +1,7 @@
 "use server"
 
-
-
 export async function createConversation(data:any){
-    
-    
+
   const resp = await fetch("http://localhost:3000/api/rooms/create", {
     method: "POST",
     headers: {

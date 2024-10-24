@@ -1,6 +1,6 @@
 'use client'
 
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useQuery } from '@tanstack/react-query';
 import { UserAppointType, VetUserType } from "@/models/Types";
 import { FormCreateAppointment } from "./components/FormAppointment";
@@ -10,6 +10,9 @@ import { ArrowLeft, BadgeCheck } from "lucide-react";
 import { Service } from "./components/Service";
 import { useUser } from "@/contexts/UserContext";
 import { getUser } from "@/utils/actions/GetUser";
+import { createConversation } from "@/utils/actions/CreateConversation";
+import { useSession } from 'next-auth/react'
+import dayjs from "dayjs";
 
 export default function Home() {
     const [open, setOpen] = useState(false)
@@ -39,6 +42,8 @@ export default function Home() {
         enabled: !!id
     })
 
+    const appointArray = data?.Appointments
+
     const userData = useQuery<UserAppointType>({
         queryKey: ['userVet-data', id],
         queryFn: () =>
@@ -48,16 +53,30 @@ export default function Home() {
         enabled: !!id
     })
 
-    const servicesData = useQuery<{ service: string }[]>({
-        queryKey: ['services-data'],
-        queryFn: () =>
-            fetch(`/api/vets/services`).then((res) =>
-                res.json()
-            ),
-    })
-
     const handleOpen = () => {
         setOpen(!open)
+    }
+
+    const { data: sessionData } = useSession()
+    const router = useRouter()
+    const userEmail = sessionData?.user?.email
+
+    const createRoom = async () => {
+        const now = dayjs()
+
+        const res = await createConversation({
+            clientEmail: userEmail,
+            veterinarianEmail: userData.data?.email,
+            session: sessionData,
+            started_at: now,
+            ended_at: now.add(1, 'minute')
+        })
+
+        const conversationId = res.id
+        console.log(now)
+        console.log(now.add(1, 'hour'))
+
+        router.push(`/user/message/${conversationId}`)
     }
 
     if (error) return <div>Falha ao carregar dados</div>;
@@ -117,6 +136,7 @@ export default function Home() {
                                     type="button"
                                     className={`px-4 py-2 border-2 rounded-lg border-transparent ${isLoading ? 'bg-zinc-800 text-white' : 'bg-brand-primary text-white hover:bg-transparent hover:text-brand-primary hover:border-brand-primary'} font-semibold  duration-300`}
                                     disabled={isLoading}
+                                    onClick={createRoom}
                                 >
                                     Mensagem
                                 </button>
@@ -131,7 +151,7 @@ export default function Home() {
                                 >
                                     Realizar agendamento
                                 </button>
-                                {open && <FormCreateAppointment vetId={id} handle={handleOpen} userId={user.data?.id}/>}
+                                {open && <FormCreateAppointment vetId={id} handle={handleOpen} userId={user.data?.id} appointArray={appointArray} />}
                             </div>
 
                         </div>
@@ -144,13 +164,13 @@ export default function Home() {
                     <h2 className="font-semibold text-zinc-800 text-xl">Serviços</h2>
                     <div className="flex gap-4 flex-wrap">
                         {
-                            servicesData.isLoading ?
+                            isLoading ?
                                 <>
                                     <div className="bg-zinc-300 rounded-xl w-full h-9 animate-pulse"></div>
                                     <div className="bg-zinc-300 rounded-xl w-full h-9 animate-pulse"></div>
                                 </> :
-                                servicesData.data?.map(service => (
-                                    <Service key={service.service} name={service.service} />
+                                data?.Service?.map(service => (
+                                    <Service key={service.name} name={service.name} />
                                 ))
                         }
                     </div>

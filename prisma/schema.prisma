@@ -41,22 +41,23 @@ model Session {
 }
 
 model User {
-  id                  String               @id @default(cuid())
-  name                String?
-  email               String?              @unique
-  emailVerified       DateTime?
-  image               String?
-  role                String
-  password            String
-  accounts            Account[]
-  sessions            Session[]
-  Pets                Pet[]
-  VeterinarianProfile VeterinarianProfile?
-  Appointments        Appointments[]
-  clientConversations Conversation[] @relation("ClientConversations")
-  veterinarianConversations Conversation[] @relation("VeterinarianConversations")
-  messages            Message[]
+  id                        String               @id @default(cuid())
+  name                      String?
+  email                     String?              @unique
+  emailVerified             DateTime?
+  image                     String?
+  role                      String
+  password                  String
+  accounts                  Account[]
+  sessions                  Session[]
+  Pets                      Pet[]
+  VeterinarianProfile       VeterinarianProfile?
+  Appointments              Appointments[]
+  clientConversations       Conversation[]       @relation("ClientConversations")
+  veterinarianConversations Conversation[]       @relation("VeterinarianConversations")
+  messages                  Message[]
 }
+
 model VeterinarianProfile {
   id           String         @id @default(cuid())
   userId       String         @unique
@@ -119,6 +120,8 @@ model Appointments {
   petId                 String
   appointment_date      DateTime
   created_at            DateTime            @default(now())
+  started_at            DateTime
+  ended_at              DateTime
   clientName            String
   phone                 String
   service               String
@@ -141,23 +144,24 @@ model Service {
   veterinarianProfileId String
 }
 
-
 model Conversation {
-  id                String       @id @default(cuid())
-  createdAt         DateTime     @default(now())
+  id                String    @id @default(cuid())
+  createdAt         DateTime  @default(now())
+  started_at        DateTime
+  ended_at          DateTime
   messages          Message[]
-  clientIdEmail          String
-  client          User         @relation("ClientConversations", fields: [clientIdEmail], references: [email])
-  veterinarianEmail   String
-  veterinarian      User         @relation("VeterinarianConversations", fields: [veterinarianEmail], references: [email])
+  clientIdEmail     String
+  client            User      @relation("ClientConversations", fields: [clientIdEmail], references: [email])
+  veterinarianEmail String
+  veterinarian      User      @relation("VeterinarianConversations", fields: [veterinarianEmail], references: [email])
 }
 
 model Message {
-  id                String       @id @default(cuid())
-  createdAt         DateTime     @default(now())
-  text              String
-  conversationId    String
-  chatConversation  Conversation @relation(fields: [conversationId], references: [id])
-  authorEmail        String
-  author            User         @relation(fields: [authorEmail], references: [email])
+  id               String       @id @default(cuid())
+  createdAt        DateTime     @default(now())
+  text             String
+  conversationId   String
+  chatConversation Conversation @relation(fields: [conversationId], references: [id])
+  authorEmail      String
+  author           User         @relation(fields: [authorEmail], references: [email])
 }

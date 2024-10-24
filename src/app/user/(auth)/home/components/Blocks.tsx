@@ -8,6 +8,8 @@ import { BlockEvents } from "./BlockEvents";
 import { BlockEmpty } from "./BlockEmpty";
 import { useQuery } from "@tanstack/react-query";
 import { getAllNews } from "@/utils/actions/GetAllNews";
+import { GetAllConversations } from "@/utils/actions/GetAllConversationsByUser";
+import { Conversation } from "../../message/components/MessageNavBar";
 
 export function Blocks() {
     const { pets, appointments } = useUser()
@@ -16,6 +18,15 @@ export function Blocks() {
         queryKey: ['news'],
         queryFn: async () => {
             const data = await getAllNews()
+
+            return data
+        }
+    })
+
+    const messagesData = useQuery({
+        queryKey: ['messages'],
+        queryFn: async () => {
+            const data: Conversation[] = await GetAllConversations()
 
             return data
         }
@@ -32,10 +43,10 @@ export function Blocks() {
                         value={pets.length}
                     />
                     <BlockInfo
-                        title="Mensagens"
+                        title="Conversas"
                         Icon={MessageCircle}
                         href="/user/message"
-                        value={3}
+                        value={messagesData.data?.length}
                     />
                     <BlockInfo
                         title="Consultas agendadas"

@@ -21,7 +21,7 @@ export async function GET(request:Request) {
            email:true,
            emailVerified:true,
            role:true,
-           password:true
+           password:true,
          }
      })
 
