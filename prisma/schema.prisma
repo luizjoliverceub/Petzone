@@ -105,11 +105,7 @@ model Pet {
   userEmail   String?
 }
 
-enum Sex {
-  M
-  F
-  U
-}
+
 
 model Appointments {
   id                    String              @id @default(cuid())
@@ -126,6 +122,7 @@ model Appointments {
   phone                 String
   service               String
   email                 String
+  status                Appointment_status
 }
 
 model Vaccination {
@@ -161,7 +158,23 @@ model Message {
   createdAt        DateTime     @default(now())
   text             String
   conversationId   String
-  chatConversation Conversation @relation(fields: [conversationId], references: [id])
+  chatConversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
   authorEmail      String
   author           User         @relation(fields: [authorEmail], references: [email])
+}
+
+
+
+enum Sex {
+  M
+  F
+  U
+}
+
+enum Appointment_status {
+  pending
+  confirmed
+  denied 
+  canceled
+  finished
 }

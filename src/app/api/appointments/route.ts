@@ -13,6 +13,7 @@ export async function POST(request: Request) {
 
     const body = await request.json()
 
+
     const createAppointment = await prisma.appointments.create({
       data: {
         appointment_date: dayjs(body.appointment_date).toDate(),
@@ -24,7 +25,8 @@ export async function POST(request: Request) {
         userId: body.userId,
         veterinarianProfileId: body.veterinarianProfileId,
         started_at: dayjs(body.started_at).toDate(),
-        ended_at: dayjs(body.ended_at).toDate()
+        ended_at: dayjs(body.ended_at).toDate(),
+        status:"pending"
       },
     })
 
@@ -51,6 +53,7 @@ export async function GET(request: Request) {
   console.log("Bateu appointments GET" + userRole);
 
   try {
+
 
     if (userRole === "normal") {
 

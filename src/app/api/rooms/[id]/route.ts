@@ -41,3 +41,21 @@ export async function GET(request: Request, { params }: { params: { id: string }
     return NextResponse.json({ error: error }, { status: 500 })
   }
 }
+
+export async function DELETE(request: Request, { params }: { params: { id: string } }) {
+  const roomId = params.id
+  
+  try {
+
+    const deletedConversation = await prisma.conversation.delete({
+      where:{
+        id:roomId
+      }
+    })
+
+
+    return new NextResponse(JSON.stringify(deletedConversation), { status: 200 })
+  } catch (error) {
+    return NextResponse.json({ error: error }, { status: 500 })
+  }
+}

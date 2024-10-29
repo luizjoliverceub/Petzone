@@ -34,6 +34,8 @@ const page = async ({ params }: PageProps) => {
     }
   })
 
+  if(!room) throw new Error("Essa sala não existe")
+  
   const serializedMessages = existingMessages.map((message) => ({
     text: message.text,
     id: message.id,

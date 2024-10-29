@@ -4,6 +4,9 @@ CREATE TYPE "Role" AS ENUM ('normal', 'veterinarian');
 -- CreateEnum
 CREATE TYPE "Sex" AS ENUM ('M', 'F', 'U');
 
+-- CreateEnum
+CREATE TYPE "Appointment_status" AS ENUM ('pending', 'confirmed', 'denied', 'canceled', 'finished');
+
 -- CreateTable
 CREATE TABLE "Account" (
     "id" TEXT NOT NULL,
@@ -102,6 +105,7 @@ CREATE TABLE "Appointments" (
     "phone" TEXT NOT NULL,
     "service" TEXT NOT NULL,
     "email" TEXT NOT NULL,
+    "status" "Appointment_status" NOT NULL,
 
     CONSTRAINT "Appointments_pkey" PRIMARY KEY ("id")
 );
@@ -207,7 +211,7 @@ ALTER TABLE "Conversation" ADD CONSTRAINT "Conversation_clientIdEmail_fkey" FORE
 ALTER TABLE "Conversation" ADD CONSTRAINT "Conversation_veterinarianEmail_fkey" FOREIGN KEY ("veterinarianEmail") REFERENCES "User"("email") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Message" ADD CONSTRAINT "Message_conversationId_fkey" FOREIGN KEY ("conversationId") REFERENCES "Conversation"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Message" ADD CONSTRAINT "Message_conversationId_fkey" FOREIGN KEY ("conversationId") REFERENCES "Conversation"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Message" ADD CONSTRAINT "Message_authorEmail_fkey" FOREIGN KEY ("authorEmail") REFERENCES "User"("email") ON DELETE RESTRICT ON UPDATE CASCADE;
