@@ -29,11 +29,21 @@ export async function PUT(request: Request, { params }: { params: { id: string }
           }
         })
        }, 1000 * 10)
-       
-      }
 
-       
-  
+
+      }
+      
+
+      //  function funcaoLambda(){ 
+
+      //     await queryAppointments()
+
+      //     await queryDelete()
+      //  }
+
+      //  await funcaoLambda()
+
+
       return new NextResponse(JSON.stringify(Appointment), { status: 200 })
   
     } catch (error) {
