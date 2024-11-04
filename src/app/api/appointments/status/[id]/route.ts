@@ -20,18 +20,18 @@ export async function PUT(request: Request, { params }: { params: { id: string }
         }
       })
 
-      if(body.status === "denied" || "canceled"){
+      // if(body.status === "denied" || "canceled"){
 
-       setTimeout(async () =>{
-        await prisma.appointments.delete({
-          where:{
-            id:AppointmentId
-          }
-        })
-       }, 1000 * 10)
+      //  setTimeout(async () =>{
+      //   await prisma.appointments.delete({
+      //     where:{
+      //       id:AppointmentId
+      //     }
+      //   })
+      //  }, 1000 * 10)
 
 
-      }
+      // }
       
 
       //  function funcaoLambda(){ 
@@ -42,7 +42,6 @@ export async function PUT(request: Request, { params }: { params: { id: string }
       //  }
 
       //  await funcaoLambda()
-
 
       return new NextResponse(JSON.stringify(Appointment), { status: 200 })
   

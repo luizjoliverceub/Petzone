@@ -13,7 +13,6 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
   if (session) {
 
     try {
-
       await prisma.pet.delete({
         where: {
           id: petId
@@ -34,8 +33,6 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
     return new NextResponse(JSON.stringify({ message: "you are not authenticated" }),
       { status: 401 })
   }
-
-
 }
 
 export async function GET(request: Request, { params }: { params: { id: string } }) {

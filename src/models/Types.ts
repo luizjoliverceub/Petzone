@@ -45,6 +45,15 @@ export type AppointmentType = {
     service: string
     petId: string
     appointment_date: Date
+    status: StatusAppoint
+}
+
+enum StatusAppoint {
+    Pending = 'pending', 
+    Confirmed = 'confirmed', 
+    Denied = 'denied',
+    Canceled = 'canceled',
+    Finished = 'finished'
 }
 
 export type NewsType = {

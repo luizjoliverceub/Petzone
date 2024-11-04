@@ -1,20 +1,17 @@
 import Link from "next/link";
 import { Conversation } from "./MessageNavBar";
-import { parseDate, parseHour, tempDate } from "@/utils/actions/ParseDate";
+import { parseDate, tempDate } from "@/utils/actions/ParseDate";
 import { useSession } from "next-auth/react";
-import dayjs from "dayjs";
 
 export function NavMessage({ data }: { data?: Conversation[] | undefined }) {
     const { data: sessionData} = useSession()
-
-    console.log(data)
 
     const emailSession = sessionData?.user?.role === 'normal'
 
     return (
         data ? data?.length === 0 ?
             <div className="flex justify-center">
-                <h2 className="font-medium">Nenhum veterinario encontrado</h2>
+                <h2 className="font-medium">Nenhum bate-papo encontrado</h2>
             </div> :
             data?.map(message => (
                 <Link href={`/user/message/${message.id}`} key={message.id}>

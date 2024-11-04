@@ -2,17 +2,20 @@
 
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, BadgeCheck, Check } from "lucide-react";
+import { ArrowLeft, BadgeCheck, Check, Ellipsis } from "lucide-react";
 import { useUser } from "@/contexts/UserContext";
 import { parseDate } from "@/utils/actions/ParseDate";
 import { useQuery } from "@tanstack/react-query";
 import { AppointmentType } from "@/models/Types";
 import { useState } from "react";
+import { parseStatus, statusColor } from "@/utils/actions/parseStatus";
+import { ModalOptions } from "../components/modalOptions";
 
 export default function Home() {
     const { id } = useParams<{ id: string }>();
     const [appointments, setAppointments] = useState()
     const [isClicked, setIsClicked] = useState(false)
+    const [isOpen, setIsOpen] = useState(false)
 
     const { data, isLoading, error } = useQuery<AppointmentType>({
         queryKey: ['appoint-data', id],
@@ -24,7 +27,7 @@ export default function Home() {
         enabled: !!id
     })
 
-    console.log(appointments)
+    // console.log(appointments)
 
     const clipboardBtn = (id: string | undefined) => {
         setIsClicked(true);
@@ -75,6 +78,12 @@ export default function Home() {
                                     {data?.id}
                                 </h3>
                             </div>
+                            <div>
+                                {
+                                    isLoading ? <div className="rounded-lg bg-zinc-300 animate-pulse w-40 h-6" /> :
+                                        <h3 className="flex gap-1 items-center font-medium animate-fade-in"><span className="text-zinc-500">Status: </span> {parseStatus(data?.status)}<div className={`h-2.5 w-2.5 rounded-full bg-${statusColor(data?.status)}`} /></h3>
+                                }
+                            </div>
                             <div className="flex gap-4">
                                 {
                                     isLoading ? <div className="rounded-lg bg-zinc-300 animate-pulse w-40 h-6" /> :
@@ -107,12 +116,25 @@ export default function Home() {
                                     className={`flex gap-2 items-center justify-center px-4 py-2 border-2 rounded-lg border-transparent ${isLoading ? 'bg-zinc-800 text-white' : isClicked ? 'bg-green-600 text-white' : 'bg-brand-secondary text-white hover:bg-transparent hover:text-brand-secondary hover:border-brand-secondary'} font-semibold  duration-300 min-w-[132px]`}
                                 >
                                     {isClicked ?
-                                        <>Copiado! <Check className="size-4" strokeWidth={3}/></> :
+                                        <>Copiado! <Check className="size-4" strokeWidth={3} /></> :
                                         'Copiar PetId'
                                     }
                                 </button>
                             </div>
 
+                            {data?.status === 'confirmed' || data?.status === 'pending' && <div className="flex flex-col items-center justify-center relative">
+                                <button
+                                    onClick={() => setIsOpen(!isOpen)}
+                                    type="button"
+                                    className={`flex gap-2 items-center justify-center p-2 border-2 rounded-lg border-transparent ${isLoading ? 'bg-zinc-800 text-white' : 'bg-zinc-200 text-zinc-600 hover:bg-transparent hover:text-zinc-600 hover:border-zinc-600'} font-semibold  duration-300`}
+                                >
+                                    <Ellipsis />
+                                </button>
+
+                                {
+                                    isOpen && <ModalOptions appointStatus={data}/>
+                                }
+                            </div>}
                         </div>
                     </div>
                 </div>

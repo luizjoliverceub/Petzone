@@ -6,7 +6,7 @@ import * as z from "zod";
 import { toast } from 'sonner';
 import { createAppointment } from "@/utils/actions/CreateAppointments";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { LoaderCircle, X } from "lucide-react";
+import { LoaderCircle, Trash2, X } from "lucide-react";
 import { useUser } from "@/contexts/UserContext";
 import { queryClient } from "@/hooks/useQuery";
 import { ServiceType } from "@/app/vet/(auth)/config/services/components/VetServices";
@@ -39,6 +39,7 @@ export function FormCreateAppointment({ vetId, handle, userId, appointArray, vet
   const { pets, session } = useUser();
   const [consultValue, setConsultValue] = useState('')
   const [date, setDate] = useState('')
+  const router = useRouter()
   const [hoursInput, setHoursInput] = useState(hours)
   const [dataForm, setDataForm] = useState({} as CreateAppointmentSchema)
 
@@ -67,35 +68,36 @@ export function FormCreateAppointment({ vetId, handle, userId, appointArray, vet
       queryClient.invalidateQueries({ queryKey: ['appoint'] })
       handle();
       reset();
-      createRoom(dataForm)
+      router.push(`/user/consults/allConsults`)
+      // createRoom(dataForm)
     },
     onError: () => {
       toast.error('Erro ao criar agendamento');
     }
   });
 
-  const { data: sessionData } = useSession()
-    const router = useRouter()
-    const userEmail = sessionData?.user?.email
+  // const { data: sessionData } = useSession()
+  // const router = useRouter()
+  // const userEmail = sessionData?.user?.email
 
-    const createRoom = async (data: CreateAppointmentSchema) => {
-        const now = dayjs()
+  // const createRoom = async (data: CreateAppointmentSchema) => {
+  //   const now = dayjs()
 
-        const res = await createConversation({
-            clientEmail: userEmail,
-            veterinarianEmail: vetEmail,
-            session: sessionData,
-            started_at: dayjs(data.started_at),
-            ended_at: dayjs(data.ended_at)
-        })
+  //   const res = await createConversation({
+  //     clientEmail: userEmail,
+  //     veterinarianEmail: vetEmail,
+  //     session: sessionData,
+  //     started_at: dayjs(data.started_at),
+  //     ended_at: dayjs(data.ended_at)
+  //   })
 
-        const conversationId = res.id
-        console.log(res)
-        console.log(dayjs(data.started_at))
-        console.log(dayjs(data.ended_at))
+  //   const conversationId = res.id
+  //   console.log(res)
+  //   console.log(dayjs(data.started_at))
+  //   console.log(dayjs(data.ended_at))
 
-        router.push(`/user/message/${conversationId}`)
-    }
+  //   router.push(`/user/message/${conversationId}`)
+  // }
 
   async function onSubmit(data: CreateAppointmentSchema) {
     const formatedData = {

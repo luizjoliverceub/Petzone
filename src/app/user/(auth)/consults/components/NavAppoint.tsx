@@ -1,6 +1,7 @@
 import { useUser } from "@/contexts/UserContext";
 import { AppointmentType } from "@/models/Types";
 import { parseDate } from "@/utils/actions/ParseDate";
+import { parseStatus, statusColor } from "@/utils/actions/parseStatus";
 import Link from "next/link";
 
 export function NavAppoint({ data }: { data?: AppointmentType[] | undefined }) {
@@ -16,7 +17,7 @@ export function NavAppoint({ data }: { data?: AppointmentType[] | undefined }) {
         const vet = vets.find(vet => vet.id === id)
 
         return vet?.user.name
-    } 
+    }
 
     return (
         data ? data?.length === 0 ?
@@ -29,8 +30,8 @@ export function NavAppoint({ data }: { data?: AppointmentType[] | undefined }) {
                         <div className="h-20 w-20 rounded-full bg-zinc-700" />
                         <div className="py-2 flex-1 flex flex-col justify-center">
                             <h3 className="font-medium text-lg">{filterVet(appoint.veterinarianProfileId)}</h3>
-                            <h3 className="font-medium text-sm text-zinc-500">Pet: {filterPet(appoint.petId)}</h3>
                             <h3 className="font-medium text-sm text-zinc-500">Data: {parseDate(appoint.appointment_date)}</h3>
+                            <h3 className="flex gap-1 items-center font-medium text-sm text-zinc-500">Status: {parseStatus(appoint.status)} <div className={`h-2.5 w-2.5 rounded-full bg-${statusColor(appoint.status)}`} /></h3>
                         </div>
                     </div>
                 </Link>

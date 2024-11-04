@@ -63,12 +63,6 @@ export function NavBarApp() {
                         icon={Newspaper}
                         href="/user/newsletter"
                         path={path} />
-
-                    <ButtonNav
-                        title="Configuração"
-                        icon={Bolt}
-                        href="/user/config"
-                        path={path} />
                 </div>
             </div>
             <div>
