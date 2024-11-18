@@ -69,6 +69,7 @@ model VeterinarianProfile {
   address      Address?       @relation(fields: [addressId], references: [id])
   Appointments Appointments[]
   Service      Service[]
+  modality     String[]
 }
 
 enum Role {
@@ -105,8 +106,6 @@ model Pet {
   userEmail   String?
 }
 
-
-
 model Appointments {
   id                    String              @id @default(cuid())
   User                  User                @relation(fields: [userId], references: [id])
@@ -123,6 +122,7 @@ model Appointments {
   service               String
   email                 String
   status                Appointment_status
+  modality              String
 }
 
 model Vaccination {
@@ -163,8 +163,6 @@ model Message {
   author           User         @relation(fields: [authorEmail], references: [email])
 }
 
-
-
 enum Sex {
   M
   F
@@ -174,7 +172,7 @@ enum Sex {
 enum Appointment_status {
   pending
   confirmed
-  denied 
+  denied
   canceled
   finished
 }

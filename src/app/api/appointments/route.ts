@@ -26,7 +26,8 @@ export async function POST(request: Request) {
         veterinarianProfileId: body.veterinarianProfileId,
         started_at: dayjs(body.started_at).toDate(),
         ended_at: dayjs(body.ended_at).toDate(),
-        status:"pending"
+        status:"pending",
+        modality:body.modality
       },
     })
 

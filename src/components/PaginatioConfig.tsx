@@ -18,15 +18,31 @@ export function PaginationConfig() {
             >
                 Conta
             </Link>
+
             {pathName &&
-                <Link
-                    href={'/vet/config/services'}
-                    className={`px-2 py-1 border-b-2 
+                <>
+                    <Link
+                        href={'/vet/config/services'}
+                        className={`px-2 py-1 border-b-2 
                         ${path === '/vet/config/services' ? 'border-vet-secondary font-medium' : 'border-transparent text-zinc-500'} 
                         hover:border-vet-secondary duration-300`}
-                >
-                    Serviços
-                </Link>}
+                    >
+                        Serviços
+                    </Link>
+
+                    <Link
+                        href={pathName ? '/vet/config/modality' : '/user/config'}
+                        className={`px-2 py-1 border-b-2
+                        ${path === '/vet/config/modality' ? 'border-vet-secondary font-medium text-black' : 'border-transparent text-zinc-500'} 
+                        ${path == '/user/config' ? 'border-brand-secondary font-medium text-black' : 'border-transparent'} 
+                        ${pathName ? 'hover:border-vet-secondary' : 'hover:border-brand-secondary'} duration-300`}
+                    >
+                        Modalidade
+                    </Link>
+                </>
+            }
+
+
         </div>
     )
 }

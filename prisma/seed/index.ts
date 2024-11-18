@@ -7,7 +7,8 @@ await prisma.user.create({
         email: "teste1@gmail.com",
         password: "teste1",
         name: "teste1",
-        role: "normal"
+        role: "normal",
+        
       }
 })
 
@@ -85,7 +86,8 @@ await prisma.veterinarianProfile.create({
       crmv:"crmv-99999",
       cep:"71980360",
       userId: veterinariaUser.id,
-      region: "Sobradinho"
+      region: "Sobradinho",
+      modality:""
     }
   });
 
@@ -137,7 +139,8 @@ await prisma.veterinarianProfile.create({
       crmv:"crmv-878786",
       cep:"782903019",
       userId: veterinariaUser2.id,
-      region: "Gama"
+      region: "Gama",
+      modality:""
     }
   });
 

@@ -12,7 +12,8 @@ const AppointmentSchema = z.object({
   clientName: z.string().min(2, 'Digite no mínimo 2 caracteres'),
   phone: z.string().min(1, 'Telefone inválido'),
   service: z.string().min(2, 'Serviço inválido'),
-  email: z.string().email('Endereço de email inválido')
+  email: z.string().email('Endereço de email inválido'),
+  modality:z.string()
 });
 
 type CreateAppointmentSchema = z.infer<typeof AppointmentSchema>;

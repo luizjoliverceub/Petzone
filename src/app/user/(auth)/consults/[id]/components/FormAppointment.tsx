@@ -30,7 +30,8 @@ const AppointmentSchema = z.object({
   clientName: z.string().min(2, 'Digite no mínimo 2 caracteres'),
   phone: z.string().min(1, 'Telefone inválido'),
   service: z.string().min(2, 'Serviço inválido'),
-  email: z.string().email('Endereço de email inválido')
+  email: z.string().email('Endereço de email inválido'),
+  modality:z.string()
 });
 
 type CreateAppointmentSchema = z.infer<typeof AppointmentSchema>;
@@ -321,11 +322,35 @@ export function FormCreateAppointment({ vetId, handle, userId, appointArray, vet
               <option value="" disabled>
                 Selecione um serviço
               </option>
+             
               {data?.map(service => (
                 <option value={service.name} key={service.id} className="font-medium">
                   {service.name}
                 </option>
               ))}
+            </select>
+            <label
+              htmlFor="atendimento"
+              className="font-medium text-zinc-700 text-sm"
+            >
+              Atendimento
+            </label>
+            <select
+              className='px-4 py-2.5 border-2 rounded-md outline-none bg-white'
+              id='atendimento'
+              defaultValue=""
+              {...register("modality", { required: true })}
+            >
+
+              <option value="" disabled>
+                Selecione o tipo de atendimento 
+              </option>
+              <option value="bodily">
+                Presencial
+              </option>
+              <option value="virtual">
+                virtual
+              </option>
             </select>
           </div>
         </div>

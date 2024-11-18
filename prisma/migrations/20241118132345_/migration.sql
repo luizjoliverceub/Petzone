@@ -56,6 +56,7 @@ CREATE TABLE "VeterinarianProfile" (
     "region" TEXT NOT NULL,
     "cep" TEXT NOT NULL,
     "addressId" TEXT,
+    "modality" TEXT NOT NULL,
 
     CONSTRAINT "VeterinarianProfile_pkey" PRIMARY KEY ("id")
 );
@@ -106,6 +107,7 @@ CREATE TABLE "Appointments" (
     "service" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "status" "Appointment_status" NOT NULL,
+    "modality" TEXT NOT NULL,
 
     CONSTRAINT "Appointments_pkey" PRIMARY KEY ("id")
 );
