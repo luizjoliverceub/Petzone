@@ -84,7 +84,7 @@ export default function Home() {
                                         <h3 className="flex gap-1 items-center font-medium animate-fade-in"><span className="text-zinc-500">Status: </span> {parseStatus(data?.status)}<div className={`h-2.5 w-2.5 rounded-full bg-${statusColor(data?.status)}`} /></h3>
                                 }
                             </div>
-                            <div className="flex gap-4">
+                            <div className="flex 2xl:flex-row 2xl:gap-4 xl:flex-col xl:gap-1.5">
                                 {
                                     isLoading ? <div className="rounded-lg bg-zinc-300 animate-pulse w-40 h-6" /> :
                                         <h3 className="font-medium animate-fade-in"><span className="text-zinc-500">Email:</span> {data?.email}</h3>

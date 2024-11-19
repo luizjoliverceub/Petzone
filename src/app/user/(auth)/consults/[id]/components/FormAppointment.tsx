@@ -17,8 +17,9 @@ import dayjs from "dayjs";
 import { AppointmentsArray } from "@/models/Types";
 import { parseDate2, parseHour } from "@/utils/actions/ParseDate";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { createConversation } from "@/utils/actions/CreateConversation";
+import { getModality } from "@/utils/actions/GetModality";
 
 const AppointmentSchema = z.object({
   userId: z.string(),
@@ -31,7 +32,7 @@ const AppointmentSchema = z.object({
   phone: z.string().min(1, 'Telefone inválido'),
   service: z.string().min(2, 'Serviço inválido'),
   email: z.string().email('Endereço de email inválido'),
-  modality:z.string()
+  modality: z.string()
 });
 
 type CreateAppointmentSchema = z.infer<typeof AppointmentSchema>;
@@ -44,7 +45,7 @@ export function FormCreateAppointment({ vetId, handle, userId, appointArray, vet
   const [hoursInput, setHoursInput] = useState(hours)
   const [dataForm, setDataForm] = useState({} as CreateAppointmentSchema)
 
-  const { data, isLoading } = useQuery({
+  const { data } = useQuery({
     queryKey: ['services'],
     queryFn: async () => {
       const data: ServiceType[] = await getAllService()
@@ -52,6 +53,18 @@ export function FormCreateAppointment({ vetId, handle, userId, appointArray, vet
       return data
     }
   })
+
+  const { data: modalityData } = useQuery({
+    queryKey: ['modality', vetId],
+    queryFn: async () => {
+      const data: { modality: string[] } = await getModality(vetId)
+
+      return data
+    },
+    enabled: !!vetId
+  })
+
+  console.log(modalityData)
 
   const {
     register,
@@ -134,12 +147,12 @@ export function FormCreateAppointment({ vetId, handle, userId, appointArray, vet
     });
 
     setHoursInput(filteredHours)
-  }, [date, appointArray]);
+  }, [date, appointArray, modalityData]);
 
   return (
     <div className="h-full w-full absolute z-50 animate-fade-in top-0 right-0 bg-black/50 flex justify-center items-center">
       <form
-        className="flex flex-col gap-5 border-2 p-6 bg-gray-100 rounded-xl w-[490px]"
+        className="flex flex-col gap-5 border-2 p-6 bg-gray-100 rounded-xl w-[490px] 2xl:scale-100 xl:scale-75"
         noValidate
         onSubmit={handleSubmit(onSubmit)}>
 
@@ -225,14 +238,14 @@ export function FormCreateAppointment({ vetId, handle, userId, appointArray, vet
                 defaultValue=""
                 {...register("petId", { required: true })}
               >
-                <option value="" disabled>
+                <option value="" disabled className="2xl:text-lg xl:text-sm">
                   Selecione um pet
                 </option>
                 {pets?.map(pet => (
                   <option
                     value={pet.id}
                     key={pet.id}
-                    className="font-medium"
+                    className="font-medium 2xl:text-lg xl:text-sm"
                   >
                     {pet.name}
                   </option>
@@ -288,11 +301,11 @@ export function FormCreateAppointment({ vetId, handle, userId, appointArray, vet
                 defaultValue=""
                 {...register("started_at", { required: true })}
               >
-                <option value="" disabled>
+                <option value="" disabled className="2xl:text-lg xl:text-sm">
                   Selecione um horário
                 </option>
                 {hoursInput.map((hour, i) => (
-                  <option value={hour} key={i} className="font-medium">
+                  <option value={hour} key={i} className="font-medium 2xl:text-lg xl:text-sm">
                     {hour}
                   </option>
                 ))}
@@ -319,12 +332,12 @@ export function FormCreateAppointment({ vetId, handle, userId, appointArray, vet
                 }
               }}
             >
-              <option value="" disabled>
+              <option value="" disabled className="2xl:text-lg xl:text-sm">
                 Selecione um serviço
               </option>
-             
+
               {data?.map(service => (
-                <option value={service.name} key={service.id} className="font-medium">
+                <option value={service.name} key={service.id} className="font-medium 2xl:text-lg xl:text-sm">
                   {service.name}
                 </option>
               ))}
@@ -342,15 +355,14 @@ export function FormCreateAppointment({ vetId, handle, userId, appointArray, vet
               {...register("modality", { required: true })}
             >
 
-              <option value="" disabled>
-                Selecione o tipo de atendimento 
+              <option value="" disabled className="2xl:text-lg xl:text-sm">
+                Selecione o tipo de atendimento
               </option>
-              <option value="bodily">
-                Presencial
-              </option>
-              <option value="virtual">
-                virtual
-              </option>
+              {modalityData?.modality?.map(item => (
+                <option value={item} key={item} className="font-medium 2xl:text-lg xl:text-sm">
+                  {item}
+                </option>
+              ))}
             </select>
           </div>
         </div>

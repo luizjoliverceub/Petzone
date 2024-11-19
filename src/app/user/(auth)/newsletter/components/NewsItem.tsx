@@ -17,11 +17,11 @@ export function NewsItem({ item }: { item: NewsType }) {
                         className="rounded-xl opacity-60 hidden lg:flex"
                     />
 
-                    <h2 className="absolute text-white font-medium top-6 left-6">{item.webSite}</h2>
+                    <h2 className="absolute text-white font-medium top-6 left-6 2xl:text-base xl:text-xs">{item.webSite}</h2>
 
-                    <div className="absolute bottom-5 px-12 py-4 flex flex-col justify-start items-center gap-2">
-                        <h2 className="text-white font-bold text-xl">{item.title}</h2>
-                        <p className="text-white font-light text-xs">{item.description}</p>
+                    <div className="absolute bottom-5 px-12 py-4 flex flex-col justify-start items-center gap-2 overflow-hidden">
+                        <h2 className="text-white font-bold 2xl:text-xl xl:text-base flex-1">{item.title}</h2>
+                        <p className="text-white font-light text-xs 2xl:flex xl:hidden">{item.description}</p>
                     </div>
                 </div>
             </Link>

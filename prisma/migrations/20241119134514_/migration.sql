@@ -56,7 +56,7 @@ CREATE TABLE "VeterinarianProfile" (
     "region" TEXT NOT NULL,
     "cep" TEXT NOT NULL,
     "addressId" TEXT,
-    "modality" TEXT NOT NULL,
+    "modality" TEXT[],
 
     CONSTRAINT "VeterinarianProfile_pkey" PRIMARY KEY ("id")
 );

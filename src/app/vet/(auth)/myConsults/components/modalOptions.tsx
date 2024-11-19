@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import { Ban, Check } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useParams, useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export function ModalOptions({ appointStatus }: { appointStatus: AppointmentType | undefined }) {
     const { id } = useParams<{ id: string }>()
@@ -16,8 +17,10 @@ export function ModalOptions({ appointStatus }: { appointStatus: AppointmentType
             if (status === 'confirmed') {
                 await createRoom();
             }
+            toast.success('Consulta aceita com sucesso!')
         } catch (error) {
             console.error('Error changing status or creating room:', error);
+            toast.error('Falha em aceitar consulta!')
         }
     };
 
@@ -43,7 +46,7 @@ export function ModalOptions({ appointStatus }: { appointStatus: AppointmentType
     // console.log(appointStatus)
 
     return (
-        <div className="border-2 rounded-xl absolute left-14 top-0 animate-fade-in flex flex-col gap-1 p-1">
+        <div className="border-2 rounded-xl absolute 2xl:left-14 2xl:top-0 xl:-left-8 xl:top-14 animate-fade-in flex flex-col gap-1 p-1 bg-white">
             {appointStatus?.status == 'pending' && <button
                 onClick={() => { handleStatus('confirmed') }}
                 className="group flex gap-2 px-4 py-2 justify-center items-center font-bold text-sm text-nowrap hover:bg-green-500 hover:text-white duration-300 rounded-xl"
