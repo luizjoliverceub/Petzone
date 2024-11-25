@@ -43,7 +43,6 @@ export function NavBarApp() {
                     <ButtonNav
                         title="Mensagens"
                         icon={MessageCircle}
-                        isChat
                         href="/user/message"
                         path={path} />
 

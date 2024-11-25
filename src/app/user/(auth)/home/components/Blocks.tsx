@@ -56,7 +56,7 @@ export function Blocks() {
                     />
                 </div>
                 <div className="px-8">
-                    <BlockEvents />
+                    <BlockEvents events={appointments}/>
                 </div>
                 <div className="px-8 hidden 2xl:flex">
                     <BlockEmpty horizontal />

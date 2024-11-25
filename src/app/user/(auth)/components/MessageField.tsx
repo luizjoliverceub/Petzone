@@ -25,7 +25,7 @@ const MessageField: FC<MessagesProps> = ({ initialMessages, roomId }) => {
     const handleMessage = (text: string) => {
       setIncomingMessages((prev) => {
         if (!prev.includes(text)) {
-          return [...prev, text]
+          return [text,...prev]
         }
         return prev
       })
@@ -38,7 +38,6 @@ const MessageField: FC<MessagesProps> = ({ initialMessages, roomId }) => {
       pusherClient.unsubscribe(roomId)
     }
   }, [roomId])
-
 
   return (
     <div className="flex flex-col-reverse py-4 px-8 bg-gray-50 h-full overflow-y-auto overflow-x-hidden animate-fade-in pb-20">

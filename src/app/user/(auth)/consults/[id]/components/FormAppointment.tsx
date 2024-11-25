@@ -315,6 +315,29 @@ export function FormCreateAppointment({ vetId, handle, userId, appointArray, vet
 
           <div className="flex flex-col gap-1">
             <label
+              htmlFor="atendimento"
+              className="font-medium text-zinc-700 text-sm"
+            >
+              Atendimento
+            </label>
+            <select
+              className='px-4 py-2.5 border-2 rounded-md outline-none bg-white'
+              id='atendimento'
+              defaultValue=""
+              {...register("modality", { required: true })}
+            >
+
+              <option value="" disabled className="2xl:text-lg xl:text-sm">
+                Selecione o tipo de atendimento
+              </option>
+              {modalityData?.modality?.map(item => (
+                <option value={item} key={item} className="font-medium 2xl:text-lg xl:text-sm">
+                  {item}
+                </option>
+              ))}
+            </select>
+
+            <label
               htmlFor="service"
               className="font-medium text-zinc-700 text-sm"
             >
@@ -339,28 +362,6 @@ export function FormCreateAppointment({ vetId, handle, userId, appointArray, vet
               {data?.map(service => (
                 <option value={service.name} key={service.id} className="font-medium 2xl:text-lg xl:text-sm">
                   {service.name}
-                </option>
-              ))}
-            </select>
-            <label
-              htmlFor="atendimento"
-              className="font-medium text-zinc-700 text-sm"
-            >
-              Atendimento
-            </label>
-            <select
-              className='px-4 py-2.5 border-2 rounded-md outline-none bg-white'
-              id='atendimento'
-              defaultValue=""
-              {...register("modality", { required: true })}
-            >
-
-              <option value="" disabled className="2xl:text-lg xl:text-sm">
-                Selecione o tipo de atendimento
-              </option>
-              {modalityData?.modality?.map(item => (
-                <option value={item} key={item} className="font-medium 2xl:text-lg xl:text-sm">
-                  {item}
                 </option>
               ))}
             </select>

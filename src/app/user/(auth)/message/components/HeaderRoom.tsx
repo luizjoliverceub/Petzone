@@ -71,9 +71,9 @@ export function HeaderRoom({ id }: { id: string }) {
 
                 </div>
             </div>
-            <button className="bg-red-100 text-red-500 hover:bg-red-500 hover:text-red-100 duration-300 py-1 px-4 rounded-md flex gap-1" onClick={onDeleteConversation} >
+            {/* <button className="bg-red-100 text-red-500 hover:bg-red-500 hover:text-red-100 duration-300 py-1 px-4 rounded-md flex gap-1" onClick={onDeleteConversation} >
                     <Trash2/>
-            </button>
+            </button> */}
         </div>
     )
 }

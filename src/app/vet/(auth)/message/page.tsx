@@ -1,60 +1,17 @@
-'use client'
+import { MessageCircle } from "lucide-react";
 
-import { createConversation } from '@/utils/actions/CreateConversation'
-import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
-import { FC } from 'react'
-
-const Page: FC = () => {
-  const { data } = useSession()
-  let roomIdInput = ''
-  const router = useRouter()
-  const userEmail = data?.user?.email
-
-  const createRoom = async () => {
-    const res = await createConversation({
-      clientEmail: userEmail,
-      veterinarianEmail: 'vet1@email.com',
-      session: data,
-    })
-
-    const conversationId = res.id
-    console.log(conversationId)
-
-    router.push(`/user/message/${conversationId}`)
-  }
-
-  const joinRoom = (roomId: string) => {
-    router.push(`/user/message/${roomId}`)
-  }
-
-  return (
-    <div className="w-full flex flex-col items-center justify-center h-screen bg-gray-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
-        <h1 className="text-2xl font-semibold mb-4 text-center text-gray-800">Chat Test</h1>
-        <button
-          onClick={createRoom}
-          className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors mb-4"
-        >
-          Create Room
-        </button>
-        <div className="flex gap-3">
-          <input
-            type="text"
-            placeholder="Enter room ID"
-            onChange={({ target }) => (roomIdInput = target.value)}
-            className="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <button
-            onClick={() => joinRoom(roomIdInput)}
-            className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition-colors"
-          >
-            Join Room
-          </button>
+export default function Home() {
+    return (
+        <div className="h-screen flex-1 flex items-center justify-center py-4 pr-4">
+            <div className="w-full h-full border-2 flex rounded-xl py-8 px-10 animate-fade-in shadow-md items-center justify-center">
+                <div className="flex flex-col gap-6 items-center justify-center">
+                    <MessageCircle className="size-16 bg-vet-secondary text-white p-2 rounded-xl" />
+                    <div className="text-center">
+                        <h2 className="font-bold text-4xl text-brand-primary">Bem vindo ao bate-papo</h2>
+                        <h3 className="font-semibold text-sm text-zinc-500">Para comecar selecione ao lado um bate-papo de seu interesse!</h3>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  )
+    )
 }
-
-export default Page

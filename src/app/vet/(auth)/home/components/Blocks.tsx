@@ -10,6 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getAllNews } from "@/utils/actions/GetAllNews";
 import { AppointmentType } from "@/models/Types";
 import { getAppointments } from "@/utils/actions/GetAppointments";
+import { GetAllConversations } from "@/utils/actions/GetAllConversationsByUser";
 
 export function Blocks() {
     const { data, isLoading } = useQuery({
@@ -20,6 +21,17 @@ export function Blocks() {
             return data
         }
     })
+
+    const { data:rooms } = useQuery({
+        queryKey: ['rooms'],
+        queryFn: async () => {
+            const data = await GetAllConversations()
+
+            return data
+        }
+    })
+
+    console.log(rooms)
 
     const appointData = useQuery({
         queryKey: ['appoint'],
@@ -35,10 +47,11 @@ export function Blocks() {
             <div>
                 <div className="p-8 flex flex-col items-center gap-6 xl:flex-row">
                     <BlockInfo
-                        title="Mensagens"
+                        title="Bate-papos"
                         Icon={MessageCircle}
                         href="/vet/message"
-                        value={3}
+                        value={rooms?.length}
+                        isLoading={isLoading}
                     />
                     <BlockInfo
                         title="Consultas agendadas"
@@ -49,7 +62,7 @@ export function Blocks() {
                     />
                 </div>
                 <div className="px-8">
-                    <BlockEvents />
+                    <BlockEvents events={appointData.data}/>
                 </div>
                 <div className="px-8">
                     <BlockEmpty horizontal />

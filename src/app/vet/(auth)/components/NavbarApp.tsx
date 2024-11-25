@@ -2,18 +2,14 @@
 
 import { ButtonNav } from "@/app/vet/(auth)/components/ButtonNav";
 import { UserOptionBtn } from "@/components/UserOptionBtn";
-import { useUser } from "@/contexts/UserContext";
-import { GetUserInfo } from "@/utils/actions/GetUserInfo";
-import { useQuery } from "@tanstack/react-query";
 import { Activity, EllipsisVertical, House, MessageCircle, Newspaper, PawPrint } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { redirect, usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export function NavBarApp() {
     const [open, setOpen] = useState(false)
-    const { pets } = useUser()
     const { data: session } = useSession()
     const path = usePathname()
 
@@ -29,6 +25,7 @@ export function NavBarApp() {
         redirect('/user/home')
     }
 
+
     return (
         <nav className="h-full min-w-64 bg-vet-primary px-4 pb-4 pt-8 flex flex-col justify-between fixed">
             <div className="w-full flex flex-col gap-12">
@@ -37,8 +34,8 @@ export function NavBarApp() {
                 </div>
                 <div className="w-full flex flex-col gap-2">
                     <ButtonNav title="Inicio" icon={House} href="/vet/home" path={path} />
-                    <ButtonNav title="Mensagens" icon={MessageCircle} isChat href="/vet/message" path={path} />
-                    <ButtonNav title="Consultar Pet" icon={PawPrint} href={'/vet/petConsult'} path={path} />
+                    <ButtonNav title="Mensagens" icon={MessageCircle} href="/vet/message" path={path} />
+                    <ButtonNav title="Consultar Pet" icon={PawPrint} href={'/vet/petSearch'} path={path} />
                     <ButtonNav title="Minhas Consultas" icon={Activity} href="/vet/myConsults" path={path} />
                     <ButtonNav title="Notas" icon={Newspaper} href="/vet/notes" path={path} />
                 </div>

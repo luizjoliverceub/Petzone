@@ -14,6 +14,9 @@ import { CalendarBlock } from "./DashboardBlocks/CalendarBlock";
 import { VaccinationBlock } from "./DashboardBlocks/VaccinationBlock";
 import { RemovePet } from "@/app/user/(auth)/pets/components/RemovePet";
 import { ModalPetCard } from "@/app/user/(auth)/pets/components/ModalPetCard";
+import { useQuery } from "@tanstack/react-query";
+import { AppointmentType } from "@/models/Types";
+import { getAppointmentPet } from "@/utils/actions/GetAppointmentPet";
 
 
 dayjs.extend(localizedFormat);
@@ -47,6 +50,7 @@ export function PetDashboard({ petsVet }: { petsVet?: PetType[] }) {
     const handleOpenPetCard = () => {
         setOpenPetCard(!openPetCard);
     };
+
 
     return (
         <>
