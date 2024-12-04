@@ -40,11 +40,11 @@ const AppointmentSchema = z.object({
   modality: z.string()
 });
 
-type CreateAppointmentSchema = z.infer<typeof AppointmentSchema>;
+export type CreateAppointmentSchema = z.infer<typeof AppointmentSchema>;
 
 
-export function FormCreateAppointment({ id,vetId, handle, userId, appointArray, vetEmail,stripe }: { id:string ,vetId: string, handle: () => void, userId: string | undefined, appointArray: AppointmentsArray[] | undefined, vetEmail: string | undefined , stripe:any}) {
-  const { pets, session } = useUser();
+export function FormCreateAppointment({ id, vetId, handle, userId, appointArray, vetEmail, stripe }: { id: string, vetId: string, handle: () => void, userId: string | undefined, appointArray: AppointmentsArray[] | undefined, vetEmail: string | undefined, stripe: any }) {
+  const { pets, session, handleAmount } = useUser();
   const [consultValue, setConsultValue] = useState('')
   const [date, setDate] = useState('')
   const router = useRouter()
@@ -59,7 +59,7 @@ export function FormCreateAppointment({ id,vetId, handle, userId, appointArray, 
     setConfirmed(new URLSearchParams(window.location.search).get(
       "payment_intent_client_secret"
     ));
-  });
+  }, [setConfirmed]);
 
 
 
@@ -109,7 +109,7 @@ export function FormCreateAppointment({ id,vetId, handle, userId, appointArray, 
       queryClient.invalidateQueries({ queryKey: ['appoint'] })
       handle();
       reset();
-     router.push(`/user/checkout`)
+      router.push(`/user/checkout`)
       // createRoom(dataForm)
     },
     onError: () => {
@@ -151,14 +151,23 @@ export function FormCreateAppointment({ id,vetId, handle, userId, appointArray, 
         .format('YYYY-MM-DDTHH:mm:ss')
     };
 
-   
-    createAppointmentMutation.mutate(formatedData);
-    setDataForm(formatedData)
-  
+    const apointForm = localStorage.getItem('apointForm')
+    const amountLocalStorage = localStorage.getItem('amount')
 
-   //confirmar pagamento
+    if (apointForm) {
+      localStorage.removeItem('apointForm')
+    }
 
-   
+    if (amountLocalStorage) {
+      localStorage.removeItem('amount')
+    }
+
+    localStorage.setItem('amount', consultValue + 20)
+    localStorage.setItem('apointForm', JSON.stringify(formatedData))
+
+
+    router.push(`/user/checkout`)
+    // createAppointmentMutation.mutate(formatedData);
   }
 
   // async function handleClickedService (){
@@ -183,7 +192,7 @@ export function FormCreateAppointment({ id,vetId, handle, userId, appointArray, 
   //     console.log("Bateu dentro if");
 
 
-    
+
   // }
 
   const formatted = (valor: any) => new Intl.NumberFormat('pt-BR', {
@@ -413,7 +422,7 @@ export function FormCreateAppointment({ id,vetId, handle, userId, appointArray, 
                   handlePrice(selectedService.price);
                 }
               }
-            }
+              }
             >
               <option value="" disabled className="2xl:text-lg xl:text-sm">
                 Selecione um serviço
@@ -444,14 +453,6 @@ export function FormCreateAppointment({ id,vetId, handle, userId, appointArray, 
             <h3 className="font-semibold">{formatted(consultValue + 20 || 0)}</h3>
           </div>
         </div>
-        {
-   clientSecret && (
-   <Elements options={options} stripe={stripe}>
-    {confirmed ? <CompletePage /> : <CheckoutForm  dpmCheckerLink={dpmCheckerLink} />}
-   </Elements>
-   )
-
-        }
         <button
           type='submit'
           disabled={createAppointmentMutation.isPending}
@@ -462,7 +463,7 @@ export function FormCreateAppointment({ id,vetId, handle, userId, appointArray, 
               <LoaderCircle className="animate-spin size-5" />
             </>
             :
-            <span>Agendar consulta</span>
+            <span>Ir para pagamento</span>
           }
         </button>
       </form>

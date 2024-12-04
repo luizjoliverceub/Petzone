@@ -24,7 +24,7 @@ export function BlockEvents({ events }: { events: AppointmentType[] | undefined 
                 <div className={`flex-1 h-full w-full flex ${eventsParsed?.length === 0 ? 'items-center justify-center' : ''}`}>
                     {eventsParsed?.length === 0 ?
                         <h2 className="font-medium text-zinc-700">Sem eventos registrado</h2> :
-                        <div className="py-4 flex flex-col gap-1 w-full">
+                        <div className="py-4 flex flex-col gap-1 w-full overflow-y-auto overflow-x-hidden">
                             <div className="flex justify-between items-center px-2">
                                 <h3 className="font-semibold opacity-50 text-sm">Serviço</h3>
                                 <p className="font-semibold opacity-50 text-sm">Data</p>

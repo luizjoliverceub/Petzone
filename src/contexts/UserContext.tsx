@@ -38,6 +38,8 @@ interface UserContextType {
   appointments: AppointmentType[];
   handleLogout: () => void;
   handleAddPet: () => void;
+  amountValue: number
+  handleAmount: (value: number) => void
 }
 
 // Criação do contexto
@@ -51,8 +53,13 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const [appointments, setAppointments] = useState<AppointmentType[]>([]);
   const [news, setNews] = useState<NewsType[]>([]);
   const [refresh, setRefresh] = useState(false);
+  const [amountValue, setAmountValue] = useState(0);
 
   const { data: session, status } = useSession();
+
+  const handleAmount = (value: number) => {
+    setAmountValue(value)
+  }
 
   // Função para buscar todos os pets
   const handleFetchPets = useCallback(async () => {
@@ -121,7 +128,9 @@ export function UserProvider({ children }: { children: ReactNode }) {
         session,
         vets,
         news,
-        appointments
+        appointments,
+        handleAmount,
+        amountValue
       }}>
       {children}
     </UserContext.Provider>
