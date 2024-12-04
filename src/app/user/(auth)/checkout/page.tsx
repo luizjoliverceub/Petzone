@@ -21,9 +21,9 @@ export default function PageCheckout() {
 
     const searchParams = useSearchParams()
 
-    const amount = searchParams.get("amount") 
+    const amount = Number(searchParams.get("amount"))
 
-
+ 
 
     useEffect(() => {
       setConfirmed(new URLSearchParams(window.location.search).get(
@@ -31,12 +31,16 @@ export default function PageCheckout() {
       ));
     });
   
+
+ 
+    
+
     useEffect(() => {
       // Create PaymentIntent as soon as the page loads
       fetch("/api/create-payment-intent", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount:convertToSubCurrency(amount) }),
+        body: JSON.stringify({ amount: convertToSubCurrency(amount)}),
       })
         .then((res) => res.json())
         .then((data) => {
