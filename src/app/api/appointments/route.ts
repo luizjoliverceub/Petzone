@@ -7,7 +7,7 @@ export async function POST(request: Request) {
   const session = request.headers.get("session")
   const newSessionValue = session ? JSON.parse(session) : null
 
-  console.log("Bateu appointments POST");
+
 
   try {
 
@@ -51,7 +51,6 @@ export async function GET(request: Request) {
   const userRole = newSessionValue?.user?.role as userRole
   const userEmail = newSessionValue.user.email
 
-  console.log("Bateu appointments GET" + userRole);
 
   try {
 

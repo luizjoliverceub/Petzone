@@ -4,7 +4,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useQuery } from '@tanstack/react-query';
 import { UserAppointType, VetUserType } from "@/models/Types";
 import { FormCreateAppointment } from "./components/FormAppointment";
-import { useState } from "react";
+import {  useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, BadgeCheck } from "lucide-react";
 import { Service } from "./components/Service";
@@ -13,6 +13,10 @@ import { getUser } from "@/utils/actions/GetUser";
 import { createConversation } from "@/utils/actions/CreateConversation";
 import { useSession } from 'next-auth/react'
 import dayjs from "dayjs";
+import { loadStripe } from "@stripe/stripe-js";
+
+
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
 
 export default function Home() {
     const [open, setOpen] = useState(false)
@@ -151,7 +155,12 @@ export default function Home() {
                                 >
                                     Realizar agendamento
                                 </button>
-                                {open && <FormCreateAppointment vetId={id} handle={handleOpen} userId={user.data?.id} appointArray={appointArray} vetEmail={userData.data?.email}/>}
+                                {open && (
+                                    
+                                <FormCreateAppointment stripe={stripePromise} id={id} vetId={id} handle={handleOpen} userId={user.data?.id} appointArray={appointArray} vetEmail={userData.data?.email}/>
+                            )
+                                
+                                }
                             </div>
 
                         </div>
@@ -177,5 +186,6 @@ export default function Home() {
                 </div>
             </div>
         </div>
+        
     );
 }

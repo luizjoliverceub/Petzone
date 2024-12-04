@@ -20,6 +20,11 @@ import { useSession } from "next-auth/react";
 import { useParams, useRouter } from "next/navigation";
 import { createConversation } from "@/utils/actions/CreateConversation";
 import { getModality } from "@/utils/actions/GetModality";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements, useElements, useStripe } from "@stripe/react-stripe-js";
+import CompletePage from "./CompletePage";
+import CheckoutForm from "./CheckoutForm";
+import convertToSubCurrency from "@/lib/convertToSubCurrency";
 
 const AppointmentSchema = z.object({
   userId: z.string(),
@@ -37,13 +42,35 @@ const AppointmentSchema = z.object({
 
 type CreateAppointmentSchema = z.infer<typeof AppointmentSchema>;
 
-export function FormCreateAppointment({ vetId, handle, userId, appointArray, vetEmail }: { vetId: string, handle: () => void, userId: string | undefined, appointArray: AppointmentsArray[] | undefined, vetEmail: string | undefined }) {
+
+export function FormCreateAppointment({ id,vetId, handle, userId, appointArray, vetEmail,stripe }: { id:string ,vetId: string, handle: () => void, userId: string | undefined, appointArray: AppointmentsArray[] | undefined, vetEmail: string | undefined , stripe:any}) {
   const { pets, session } = useUser();
   const [consultValue, setConsultValue] = useState('')
   const [date, setDate] = useState('')
   const router = useRouter()
   const [hoursInput, setHoursInput] = useState(hours)
   const [dataForm, setDataForm] = useState({} as CreateAppointmentSchema)
+  const [clientSecret, setClientSecret] = useState("");
+  const [dpmCheckerLink, setDpmCheckerLink] = useState("");
+  const [confirmed, setConfirmed] = useState(false);
+
+
+  useEffect(() => {
+    setConfirmed(new URLSearchParams(window.location.search).get(
+      "payment_intent_client_secret"
+    ));
+  });
+
+
+
+  const appearance = {
+    theme: 'stripe',
+  };
+
+  const options = {
+    clientSecret,
+    appearance,
+  };
 
   const { data } = useQuery({
     queryKey: ['services'],
@@ -82,7 +109,7 @@ export function FormCreateAppointment({ vetId, handle, userId, appointArray, vet
       queryClient.invalidateQueries({ queryKey: ['appoint'] })
       handle();
       reset();
-      router.push(`/user/consults/allConsults`)
+     router.push(`/user/checkout`)
       // createRoom(dataForm)
     },
     onError: () => {
@@ -124,9 +151,40 @@ export function FormCreateAppointment({ vetId, handle, userId, appointArray, vet
         .format('YYYY-MM-DDTHH:mm:ss')
     };
 
+   
     createAppointmentMutation.mutate(formatedData);
     setDataForm(formatedData)
+  
+
+   //confirmar pagamento
+
+   
   }
+
+  // async function handleClickedService (){
+
+  //   const amount = Number(consultValue + 20)
+
+  //     const response = await fetch('/api/create-payment-intent', {
+  //       method: 'POST',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify({ amount: convertToSubCurrency(amount)}),
+  //     });
+
+  //     const { clientSecret, dpmCheckerLink} = await response.json();
+
+  //     setClientSecret(clientSecret);
+  //     // [DEV] For demo purposes only
+  //     setDpmCheckerLink(dpmCheckerLink);
+
+  //     console.log("ClientSecret " + clientSecret);
+
+
+  //     console.log("Bateu dentro if");
+
+
+    
+  // }
 
   const formatted = (valor: any) => new Intl.NumberFormat('pt-BR', {
     style: 'currency',
@@ -347,13 +405,15 @@ export function FormCreateAppointment({ vetId, handle, userId, appointArray, vet
               className='px-4 py-2.5 border-2 rounded-md outline-none bg-white'
               id='service'
               defaultValue=""
+              //onClick={handleClickedService}
               {...register("service", { required: true })}
               onChange={(e) => {
                 const selectedService = data?.find(service => service.name === e.target.value);
                 if (selectedService) {
                   handlePrice(selectedService.price);
                 }
-              }}
+              }
+            }
             >
               <option value="" disabled className="2xl:text-lg xl:text-sm">
                 Selecione um serviço
@@ -384,6 +444,14 @@ export function FormCreateAppointment({ vetId, handle, userId, appointArray, vet
             <h3 className="font-semibold">{formatted(consultValue + 20 || 0)}</h3>
           </div>
         </div>
+        {
+   clientSecret && (
+   <Elements options={options} stripe={stripe}>
+    {confirmed ? <CompletePage /> : <CheckoutForm  dpmCheckerLink={dpmCheckerLink} />}
+   </Elements>
+   )
+
+        }
         <button
           type='submit'
           disabled={createAppointmentMutation.isPending}
