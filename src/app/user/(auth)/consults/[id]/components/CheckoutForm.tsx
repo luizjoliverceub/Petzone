@@ -6,8 +6,13 @@ import {
   useStripe,
   useElements
 } from "@stripe/react-stripe-js";
+import { CreateAppointmentSchema } from "./FormAppointment";
+import { queryClient } from "@/hooks/useQuery";
+import { createAppointment } from "@/utils/actions/CreateAppointments";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
 
-export default function CheckoutForm({ dpmCheckerLink}: { dpmCheckerLink: any}) {
+export default function CheckoutForm({ dpmCheckerLink}: { dpmCheckerLink: any, }) {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -29,7 +34,7 @@ export default function CheckoutForm({ dpmCheckerLink}: { dpmCheckerLink: any}) 
       elements,
       confirmParams: {
         return_url: `http://localhost:3000/user/checkout`,
-      },
+      }
     });
 
     // This point will only be reached if there is an immediate error when

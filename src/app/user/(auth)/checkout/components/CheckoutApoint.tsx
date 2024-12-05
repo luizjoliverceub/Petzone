@@ -2,7 +2,7 @@ import { InputMask } from "@react-input/mask";
 import { CreateAppointmentSchema } from "../../consults/[id]/components/FormAppointment";
 import { parseDate, parseHour } from "@/utils/actions/ParseDate";
 
-export function CheckoutApointForm({ form, consultValue }: { form: CreateAppointmentSchema, consultValue: string | null }) {
+export function CheckoutApointForm({ form, consultValue }: { form: CreateAppointmentSchema, consultValue: number | null }) {
     const formatted = (valor: any) => new Intl.NumberFormat('pt-BR', {
         style: 'currency',
         currency: 'BRL'
@@ -10,7 +10,7 @@ export function CheckoutApointForm({ form, consultValue }: { form: CreateAppoint
 
     return (
         <form
-            className="flex flex-col gap-5 border-[1px] p-6 bg-white rounded-lg 2xl:scale-100 xl:scale-75 w-[60%] shadow-md"
+            className="flex flex-col gap-5 border-[1px] p-6 bg-white rounded-lg 2xl:scale-100 xl:scale-75 w-auto shadow-md"
             noValidate
         >
             <div>
@@ -167,7 +167,7 @@ export function CheckoutApointForm({ form, consultValue }: { form: CreateAppoint
                 <div className="w-full h-0.5 bg-zinc-100 rounded-xl"></div>
                 <div className="w-full flex justify-between text-white text-lg">
                     <h3>Valor total:</h3>
-                    <h3 className="font-semibold">{formatted(consultValue ? consultValue + 20 || 0 : 0)}</h3>
+                    <h3 className="font-semibold">{formatted(consultValue ? Number(consultValue) + 20 || 0 : 0)}</h3>
                 </div>
             </div>
         </form>

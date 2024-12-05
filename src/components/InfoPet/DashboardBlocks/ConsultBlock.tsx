@@ -7,17 +7,17 @@ import { useQuery } from "@tanstack/react-query";
 import { Eye, Plus } from "lucide-react";
 import Link from "next/link";
 
-export function ConsultBlock({ pet }: { pet: CreatePetSchema }) {
+export function ConsultBlock({ pet }: { pet: CreatePetSchema | undefined }) {
     const { session } = useUser()
 
     const { data, isLoading } = useQuery({
-        queryKey: ['appointments', pet.id],
+        queryKey: ['appointments', pet?.id],
         queryFn: async () => {
-            const data: AppointmentType[] = await getAppointmentPet(pet.id)
+            const data: AppointmentType[] = await getAppointmentPet(pet?.id)
 
             return data
         },
-        enabled: !!pet.id
+        enabled: !!pet?.id
     })
 
     return (
@@ -58,7 +58,7 @@ export function ConsultBlock({ pet }: { pet: CreatePetSchema }) {
                             </Link>
                         </div>
                     )) :
-                        <p className="text-zinc-500 font-medium">Sem consultas registradas sobre o {pet.name}</p>}
+                        <p className="text-zinc-500 font-medium">Sem consultas registradas sobre o {pet?.name}</p>}
             </div>
         </div>
     )

@@ -38,10 +38,14 @@ export function PetDashboard({ petsVet }: { petsVet?: PetType[] }) {
         pet = pets.find(pet => pet.id === id);
     }
 
-    if (!pet) {
+    if (!pet && session?.user?.role === 'normal') {
         router.push('/user/pets');
-        return null;
     }
+
+    if (!pet && session?.user?.role !== 'normal') {
+        router.push('/vet/petSearch');
+    }
+
 
     const handleOpenRemove = () => {
         setOpenRemove(!openRemove);

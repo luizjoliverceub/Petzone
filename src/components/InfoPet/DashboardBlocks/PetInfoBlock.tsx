@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import { ExternalLink, View } from "lucide-react";
 import { Session } from "next-auth";
 
-export function PetInfoBlock({ pet, handleOpenPetCard }: { pet: PetType, handleOpenPetCard: () => void }) {
+export function PetInfoBlock({ pet, handleOpenPetCard }: { pet: PetType | undefined, handleOpenPetCard: () => void }) {
     const { session } = useUser()
 
     const formatarIdadeDoPet = (idadeEmMeses: number) => {
@@ -26,17 +26,17 @@ export function PetInfoBlock({ pet, handleOpenPetCard }: { pet: PetType, handleO
                     <div className="flex justify-between">
                         <div>
                             <h2 className="font-semibold text-zinc-700">Sexo</h2>
-                            <p className="text-wrap text-sm text-zinc-500 font-medium truncate">{pet.sex == 'M' ? 'Macho' : 'Femea'}</p >
+                            <p className="text-wrap text-sm text-zinc-500 font-medium truncate">{pet?.sex == 'M' ? 'Macho' : 'Femea'}</p >
                         </div>
                         <div>
                             <h2 className="font-semibold text-zinc-700">Dono</h2>
-                            <p className="text-wrap text-sm text-zinc-500 font-medium truncate">{pet.user.name}</p >
+                            <p className="text-wrap text-sm text-zinc-500 font-medium truncate">{pet?.user.name}</p >
                         </div>
                         <div>
                             <h2 className="font-semibold text-zinc-700">Localização</h2>
                             {
-                                pet.city.length
-                                    ? <p className="text-wrap text-zinc-500 font-medium truncate text-sm">{pet.city}</p >
+                                pet?.city.length
+                                    ? <p className="text-wrap text-zinc-500 font-medium truncate text-sm">{pet?.city}</p >
                                     : <p className="text-wrap text-zinc-500 font-medium truncate text-sm">Ainda não uma Localização salva</p>
                             }
                         </div>
@@ -45,15 +45,15 @@ export function PetInfoBlock({ pet, handleOpenPetCard }: { pet: PetType, handleO
                     <div className="flex justify-between">
                         <div>
                             <h2 className="font-semibold text-zinc-700">Data de nascimento</h2>
-                            <p className="text-wrap text-sm text-zinc-500 font-medium truncate">{dayjs(pet.birthDate).format('DD/MM/YYYY')}</p >
+                            <p className="text-wrap text-sm text-zinc-500 font-medium truncate">{dayjs(pet?.birthDate).format('DD/MM/YYYY')}</p >
                         </div>
                         <div>
                             <h2 className="font-semibold text-zinc-700">Idade</h2>
-                            <p className="text-wrap text-sm text-zinc-500 font-medium truncate">{formatarIdadeDoPet(pet.age)}</p >
+                            <p className="text-wrap text-sm text-zinc-500 font-medium truncate">{formatarIdadeDoPet(pet?.age)}</p >
                         </div>
                         <div>
                             <h2 className="font-semibold text-zinc-700">Raça</h2>
-                            <p className="text-wrap text-zinc-500 font-medium truncate text-sm">{pet.race}</p>
+                            <p className="text-wrap text-zinc-500 font-medium truncate text-sm">{pet?.race}</p>
                         </div>
                     </div>
                 </div>

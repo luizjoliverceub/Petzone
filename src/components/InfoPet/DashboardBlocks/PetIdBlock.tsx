@@ -4,7 +4,7 @@ import { useState } from "react";
 import { CreatePetSchema } from "@/utils/actions/AddPet";
 import { useUser } from "@/contexts/UserContext";
 
-export function PetIdBlock({ pet, handleOpenRemove }: { pet: CreatePetSchema, handleOpenRemove: () => void }) {
+export function PetIdBlock({ pet, handleOpenRemove }: { pet: CreatePetSchema | undefined, handleOpenRemove: () => void }) {
     const [isOpenOptions, setIsOpenOptions] = useState(false)
     const [isClicked, setIsClicked] = useState(false)
     const { session } = useUser()
@@ -15,7 +15,7 @@ export function PetIdBlock({ pet, handleOpenRemove }: { pet: CreatePetSchema, ha
 
     const clipboardBtn = () => {
         setIsClicked(true);
-        navigator.clipboard.writeText(pet.id)
+        navigator.clipboard.writeText(pet?.id)
         setTimeout(() => {
             setIsClicked(false);
         }, 3000);
@@ -40,7 +40,7 @@ export function PetIdBlock({ pet, handleOpenRemove }: { pet: CreatePetSchema, ha
                 <div className="w-36 h-36 2xl:w-44 2xl:h-44 rounded-full bg-zinc-300" />
             </div>
             <div className="flex flex-col text-center">
-                <h2 className="w-auto font-semibold text-2xl flex gap-1 items-center justify-center relative">{pet.name}
+                <h2 className="w-auto font-semibold text-2xl flex gap-1 items-center justify-center relative">{pet?.name}
                     {session?.user?.role === 'normal' &&
                         <button
                             title='Copiar ID'

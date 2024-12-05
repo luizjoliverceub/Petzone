@@ -50,28 +50,7 @@ export function FormCreateAppointment({ id, vetId, handle, userId, appointArray,
   const router = useRouter()
   const [hoursInput, setHoursInput] = useState(hours)
   const [dataForm, setDataForm] = useState({} as CreateAppointmentSchema)
-  const [clientSecret, setClientSecret] = useState("");
-  const [dpmCheckerLink, setDpmCheckerLink] = useState("");
-  const [confirmed, setConfirmed] = useState(false);
-
-
-  useEffect(() => {
-    setConfirmed(new URLSearchParams(window.location.search).get(
-      "payment_intent_client_secret"
-    ));
-  }, [setConfirmed]);
-
-
-
-  const appearance = {
-    theme: 'stripe',
-  };
-
-  const options = {
-    clientSecret,
-    appearance,
-  };
-
+ 
   const { data } = useQuery({
     queryKey: ['services'],
     queryFn: async () => {
@@ -162,7 +141,7 @@ export function FormCreateAppointment({ id, vetId, handle, userId, appointArray,
       localStorage.removeItem('amount')
     }
 
-    localStorage.setItem('amount', consultValue + 20)
+    localStorage.setItem('amount', consultValue)
     localStorage.setItem('apointForm', JSON.stringify(formatedData))
 
 

@@ -1,12 +1,11 @@
 "use client"
 
 import React, { useEffect } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import CompletePage from '../consults/[id]/components/CompletePage';
 import CheckoutForm from '../consults/[id]/components/CheckoutForm';
-import { useUser } from '@/contexts/UserContext';
 import { CheckoutApointForm } from './components/CheckoutApoint';
 import { useMutation } from '@tanstack/react-query';
 import { createAppointment } from '@/utils/actions/CreateAppointments';
@@ -21,7 +20,7 @@ export default function PageCheckout() {
   const [dpmCheckerLink, setDpmCheckerLink] = React.useState("");
   const [confirmed, setConfirmed] = React.useState(false);
   const [amount, setAmount] = React.useState(() => {
-    const amountLocalStorage = localStorage.getItem('amount')
+    const amountLocalStorage = Number(localStorage.getItem('amount'))
     console.log(amountLocalStorage)
 
     return amountLocalStorage
@@ -37,22 +36,9 @@ export default function PageCheckout() {
 
   const router = useRouter()
 
-
-  const createAppointmentMutation = useMutation({
-    mutationFn: createAppointment,
-    onSuccess: () => {
-      toast.success('Agendamento criado com sucesso!');
-      queryClient.invalidateQueries({ queryKey: ['appoint'] })
-      // createRoom(dataForm)
-    },
-    onError: () => {
-      toast.error('Erro ao criar agendamento');
-    }
-  });
-
   useEffect(() => {
-    const paymentIntentClientSecret = setConfirmed(new URLSearchParams(window.location.search).get("payment_intent_client_secret"));
-  },[]);
+    setConfirmed(Boolean(new URLSearchParams(window.location.search).get("payment_intent_client_secret")));
+  });
 
   useEffect(() => {
     if (amount <= 0) {
@@ -63,14 +49,14 @@ export default function PageCheckout() {
     fetch("/api/create-payment-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ amount: amount }),
+      body: JSON.stringify({ amount: amount + 20 }),
     })
       .then((res) => res.json())
       .then((data) => {
         setClientSecret(data.clientSecret);
         setDpmCheckerLink(data.dpmCheckerLink);
       });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const appearance = {
@@ -81,13 +67,6 @@ export default function PageCheckout() {
     appearance,
   };
 
-  useEffect(() => {
-    if (confirmed) {
-      createAppointmentMutation.mutate(form);
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); 
-
   return (
     <div className='w-full h-screen flex items-center justify-center flex-col ml-64 overflow-hidden py-12 px-24 gap-20'>
       <h3 className='text-4xl font-bold'>Página de pagamento</h3>
@@ -97,7 +76,7 @@ export default function PageCheckout() {
 
         {clientSecret && (
           <Elements options={options} stripe={stripePromise}>
-            {confirmed ? <CompletePage /> : <CheckoutForm dpmCheckerLink={dpmCheckerLink} />}
+            {confirmed ? <CompletePage form={form}/> : <CheckoutForm dpmCheckerLink={dpmCheckerLink} />}
           </Elements>
         )}
       </div>

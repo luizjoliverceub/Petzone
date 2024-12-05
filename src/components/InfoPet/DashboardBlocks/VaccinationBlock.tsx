@@ -27,26 +27,26 @@ interface VaccineType {
     data: Date
 }
 
-export function VaccinationBlock({ pet }: { pet: PetType }) {
+export function VaccinationBlock({ pet }: { pet: PetType | undefined }) {
     const [open, setOpen] = useState(false)
     const [openModal, setOpenModal] = useState(false)
     const [vaccine, setVaccine] = useState<VaccineType>()
     const { session } = useUser()
 
     const { data, isLoading } = useQuery({
-        queryKey: ['vaccines', pet.id],
+        queryKey: ['vaccines', pet?.id],
         queryFn: async () => {
-            const data: VaccineType[] = await getVaccines(pet.id)
+            const data: VaccineType[] = await getVaccines(pet?.id)
 
             return data
         },
-        enabled: !!pet.id
+        enabled: !!pet?.id
     })
 
     const deleteMutation = useMutation({
         mutationFn: deleteVaccine,
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['vaccines', pet.id] })
+            queryClient.invalidateQueries({ queryKey: ['vaccines', pet?.id] })
             toast.success('Vacina excluida com sucesso!')
             handleModal()
         },
@@ -86,7 +86,7 @@ export function VaccinationBlock({ pet }: { pet: PetType }) {
                     </button>
                 }
                 {open &&
-                    <FormVaccination petId={pet.id} handleOpen={handleOpen} />
+                    <FormVaccination petId={pet?.id} handleOpen={handleOpen} />
                 }
             </div>
             <div className={`flex flex-col flex-1 ${data && data?.length > 0 ? 'overflow-y-auto' : 'items-center justify-center'}`}>
@@ -158,7 +158,7 @@ export function VaccinationBlock({ pet }: { pet: PetType }) {
                             </div>
                         ))}
                         </div>
-                        : isLoading ? null : <p className="text-zinc-500 font-medium">Sem vacinas registradas sobre o {pet.name}</p>
+                        : isLoading ? null : <p className="text-zinc-500 font-medium">Sem vacinas registradas sobre o {pet?.name}</p>
                 }
             </div>
         </div>

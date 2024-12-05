@@ -51,7 +51,7 @@ const STATUS_CONTENT_MAP = {
   }
 };
 
-export default function CompletePage() {
+export default function CompletePage({ form }: { form: CreateAppointmentSchema }) {
   const stripe = useStripe();
 
   const createAppointmentMutation = useMutation({
@@ -91,8 +91,12 @@ export default function CompletePage() {
     });
   }, [stripe]);
 
+  React.useEffect(() => {
+    createAppointmentMutation.mutate(form)
+  }, [])
+
   return (
-    <div id="payment-status" className="w-full flex flex-col gap-2">
+    <div id="payment-status" className="w-full flex flex-col gap-2 2xl:scale-100 xl:scale-75">
       <div>
         <div id="status-icon" style={{ backgroundColor: STATUS_CONTENT_MAP[status].iconColor }} className="px-4 py-2 flex items-center gap-2 rounded-xl">
           {STATUS_CONTENT_MAP[status].icon}
@@ -107,7 +111,7 @@ export default function CompletePage() {
 
       {intentId &&
         <div className="w-min flex justify-end">
-          <Link href={'user/consults/allConsults'} className="flex justify-center text-white border-2 border-transparent font-semibold py-2 bg-brand-secondary rounded-lg hover:border-brand-secondary hover:bg-transparent hover:text-brand-secondary duration-300 px-4 text-nowrap">
+          <Link href={'/user/consults/allConsults'} className="flex justify-center text-white border-2 border-transparent font-semibold py-2 bg-brand-secondary rounded-lg hover:border-brand-secondary hover:bg-transparent hover:text-brand-secondary duration-300 px-4 text-nowrap">
             Ver suas consultas
           </Link>
         </div>}

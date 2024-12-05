@@ -101,7 +101,7 @@ export default function VeterinarioAllpets() {
         </form>
       </div>
       <div className="flex-1 flex items-center justify-center">
-        <PetDashboard petsVet={pets} />
+        {pets.length > 0 && <PetDashboard petsVet={pets} />}
       </div>
     </div>
   );

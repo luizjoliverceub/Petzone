@@ -25,7 +25,7 @@ const MessageField: FC<MessagesProps> = ({ initialMessages, roomId }) => {
     const handleMessage = (text: string) => {
       setIncomingMessages((prev) => {
         if (!prev.includes(text)) {
-          return [text,...prev]
+          return [text, ...prev]
         }
         return prev
       })
