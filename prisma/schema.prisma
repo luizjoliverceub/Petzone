@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -19,15 +13,14 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String?
   session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -49,32 +42,27 @@ model User {
   role                      String
   password                  String
   accounts                  Account[]
-  sessions                  Session[]
-  Pets                      Pet[]
-  VeterinarianProfile       VeterinarianProfile?
   Appointments              Appointments[]
   clientConversations       Conversation[]       @relation("ClientConversations")
   veterinarianConversations Conversation[]       @relation("VeterinarianConversations")
   messages                  Message[]
+  Pets                      Pet[]
+  sessions                  Session[]
+  VeterinarianProfile       VeterinarianProfile?
 }
 
 model VeterinarianProfile {
   id           String         @id @default(cuid())
   userId       String         @unique
-  user         User           @relation(fields: [userId], references: [id])
   crmv         String         @unique
   region       String
   cep          String
   addressId    String?        @unique
-  address      Address?       @relation(fields: [addressId], references: [id])
+  modality     String[]
   Appointments Appointments[]
   Service      Service[]
-  modality     String[]
-}
-
-enum Role {
-  normal
-  veterinarian
+  address      Address?       @relation(fields: [addressId], references: [id])
+  user         User           @relation(fields: [userId], references: [id])
 }
 
 model Address {
@@ -96,21 +84,19 @@ model Pet {
   id          String        @id @default(cuid())
   name        String
   age         Int
-  user        User?         @relation(fields: [userEmail], references: [email], onDelete: Cascade)
   birthDate   DateTime
   notes       String
-  vaccination Vaccination[]
   sex         Sex
   city        String
   race        String
   userEmail   String?
+  user        User?         @relation(fields: [userEmail], references: [email], onDelete: Cascade)
+  vaccination Vaccination[]
 }
 
 model Appointments {
   id                    String              @id @default(cuid())
-  User                  User                @relation(fields: [userId], references: [id])
   userId                String
-  veterinarian          VeterinarianProfile @relation(fields: [veterinarianProfileId], references: [id])
   veterinarianProfileId String
   petId                 String
   appointment_date      DateTime
@@ -123,6 +109,8 @@ model Appointments {
   email                 String
   status                Appointment_status
   modality              String
+  User                  User                @relation(fields: [userId], references: [id])
+  veterinarian          VeterinarianProfile @relation(fields: [veterinarianProfileId], references: [id])
 }
 
 model Vaccination {
@@ -137,8 +125,8 @@ model Service {
   id                    String              @id @default(cuid())
   name                  String
   price                 Float
-  veterinarianProfile   VeterinarianProfile @relation(fields: [veterinarianProfileId], references: [id], onDelete: Cascade)
   veterinarianProfileId String
+  veterinarianProfile   VeterinarianProfile @relation(fields: [veterinarianProfileId], references: [id], onDelete: Cascade)
 }
 
 model Conversation {
@@ -146,11 +134,11 @@ model Conversation {
   createdAt         DateTime  @default(now())
   started_at        DateTime
   ended_at          DateTime
-  messages          Message[]
   clientIdEmail     String
-  client            User      @relation("ClientConversations", fields: [clientIdEmail], references: [email])
   veterinarianEmail String
+  client            User      @relation("ClientConversations", fields: [clientIdEmail], references: [email])
   veterinarian      User      @relation("VeterinarianConversations", fields: [veterinarianEmail], references: [email])
+  messages          Message[]
 }
 
 model Message {
@@ -158,9 +146,14 @@ model Message {
   createdAt        DateTime     @default(now())
   text             String
   conversationId   String
-  chatConversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
   authorEmail      String
   author           User         @relation(fields: [authorEmail], references: [email])
+  chatConversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+}
+
+enum Role {
+  normal
+  veterinarian
 }
 
 enum Sex {
