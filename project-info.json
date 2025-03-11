@@ -1,7 +1,7 @@
 {
     "title": "Petzone",
     "description": "O PetZone é uma plataforma que facilita o cuidado e acompanhamento da saúde dos pets. Os donos podem registrar seus animais, acessar o histórico médico e agendar consultas com veterinários, promovendo uma gestão eficiente e organizada da saúde animal.",
-    "techStack": ["React", "Next", "TypeScript", "Node", "Prisma","Shadcn/ui","Tailwind","Shadcn/ui","PostgreSQL","Stripe","Pusher","HookForm"],
+    "techStack": ["React", "Next", "TypeScript", "Node", "Prisma","Shadcn/ui","Tailwind","PostgreSQL","Stripe","Pusher","HookForm"],
     "services": "Carterinha do pet online , Gerenciador da vida do Pet (Vacinas , Observaçôes e etc) ,Agendamento de consultas , Consulta via chat.",
     "about": "O PetZone é um projeto universitário desenvolvido para facilitar o cuidado e acompanhamento da saúde dos pets. A plataforma permite que os donos registrem seus pets, acessem o histórico médico e agendem consultas com veterinários cadastrados. O objetivo é proporcionar uma gestão mais eficiente da saúde animal, promovendo uma comunicação direta e organizada entre donos e profissionais.",
     "type":"Full Stack",
